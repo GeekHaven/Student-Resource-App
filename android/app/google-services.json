@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "790326484212",
+    "firebase_url": "https://student-resource-app.firebaseio.com",
+    "project_id": "student-resource-app",
+    "storage_bucket": "student-resource-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790326484212:android:3773dbb3bef47cc0b492a1",
+        "android_client_info": {
+          "package_name": "com.example.studentresourceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790326484212-kbn3bai7uao9rs0is66un3ll46s2389o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC83w384Y8_JWMtFd_FMh9LdYCLCYrJyp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790326484212-kbn3bai7uao9rs0is66un3ll46s2389o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
