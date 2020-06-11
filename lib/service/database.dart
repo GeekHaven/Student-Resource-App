@@ -8,12 +8,14 @@ class DatabaseService {
    final CollectionReference userDetails = Firestore.instance.collection('userDetails');
 
   // updating userDetails
-  Future updateUserDetails(String name, String branch, String batch) async{
+  Future updateUserDetails(String name, String branch, String batch, String college, String semester) async{
     userDetails.document(uid).setData(
       {
         'name': name,
         'branch': branch,
-        'batch': batch,      
+        'batch': batch,     
+        'college': college,
+        'semester': semester, 
       }
     );
   }
