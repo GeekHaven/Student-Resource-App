@@ -1,4 +1,4 @@
-# studentresourceapp
+# SemBreaker App
 
 A new Flutter project.
 
