@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:studentresourceapp/components/navDrawer.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
@@ -30,6 +30,7 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(userData: userLoad),
       appBar: AppBar(title: Text('About')),
     );
   }
