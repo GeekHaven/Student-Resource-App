@@ -14,6 +14,18 @@ class _UserDetailGetterState extends State<UserDetailGetter> {
   String branch;
   int semester;
 
+  List<String> _college = ['IIITA', 'Others'];
+  String _selectedCollege;
+
+  List<String> _branches = ['IT', 'ITBI', 'ECE'];
+  String _selectedBranch;
+
+  List<int> _semester = [1, 2, 3, 4, 5, 6, 7, 8];
+  int _selectedSemester;
+
+  List<int> _batches = [2020, 2019, 2018, 2017, 2016];
+  int _selectedBatch;
+
   @override
   void initState() {
     super.initState();
@@ -25,121 +37,142 @@ class _UserDetailGetterState extends State<UserDetailGetter> {
       home: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Container(
-              color: Colors.grey,
-              child: Column(children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Institute',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30,
-                        color: Colors.purple),
+            child: Center(
+              child: Container(
+                color: Colors.grey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Institute',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30,
+                          color: Colors.purple),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: Constants.kTextFieldDecoration
-                        .copyWith(hintText: 'IIITA'),
-                    keyboardType: TextInputType.multiline,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      setState(() {
-                        college = value.toUpperCase();
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton(
+                      hint: Text('Please choose a college'),
+                      value: _selectedCollege,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedCollege = newValue;
+                        });
+                      },
+                      items: _college.map((college) {
+                        return DropdownMenuItem(
+                          child: new Text(college),
+                          value: college,
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Batch',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30,
-                        color: Colors.purple),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Batch',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30,
+                          color: Colors.purple),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: Constants.kTextFieldDecoration
-                        .copyWith(hintText: '2019, 2020'),
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      setState(() {
-                        batch = int.parse(value);
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton(
+                      hint: Text('Please choose your batch'),
+                      value: _selectedBatch,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedBatch = newValue;
+                        });
+                      },
+                      items: _batches.map((batch) {
+                        return DropdownMenuItem(
+                          child: new Text(batch.toString()),
+                          value: batch,
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Branch',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30,
-                        color: Colors.purple),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Branch',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30,
+                          color: Colors.purple),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: Constants.kTextFieldDecoration
-                        .copyWith(hintText: 'IT, ECE, ITBI'),
-                    keyboardType: TextInputType.multiline,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      setState(() {
-                        branch = value.toUpperCase();
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton(
+                      hint: Text(
+                          'Please choose your branch'),
+                      value: _selectedBranch,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedBranch = newValue;
+                        });
+                      },
+                      items: _branches.map((branch) {
+                        return DropdownMenuItem(
+                          child: new Text(branch),
+                          value: branch,
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Semester',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30,
-                        color: Colors.purple),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Semester',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30,
+                          color: Colors.purple),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: Constants.kTextFieldDecoration
-                        .copyWith(hintText: '1, 2, 3, 4, 5, 6, 7, 8'),
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      setState(() {
-                        semester = int.parse(value);
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton(
+              hint: Text('Please choose your current semester'),
+              value: _selectedSemester,
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedSemester = newValue;
+                });
+              },
+              items: _semester.map((semester) {
+                return DropdownMenuItem(
+                  child: new Text(semester.toString()),
+                  value: semester,
+                );
+              }).toList(),
+          ),
                   ),
-                ),
-                RaisedButton(
-                    child: Text('Proceed'),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return SignIn(
-                                college: college,
-                                batch: batch,
-                                branch: branch,
-                                semester: semester);
-                          },
-                        ),
-                      );
-                    })
-              ]),
+                  RaisedButton(
+                      child: Text('Proceed'),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return SignIn(
+                                  college: _selectedCollege,
+                                  batch: _selectedBatch,
+                                  branch: _selectedBranch,
+                                  semester: _selectedSemester);
+                            },
+                          ),
+                        );
+                      })
+                ]),
+              ),
             ),
           ),
         ),
