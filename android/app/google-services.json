@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "894578754844",
+    "firebase_url": "https://sembreaker-dc528.firebaseio.com",
+    "project_id": "sembreaker-dc528",
+    "storage_bucket": "sembreaker-dc528.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894578754844:android:3af8acd5693841ecdaa6d9",
+        "android_client_info": {
+          "package_name": "com.example.studentresourceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894578754844-tgg3dr1j6h9mj4cif78oumu13klvb1cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALEs8MkfSicwkgA9j4ydSFXdy1_eBjRUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894578754844-tgg3dr1j6h9mj4cif78oumu13klvb1cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
