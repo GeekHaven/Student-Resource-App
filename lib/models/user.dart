@@ -39,5 +39,6 @@ class User {
     userDetail['Batch'] = this.batch;
     userDetail['Branch'] = this.branch;
     userDetail['Semester'] = this.semester;
+    return userDetail;
   }
 }

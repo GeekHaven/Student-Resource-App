@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
@@ -83,7 +82,7 @@ class SignInUtil {
 
   void signOutGoogle() async {
     await googleSignIn.signOut();
-    SharedPreferencesUtil.setBooleanValue(Constants.USER_LOGGED_IN, false);
+    //SharedPreferencesUtil.setBooleanValue(Constants.USER_LOGGED_IN, false);
     SharedPreferencesUtil.clearPreferences();
     print("User Sign Out");
   }
