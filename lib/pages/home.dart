@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-import '../main.dart';
-import '../utils/signinutil.dart';
-import 'userdetailgetter.dart';
+import 'package:flutter/material.dart';
+import 'package:studentresourceapp/components/navDrawer.dart';
+import 'package:studentresourceapp/models/user.dart';
+import 'package:studentresourceapp/pages/userdetailgetter.dart';
+import 'package:studentresourceapp/utils/contstants.dart';
+import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
+import 'package:studentresourceapp/utils/signinutil.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,24 +14,42 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  User userLoad = new User();
 
-  final SignInUtil signInUtil = SignInUtil();
+  Future fetchUserDetailsFromSharedPref() async {
+    var result = await SharedPreferencesUtil.getStringValue(Constants.USER_DETAIL_OBJECT);
+    Map valueMap = json.decode(result);
+    User user = User.fromJson(valueMap);
+    setState(() {
+      userLoad = user;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserDetailsFromSharedPref();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-      appBar: AppBar(title: Text('Home'),
-        actions: <Widget>[
-          FlatButton(child: Text('Sign Out'),
-            onPressed: () {
-              signInUtil.signOutGoogle();
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
-            },
-          )
-        ],
-      ),  
-      ),
+          drawer: NavDrawer(userData: userLoad),
+          appBar: AppBar(
+            title: Text('Home'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Sign Out'),
+                onPressed: () {
+                  SignInUtil().signOutGoogle();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => UserDetailGetter()));
+                },
+              )
+            ],
+          ),
+          body: Container(child: Text(userLoad.name.toString()))),
     );
   }
 }
