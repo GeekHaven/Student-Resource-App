@@ -3,6 +3,8 @@ import 'package:studentresourceapp/components/navdrawerItem.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/pages/about.dart';
 import 'package:studentresourceapp/pages/home.dart';
+import 'package:studentresourceapp/pages/userdetailgetter.dart';
+import 'package:studentresourceapp/utils/signinutil.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({
@@ -66,7 +68,44 @@ class NavDrawer extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => About(),
               ));
-            })
+            }),
+        NavItem(
+          title: 'Sign Out',
+          iconData: Icons.all_out,
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Log Out'),
+                    content: Text('Are you sure you want to log out?'),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.popUntil(context, ModalRoute.withName('/'));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => Home()),
+                          );
+                        },
+                        child: Text('No'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.popUntil(context, ModalRoute.withName('/'));
+                          SignInUtil().signOutGoogle();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UserDetailGetter()));
+                        },
+                        child: Text('Yes'),
+                      ),
+                    ],
+                  );
+                });
+          },
+        )
       ],
     ));
   }
