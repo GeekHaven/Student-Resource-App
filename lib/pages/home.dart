@@ -60,16 +60,6 @@ class _HomeState extends State<Home> {
       drawer: NavDrawer(userData: userLoad),
       appBar: AppBar(
         title: Text('Home'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Sign Out'),
-            onPressed: () {
-              SignInUtil().signOutGoogle();
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => UserDetailGetter()));
-            },
-          )
-        ],
       ),
       body: Container(
           child: semesterExists
