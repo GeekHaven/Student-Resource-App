@@ -73,11 +73,37 @@ class NavDrawer extends StatelessWidget {
           title: 'Sign Out',
           iconData: Icons.all_out,
           onPressed: () {
-            Navigator.pop(context);
-            Navigator.popUntil(context, ModalRoute.withName('/'));
-            SignInUtil().signOutGoogle();
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => UserDetailGetter()));
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Log Out'),
+                    content: Text('Are you sure you want to log out?'),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.popUntil(context, ModalRoute.withName('/'));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => Home()),
+                          );
+                        },
+                        child: Text('No'),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.popUntil(context, ModalRoute.withName('/'));
+                          SignInUtil().signOutGoogle();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UserDetailGetter()));
+                        },
+                        child: Text('Yes'),
+                      ),
+                    ],
+                  );
+                });
           },
         )
       ],
