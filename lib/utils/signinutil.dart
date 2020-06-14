@@ -59,11 +59,11 @@ class SignInUtil {
     SharedPreferencesUtil.setStringValue(Constants.USER_DETAIL_OBJECT, user);
     final userDoc = _firestoreUser.document(uid);
     userDoc.get().then((docsnapshot) => {
-          if (docsnapshot.exists)
-            {print('Snapshot exists with docID $uid')}
-          else
-            {
-              //print('No existance of doc with docID 123'),
+          //if (docsnapshot.exists)
+          //  {print('Snapshot exists with docID $uid')}
+          //else
+          //  {
+          //print('No existance of doc with docID 123'),
               _firestoreUser.document(uid.toString()).setData({
                 'name': name,
                 'email': email,
@@ -74,7 +74,7 @@ class SignInUtil {
                 'college': college,
                 'semester': semester,
               })
-            }
+          //  }
         });
 
     return 'signInWithGoogle succeeded: $firebaseuser';
