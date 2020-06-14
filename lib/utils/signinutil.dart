@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
@@ -60,11 +59,11 @@ class SignInUtil {
     SharedPreferencesUtil.setStringValue(Constants.USER_DETAIL_OBJECT, user);
     final userDoc = _firestoreUser.document(uid);
     userDoc.get().then((docsnapshot) => {
-          if (docsnapshot.exists)
-            {print('Snapshot exists with docID $uid')}
-          else
-            {
-              //print('No existance of doc with docID 123'),
+          //if (docsnapshot.exists)
+          //  {print('Snapshot exists with docID $uid')}
+          //else
+          //  {
+          //print('No existance of doc with docID 123'),
               _firestoreUser.document(uid.toString()).setData({
                 'name': name,
                 'email': email,
@@ -75,7 +74,7 @@ class SignInUtil {
                 'college': college,
                 'semester': semester,
               })
-            }
+          //  }
         });
 
     return 'signInWithGoogle succeeded: $firebaseuser';
@@ -83,7 +82,7 @@ class SignInUtil {
 
   void signOutGoogle() async {
     await googleSignIn.signOut();
-    SharedPreferencesUtil.setBooleanValue(Constants.USER_LOGGED_IN, false);
+    //SharedPreferencesUtil.setBooleanValue(Constants.USER_LOGGED_IN, false);
     SharedPreferencesUtil.clearPreferences();
     print("User Sign Out");
   }
