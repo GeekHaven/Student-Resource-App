@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "894578754844-90c9c7007a0426fpbl6q11vbfqj1bi8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.studentresourceapp",
+            "certificate_hash": "a2be3063343d8bbffcb42543b13874c0ab69d660"
+          }
+        },
+        {
           "client_id": "894578754844-1e566ldv579nfd4u0hcnucqj15rmp10e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
