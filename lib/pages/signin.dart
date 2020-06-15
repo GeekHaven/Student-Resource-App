@@ -15,7 +15,9 @@ class SignIn extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+
               FlutterLogo(size: 50),
               FlatButton(
                   child: Chip(
