@@ -67,13 +67,9 @@ class NavDrawer extends StatelessWidget {
             title: 'Feedback',
             iconData: Icons.feedback,
             onPressed: () {
-//              Navigator.pop(context);
-//              Navigator.popUntil(context, ModalRoute.withName('/'));
-//              Navigator.of(context).push(
-//                MaterialPageRoute(builder: (BuildContext context) => Home()),
-//              );
-            Email email=Email();
-            email.launchEmail("studentresourceapp@gmail.com");
+
+              Email email=Email(emailaddress: "studentresourceapp@gmail.com",subject: "Feedback/Suggestions regarding SemBreaker App",body:"My Feedback/Suggestions for the SemBreaker App are:" );
+              email.launchEmail();
             
             }),
         NavItem(
