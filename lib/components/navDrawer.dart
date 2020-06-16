@@ -5,6 +5,8 @@ import 'package:studentresourceapp/pages/about.dart';
 import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/signinutil.dart';
+import 'package:share/share.dart';
+import 'package:studentresourceapp/utils/emailutil.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({
@@ -54,10 +56,25 @@ class NavDrawer extends StatelessWidget {
             iconData: Icons.share,
             onPressed: () {
               Navigator.pop(context);
-              Navigator.popUntil(context, ModalRoute.withName('/'));
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (BuildContext context) => Home()),
-              );
+              Share.share('Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - Link',subject: 'Checkout the new Sem Breaker App on your Smart Phone.');
+//              Navigator.popUntil(context, ModalRoute.withName('/'));
+//              Navigator.of(context).push(
+//                MaterialPageRoute(builder: (BuildContext context) => Home()),
+//              );
+            }
+            ),
+        NavItem(
+            title: 'Feedback',
+            iconData: Icons.feedback,
+            onPressed: () {
+//              Navigator.pop(context);
+//              Navigator.popUntil(context, ModalRoute.withName('/'));
+//              Navigator.of(context).push(
+//                MaterialPageRoute(builder: (BuildContext context) => Home()),
+//              );
+            Email email=Email();
+            email.launchEmail("studentresourceapp@gmail.com");
+            
             }),
         NavItem(
             title: 'About',
@@ -69,6 +86,7 @@ class NavDrawer extends StatelessWidget {
                 builder: (BuildContext context) => About(),
               ));
             }),
+      
         NavItem(
           title: 'Sign Out',
           iconData: Icons.all_out,
