@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:studentresourceapp/pages/web.dart';
 
+
 class Subject extends StatefulWidget {
   Subject({this.semester, this.subjectCode});
   final int semester;
   final String subjectCode;
 
   @override
+
   _SubjectState createState() => _SubjectState();
 }
 
@@ -16,6 +18,161 @@ class _SubjectState extends State<Subject> {
   void initState() {
     super.initState();
   }
+  void showFancyCustomDialog(BuildContext context) {
+    Dialog fancyDialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+//        height: te,
+//        width: 300.0,
+        child: Column(
+
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+
+            Expanded(
+              child: Container(
+                child: Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: Text(
+                      "Recommended Books:",
+                    style: TextStyle(
+                      fontSize: 23,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Card(
+
+              child: StreamBuilder(
+
+                stream: Firestore.instance
+                    .collection('Subjects')
+                    .document('${widget.semester}_${widget.subjectCode}')
+                    .snapshots(),
+                builder: (context,snapshot){
+                  List<ListItem> messageWidget=[];
+                  if(snapshot.hasData)
+                  {
+
+                    List RecBooks=snapshot.data['Recommended Books'];
+                    print(RecBooks);
+
+                    for(int i=0;i<RecBooks.length;i++)
+                    {
+                      final author=RecBooks[i]['Author'];
+                      final booktitle=RecBooks[i]['BookTitle'];
+                      final publication=RecBooks[i]['Publication'];
+
+//
+
+                      ListItem lis=ListItem
+                          (heading: 'Author:',
+                          subheaading: author);
+
+
+
+                      messageWidget.add(lis);
+
+                      lis=ListItem(heading: 'Titile:',subheaading: booktitle);
+                      messageWidget.add(lis);
+
+
+                      lis=ListItem(heading: 'Publication:',subheaading: publication);
+
+                      messageWidget.add(lis);
+                    }
+                  }
+                  return Expanded(
+                    child: ListView(
+//                    shrinkWrap: true,
+
+                      children: messageWidget,
+                    ),
+                  )
+                  ;
+                },
+              ),
+            ),
+            Expanded(
+              child: Container(
+                child: Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: Text(
+                      "Moderators:"
+                  ),
+                ),
+              ),
+            ),
+            StreamBuilder(
+
+              stream: Firestore.instance
+                  .collection('Subjects')
+                  .document('${widget.semester}_${widget.subjectCode}')
+                  .snapshots(),
+              builder: (context,snapshot){
+                List<ListItem> messageWidget=[];
+                if(snapshot.hasData)
+                {
+
+                  List mod=snapshot.data['MODERATORS'];
+                  print(mod);
+                  for(int i=0;i<mod.length;i++)
+                  {
+                    final ctnum=mod[i]['Contact Number'];
+                    final name=mod[i]['Name'];
+
+
+                    ListItem lis=ListItem(heading: 'Name:',subheaading: name);
+
+
+                    messageWidget.add(lis);
+
+                    lis=ListItem(heading: 'Contact:',subheaading: ctnum);
+                    messageWidget.add(lis);
+
+                  }
+
+                }
+                return Expanded(
+                  child: ListView(
+
+                    children: messageWidget,
+                  ),
+                )
+                ;
+              },
+            ),
+
+
+               new RaisedButton(
+//                 elevation: 5,
+
+                  child:new Text('Okay'),
+                  onPressed: (){
+                    Navigator.of(context, rootNavigator: true).pop();
+              }),
+
+
+          ],
+
+
+        ),
+
+      ),
+
+    );
+
+    showDialog(
+        context: context, builder: (BuildContext context) => fancyDialog);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +182,23 @@ class _SubjectState extends State<Subject> {
         appBar: AppBar(
           title: Text('${widget.subjectCode}'),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.info_outline), onPressed: null)
+            IconButton(icon: Icon(Icons.info_outline), onPressed:(){
+
+
+              setState(() {
+
+                showFancyCustomDialog(context);
+
+              });
+
+
+            },)
           ],
           bottom: TabBar(tabs: [
             Tab(
               icon: Icon(Icons.note),
               text: 'Material',
+
             ),
             Tab(
               icon: Icon(Icons.edit),
@@ -154,6 +322,40 @@ class StreamWidget extends StatelessWidget {
   }
 }
 
+
+class ListItem extends StatelessWidget {
+  @override
+
+  ListItem({this.heading,this.subheaading});
+
+  String heading;
+  String subheaading;
+
+  Widget build(BuildContext context) {
+
+    return Padding(
+
+      padding: EdgeInsets.all(5.0),
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+        children: [
+
+          Text(
+              heading
+          ),
+
+          Text(
+              subheaading
+          ),
+        ],
+
+      ),
+    );
+
+  }
+}
 /*
 
 Container(

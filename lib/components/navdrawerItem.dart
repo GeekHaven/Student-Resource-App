@@ -10,6 +10,8 @@ class NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(title: Text(title), leading: Icon(iconData), onTap: onPressed);
+    return ListTile(title: Text(title),
+        leading: Icon(iconData), onTap: onPressed);
+
   }
 }
