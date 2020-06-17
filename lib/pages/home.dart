@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:studentresourceapp/components/navDrawer.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/pages/subject.dart';
-import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
-import 'package:studentresourceapp/utils/signinutil.dart';
 
 //final _firestoreSemester = Firestore.instance.collection('Semesters');
 

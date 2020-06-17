@@ -82,7 +82,6 @@ class SignInUtil {
 
   void signOutGoogle() async {
     await googleSignIn.signOut();
-    //SharedPreferencesUtil.setBooleanValue(Constants.USER_LOGGED_IN, false);
     SharedPreferencesUtil.clearPreferences();
     print("User Sign Out");
   }
