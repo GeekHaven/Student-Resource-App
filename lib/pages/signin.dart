@@ -3,10 +3,10 @@ import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/utils/signinutil.dart';
 
 class SignIn extends StatelessWidget {
-  String college;
-  int batch;
-  String branch;
-  int semester;
+  final String college;
+  final int batch;
+  final String branch;
+  final int semester;
   SignIn({this.college, this.batch, this.branch, this.semester});
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,6 @@ class SignIn extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
               FlutterLogo(size: 50),
               FlatButton(
                   child: Chip(
