@@ -143,7 +143,20 @@ class _NavDrawerState extends State<NavDrawer> {
               Icons.edit,
               color: Colors.white,
             ),
+
             color: Colors.blue,
+        NavItem(
+            title: 'Feedback',
+            iconData: Icons.feedback,
+            onPressed: () {
+
+              Email email=Email(emailaddress: "studentresourceapp@gmail.com",subject: "Feedback/Suggestions regarding SemBreaker App",body:"My Feedback/Suggestions for the SemBreaker App are:" );
+              email.launchEmail();
+            
+            }),
+        NavItem(
+            title: 'About',
+            iconData: Icons.info,
             onPressed: () {
               showModalBottomSheet(
                   context: context,

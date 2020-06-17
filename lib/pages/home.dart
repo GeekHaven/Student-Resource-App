@@ -7,6 +7,9 @@ import 'package:studentresourceapp/pages/subject.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
 
+import 'package:studentresourceapp/utils/signinutil.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+
 //final _firestoreSemester = Firestore.instance.collection('Semesters');
 
 class Home extends StatefulWidget {
@@ -100,8 +103,29 @@ class _HomeState extends State<Home> {
                     return CircularProgressIndicator();
                   },
                 )
-              : Text('DNE')),
-    ));
+              : Center(
+    child: TyperAnimatedTextKit(        //Case when there is no Material present
+    onTap: () {
+    print("Tap Event");
+    },
+        speed: Duration(milliseconds: 100),   //Duration of TextAnimation
+
+    text: [
+    "Oops😵",
+    "It feels Lonely Here🙄",
+    "The Content is not Uploaded yet😬",
+    "It's Still Under Construction🚧",
+      "It would be Uploaded Soon😃"
+    ],
+    textStyle: TextStyle(
+    fontSize: 25.0,
+    fontFamily: "Agne"
+    ),
+    textAlign: TextAlign.center,
+    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+    ),
+    ),
+    )));
   }
 }
 
