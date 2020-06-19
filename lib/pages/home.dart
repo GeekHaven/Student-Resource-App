@@ -6,8 +6,6 @@ import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/pages/subject.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
-
-import 'package:studentresourceapp/utils/signinutil.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 //final _firestoreSemester = Firestore.instance.collection('Semesters');
