@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:studentresourceapp/pages/web.dart';
+import 'package:studentresourceapp/pages/pdf.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Subject extends StatefulWidget {
   Subject({this.semester, this.subjectCode});
@@ -93,7 +94,7 @@ class StreamWidget extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  Web(url: element['Content URL'])));
+                                  PDFViewer(url: element['Content URL'])));
                         }),
                     trailing: IconButton(
                         icon: Icon(Icons.file_download), onPressed: null),
@@ -116,7 +117,8 @@ class StreamWidget extends StatelessWidget {
                         icon: Icon(Icons.remove_red_eye),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Web(url: element['URL'])));
+                              builder: (context) =>
+                                  PDFViewer(url: element['URL'])));
                         }),
                     trailing: IconButton(
                         icon: Icon(Icons.file_download), onPressed: null),
@@ -137,9 +139,7 @@ class StreamWidget extends StatelessWidget {
                     trailing: IconButton(
                         icon: Icon(Icons.remove_red_eye),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  Web(url: element['Content URL'])));
+                          urlLauncher(element['Content URL']);
                         }),
                   ),
                 ),
@@ -148,9 +148,19 @@ class StreamWidget extends StatelessWidget {
             return Container(child: ListView(children: listMaterials));
           }
         }
-        return CircularProgressIndicator();
+        return Center(child: CircularProgressIndicator());
       },
     );
+  }
+
+  Future urlLauncher(url) async {
+    {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
   }
 }
 
