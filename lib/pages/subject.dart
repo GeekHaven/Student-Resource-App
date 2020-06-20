@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:studentresourceapp/pages/web.dart';
@@ -18,39 +19,26 @@ class _SubjectState extends State<Subject> {
   void initState() {
     super.initState();
   }
-  void showFancyCustomDialog(BuildContext context) {
-    Dialog fancyDialog = Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-//        height: te,
-//        width: 300.0,
+  void handleClick(String value) {
+    switch (value) {
+      case 'Recommended Books':
+        recBooks(context);
+        break;
+      case 'Moderators':
+        modno(context);
+        break;
+    }
+  }
+  void modno(BuildContext context)
+  {
+    showModalBottomSheet(context: context, builder: (builder)
+    {
+      return Container(
         child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-
-            Expanded(
-              child: Container(
-                child: Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Text(
-                      "Recommended Books:",
-                    style: TextStyle(
-                      fontSize: 23,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Card(
-
-              child: StreamBuilder(
+            children:<Widget> [
+            Center(child: Icon(Icons.arrow_drop_down),
+      ),
+              StreamBuilder(
 
                 stream: Firestore.instance
                     .collection('Subjects')
@@ -61,37 +49,30 @@ class _SubjectState extends State<Subject> {
                   if(snapshot.hasData)
                   {
 
-                    List RecBooks=snapshot.data['Recommended Books'];
-                    print(RecBooks);
-
-                    for(int i=0;i<RecBooks.length;i++)
+                    List mod=snapshot.data['MODERATORS'];
+                    print(mod);
+                    for(int i=0;i<mod.length;i++)
                     {
-                      final author=RecBooks[i]['Author'];
-                      final booktitle=RecBooks[i]['BookTitle'];
-                      final publication=RecBooks[i]['Publication'];
+                      final ctnum=mod[i]['Contact Number'];
+                      final name=mod[i]['Name'];
 
-//
 
-                      ListItem lis=ListItem
-                          (heading: 'Author:',
-                          subheaading: author);
-
+                      ListItem lis=ListItem(heading: 'Name: ',subheaading: name);
 
 
                       messageWidget.add(lis);
 
-                      lis=ListItem(heading: 'Titile:',subheaading: booktitle);
+                      lis=ListItem(heading: 'Contact No. : ',subheaading: ctnum);
                       messageWidget.add(lis);
 
-
-                      lis=ListItem(heading: 'Publication:',subheaading: publication);
-
+                      lis=ListItem(c: true);
                       messageWidget.add(lis);
+
                     }
+
                   }
                   return Expanded(
                     child: ListView(
-//                    shrinkWrap: true,
 
                       children: messageWidget,
                     ),
@@ -99,80 +80,80 @@ class _SubjectState extends State<Subject> {
                   ;
                 },
               ),
-            ),
-            Expanded(
-              child: Container(
-                child: Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Text(
-                      "Moderators:"
-                  ),
-                ),
-              ),
-            ),
-            StreamBuilder(
 
-              stream: Firestore.instance
-                  .collection('Subjects')
-                  .document('${widget.semester}_${widget.subjectCode}')
-                  .snapshots(),
-              builder: (context,snapshot){
-                List<ListItem> messageWidget=[];
-                if(snapshot.hasData)
-                {
-
-                  List mod=snapshot.data['MODERATORS'];
-                  print(mod);
-                  for(int i=0;i<mod.length;i++)
-                  {
-                    final ctnum=mod[i]['Contact Number'];
-                    final name=mod[i]['Name'];
-
-
-                    ListItem lis=ListItem(heading: 'Name:',subheaading: name);
-
-
-                    messageWidget.add(lis);
-
-                    lis=ListItem(heading: 'Contact:',subheaading: ctnum);
-                    messageWidget.add(lis);
-
-                  }
-
-                }
-                return Expanded(
-                  child: ListView(
-
-                    children: messageWidget,
-                  ),
-                )
-                ;
-              },
-            ),
-
-
-               new RaisedButton(
-//                 elevation: 5,
-
-                  child:new Text('Okay'),
-                  onPressed: (){
-                    Navigator.of(context, rootNavigator: true).pop();
-              }),
-
-
-          ],
-
-
+      ],
         ),
+      );
 
-      ),
-
+    }
     );
 
-    showDialog(
-        context: context, builder: (BuildContext context) => fancyDialog);
   }
 
+  void recBooks(BuildContext context)
+  {
+
+    showModalBottomSheet(context: context, builder: (builder)
+        {
+          return Container(
+            child: Column(
+                children:<Widget> [
+                    Center(child: Icon(Icons.arrow_drop_down),
+          ),
+                   StreamBuilder(
+
+                    stream: Firestore.instance
+                        .collection('Subjects')
+                        .document('${widget.semester}_${widget.subjectCode}')
+                        .snapshots(),
+                    builder: (context,snapshot){
+                      List<ListItem> messageWidget=[];
+                      if(snapshot.hasData)
+                      {
+
+                        List RecBooks=snapshot.data['Recommended Books'];
+                        print(RecBooks);
+
+                        for(int i=0;i<RecBooks.length;i++)
+                        {
+                          final author=RecBooks[i]['Author'];
+                          final booktitle=RecBooks[i]['BookTitle'];
+                          final publication=RecBooks[i]['Publication'];
+
+//
+                         ListItem lis=ListItem(heading: '',subheaading: booktitle,b: true);
+                          messageWidget.add(lis);
+
+                           lis=ListItem
+                            (heading: 'Author : ', subheaading: author);
+                          messageWidget.add(lis);
+
+                          lis=ListItem(heading: 'Publication : ',subheaading: publication);
+
+                          messageWidget.add(lis);
+                          lis=ListItem(c: true);
+                          messageWidget.add(lis);
+
+                        }
+                      }
+                      return Expanded(
+                        child: ListView(
+//                    shrinkWrap: true,
+
+                          children: messageWidget,
+                        ),
+                      )
+                      ;
+                    },
+                  ),
+          ],
+          ),
+          );
+
+        }
+    );
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,17 +163,31 @@ class _SubjectState extends State<Subject> {
         appBar: AppBar(
           title: Text('${widget.subjectCode}'),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.info_outline), onPressed:(){
+//            IconButton(icon: Icon(Icons.info_outline),
+//              onPressed:(){
+//
+//
+////              setState(() {
+////
+////                showFancyCustomDialog(context);
+////
+////              });
 
 
-              setState(() {
-
-                showFancyCustomDialog(context);
-
-              });
-
-
-            },)
+//            },),
+            PopupMenuButton<String>(
+              onSelected: handleClick,
+              icon: Icon
+                (Icons.info_outline),
+              itemBuilder: (BuildContext context) {
+                return {'Recommended Books', 'Moderators'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
+            ),
           ],
           bottom: TabBar(tabs: [
             Tab(
@@ -326,10 +321,13 @@ class StreamWidget extends StatelessWidget {
 class ListItem extends StatelessWidget {
   @override
 
-  ListItem({this.heading,this.subheaading});
+  ListItem({this.heading,this.subheaading,this.b,this.c});
 
   String heading;
   String subheaading;
+  bool b=false;
+  bool c=false;
+
 
   Widget build(BuildContext context) {
 
@@ -341,21 +339,76 @@ class ListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
 
         children: [
+          getWidget(),
 
-          Text(
-              heading
-          ),
-
-          Text(
-              subheaading
-          ),
+//          Text(
+//              heading
+//          ),
+//
+//          Text(
+//              subheaading
+//          ),
         ],
 
       ),
     );
 
   }
+  Widget getWidget(){
+
+
+    if(c==true)
+      {
+        return SizedBox(
+            height: 10.0,
+            width: 200.0,
+            child: Divider(
+              color: Colors.teal,
+              height: 50.0,
+            ),
+        );
+      }
+
+    if(b==true)
+    {
+      return Text(subheaading,
+        style: TextStyle(
+          color: Colors.teal,
+          fontWeight: FontWeight.bold,
+          fontSize: 20.0,
+        ),
+
+      );
+  }
+    else
+      {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+          children: [
+
+
+            Text(
+                heading,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+              ),
+            ),
+
+            Text(
+                subheaading,
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+          ],
+
+        );
+      }
+  }
 }
+
 /*
 
 Container(
