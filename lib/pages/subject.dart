@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -93,11 +96,48 @@ class StreamWidget extends StatelessWidget {
                         icon: Icon(Icons.remove_red_eye),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  PDFViewer(url: element['Content URL'])));
+                              builder: (context) => PDFViewer(
+                                    url: element['Content URL'],
+                                    sem: widget.semester,
+                                    subjectCode: widget.subjectCode,
+                                    typeKey: typeKey,
+                                    uniqueID: element['id'],
+                                  )));
                         }),
                     trailing: IconButton(
-                        icon: Icon(Icons.file_download), onPressed: null),
+                        icon: Icon(Icons.file_download),
+                        onPressed: () async {
+                          try {
+                            String url = element['Content URL'];
+                            String dir =
+                                (await getApplicationDocumentsDirectory()).path;
+                            String path =
+                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}";
+                            if (await File(path).exists()) {
+                              print('$path already exists');
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text('File Already Downloaded')));
+                            }
+                            var request =
+                                await HttpClient().getUrl(Uri.parse(url));
+                            var response = await request.close();
+                            var bytes =
+                                await consolidateHttpClientResponseBytes(
+                                    response);
+                            File file = new File(path);
+                            await file.writeAsBytes(bytes).then((value) {
+                              print('$path is now downloaded');
+                              Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text('Download Complete')));
+                            });
+                            return file;
+                          } catch (err) {
+                            var errorMessage = "Error";
+                            print(errorMessage);
+                            print(err);
+                            return null;
+                          }
+                        }),
                   ),
                 ),
               );
@@ -117,11 +157,48 @@ class StreamWidget extends StatelessWidget {
                         icon: Icon(Icons.remove_red_eye),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  PDFViewer(url: element['URL'])));
+                              builder: (context) => PDFViewer(
+                                    url: element['URL'],
+                                    sem: widget.semester,
+                                    subjectCode: widget.subjectCode,
+                                    typeKey: typeKey,
+                                    uniqueID: element['id'],
+                                  )));
                         }),
                     trailing: IconButton(
-                        icon: Icon(Icons.file_download), onPressed: null),
+                        icon: Icon(Icons.file_download),
+                        onPressed: () async {
+                          try {
+                            String url = element['URL'];
+                            String dir =
+                                (await getApplicationDocumentsDirectory()).path;
+                            String path =
+                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}";
+                            if (await File(path).exists()) {
+                              print('$path already exists');
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text('File Already Downloaded')));
+                            }
+                            var request =
+                                await HttpClient().getUrl(Uri.parse(url));
+                            var response = await request.close();
+                            var bytes =
+                                await consolidateHttpClientResponseBytes(
+                                    response);
+                            File file = new File(path);
+                            await file.writeAsBytes(bytes).then((value) {
+                              print('$path is now downloaded');
+                              Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text('Download Complete')));
+                            });
+                            return file;
+                          } catch (err) {
+                            var errorMessage = "Error";
+                            print(errorMessage);
+                            print(err);
+                            return null;
+                          }
+                        }),
                   ),
                 ),
               );
