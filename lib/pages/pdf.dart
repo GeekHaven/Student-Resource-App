@@ -7,7 +7,16 @@ import 'package:path_provider/path_provider.dart';
 
 class PDFViewer extends StatefulWidget {
   final String url;
-  PDFViewer({@ required this.url});
+  final int sem;
+  final String subjectCode;
+  final String typeKey;
+  final int uniqueID;
+  PDFViewer(
+      {@required this.url,
+      this.sem,
+      this.subjectCode,
+      this.typeKey,
+      this.uniqueID});
   @override
   _PDFViewerState createState() => _PDFViewerState();
 }
@@ -18,7 +27,7 @@ class _PDFViewerState extends State<PDFViewer> {
   @override
   void initState() {
     super.initState();
-    createFileOfPdfUrl().then((f) {
+    createFile().then((f) {
       setState(() {
         pathPDF = f.path;
         print(pathPDF);
@@ -26,16 +35,30 @@ class _PDFViewerState extends State<PDFViewer> {
     });
   }
 
-  Future<File> createFileOfPdfUrl() async {
-    final url = widget.url;
-    final filename = url.substring(url.lastIndexOf("/") + 1);
-    var request = await HttpClient().getUrl(Uri.parse(url));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$filename');
-    await file.writeAsBytes(bytes);
-    return file;
+  Future<File> createFile() async {
+    try {
+      String url = widget.url;
+      final filename = widget.uniqueID;
+      String dir = (await getApplicationDocumentsDirectory()).path;
+      String path =
+          '$dir/${widget.sem}_${widget.subjectCode}_${widget.typeKey[0]}_$filename';
+      if (await File(path).exists()) {
+        print('$path is already present');
+        return File(path);
+      }
+      print('Creating new file $path');
+      var request = await HttpClient().getUrl(Uri.parse(url));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      File file = new File(path);
+      await file.writeAsBytes(bytes);
+      return file;
+    } catch (err) {
+      var errorMessage = "Error";
+      print(errorMessage);
+      print(err);
+      return null;
+    }
   }
 
   @override
