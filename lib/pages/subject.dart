@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:studentresourceapp/pages/web.dart';
 
-
 class Subject extends StatefulWidget {
   Subject({this.semester, this.subjectCode});
   final int semester;
@@ -163,18 +162,7 @@ class _SubjectState extends State<Subject> {
         appBar: AppBar(
           title: Text('${widget.subjectCode}'),
           actions: <Widget>[
-//            IconButton(icon: Icon(Icons.info_outline),
-//              onPressed:(){
-//
-//
-////              setState(() {
-////
-////                showFancyCustomDialog(context);
-////
-////              });
 
-
-//            },),
             PopupMenuButton<String>(
               onSelected: handleClick,
               icon: Icon
