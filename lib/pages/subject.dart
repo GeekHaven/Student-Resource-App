@@ -5,6 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:get_it/get_it.dart';
+
+
+class CallService
+{
+  void call(String number)=>launch("tel:$number");
+
+}
+GetIt locator=GetIt();
+
+void set()
+{
+  locator.registerSingleton(CallService());
+}
+
 
 class Subject extends StatefulWidget {
   Subject({this.semester, this.subjectCode});
@@ -62,6 +77,9 @@ class _SubjectState extends State<Subject> {
 
                       lis = ListItem(
                           heading: 'Contact No. : ', subheaading: ctnum);
+                      messageWidget.add(lis);
+
+                      lis =ListItem(phone: true,subheaading: ctnum);
                       messageWidget.add(lis);
 
                       lis = ListItem(c: true);
@@ -379,14 +397,16 @@ class StreamWidget extends StatelessWidget {
   }
 }
   class ListItem extends StatelessWidget {
+  final CallService _service=locator<CallService>();
   @override
 
-  ListItem({this.heading,this.subheaading,this.b,this.c});
+  ListItem({this.heading,this.subheaading,this.b,this.c,this.phone});
 
   String heading;
   String subheaading;
   bool b=false;
   bool c=false;
+  bool phone=false;
 
 
   Widget build(BuildContext context) {
@@ -419,6 +439,7 @@ class StreamWidget extends StatelessWidget {
 
   if(c==true)
   {
+
   return SizedBox(
   height: 10.0,
   width: 200.0,
@@ -428,6 +449,17 @@ class StreamWidget extends StatelessWidget {
   ),
   );
   }
+  if(phone==true)
+    {
+      return Row(
+        children:<Widget> [
+          IconButton(icon:Icon(Icons.call,color: Colors.teal), onPressed:()=> _service.call(subheaading)),
+
+
+        ],
+        
+      );
+    }
 
   if(b==true)
   {
