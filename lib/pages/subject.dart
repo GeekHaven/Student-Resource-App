@@ -2,17 +2,23 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+//import 'package:flutter_launch/flutter_launch.dart';
 
 
 class CallService
 {
   void call(String number)=>launch("tel:$number");
 
+
 }
+
+
 GetIt locator=GetIt();
 
 void set()
@@ -454,6 +460,13 @@ class StreamWidget extends StatelessWidget {
       return Row(
         children:<Widget> [
           IconButton(icon:Icon(Icons.call,color: Colors.teal), onPressed:()=> _service.call(subheaading)),
+          IconButton(icon: Icon(FontAwesomeIcons.whatsapp,color: Colors.teal), onPressed:(){
+
+            FlutterOpenWhatsapp.sendSingleMessage(subheaading, "");
+
+
+          })
+
 
 
         ],

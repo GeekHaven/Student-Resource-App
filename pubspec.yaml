@@ -41,6 +41,9 @@ dependencies:
   flutter_full_pdf_viewer: ^1.0.6
   path_provider: ^1.6.11
   get_it: ^1.0.3+2
+  font_awesome_flutter: ^8.8.1
+#  flutter_launch: ^0.1.2
+  flutter_open_whatsapp: ^0.1.2
 
 dev_dependencies:
   flutter_test:
