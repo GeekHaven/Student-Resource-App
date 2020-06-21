@@ -329,13 +329,7 @@ class ListItem extends StatelessWidget {
         children: [
           getWidget(),
 
-//          Text(
-//              heading
-//          ),
-//
-//          Text(
-//              subheaading
-//          ),
+
         ],
 
       ),
