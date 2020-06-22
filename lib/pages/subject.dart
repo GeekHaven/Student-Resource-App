@@ -102,6 +102,7 @@ class StreamWidget extends StatelessWidget {
                                     subjectCode: widget.subjectCode,
                                     typeKey: typeKey,
                                     uniqueID: element['id'],
+                                    title: element['Title'],
                                   )));
                         }),
                     trailing: IconButton(
@@ -112,7 +113,7 @@ class StreamWidget extends StatelessWidget {
                             String dir =
                                 (await getApplicationDocumentsDirectory()).path;
                             String path =
-                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}";
+                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                             if (await File(path).exists()) {
                               print('$path already exists');
                               Scaffold.of(context).showSnackBar(SnackBar(
@@ -163,6 +164,7 @@ class StreamWidget extends StatelessWidget {
                                     subjectCode: widget.subjectCode,
                                     typeKey: typeKey,
                                     uniqueID: element['id'],
+                                    title: element['Title'],
                                   )));
                         }),
                     trailing: IconButton(
@@ -173,7 +175,7 @@ class StreamWidget extends StatelessWidget {
                             String dir =
                                 (await getApplicationDocumentsDirectory()).path;
                             String path =
-                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}";
+                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                             if (await File(path).exists()) {
                               print('$path already exists');
                               Scaffold.of(context).showSnackBar(SnackBar(

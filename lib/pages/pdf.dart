@@ -11,12 +11,14 @@ class PDFViewer extends StatefulWidget {
   final String subjectCode;
   final String typeKey;
   final int uniqueID;
+  final String title;
   PDFViewer(
       {@required this.url,
       this.sem,
       this.subjectCode,
       this.typeKey,
-      this.uniqueID});
+      this.uniqueID,
+      this.title});
   @override
   _PDFViewerState createState() => _PDFViewerState();
 }
@@ -38,10 +40,10 @@ class _PDFViewerState extends State<PDFViewer> {
   Future<File> createFile() async {
     try {
       String url = widget.url;
-      final filename = widget.uniqueID;
+      final fileID = widget.uniqueID;
       String dir = (await getApplicationDocumentsDirectory()).path;
       String path =
-          '$dir/${widget.sem}_${widget.subjectCode}_${widget.typeKey[0]}_$filename';
+          '$dir/${widget.sem}_${widget.subjectCode}_${widget.typeKey[0]}_${fileID}_${widget.title}';
       if (await File(path).exists()) {
         print('$path is already present');
         return File(path);

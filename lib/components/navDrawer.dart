@@ -4,6 +4,7 @@ import 'package:share/share.dart';
 import 'package:studentresourceapp/components/navdrawerItem.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/pages/about.dart';
+import 'package:studentresourceapp/pages/downloads.dart';
 import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/emailutil.dart';
@@ -69,7 +70,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 Navigator.pop(context);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => Home()),
+                  MaterialPageRoute(builder: (BuildContext context) => Downloads()),
                 );
               }),
           NavItem(
