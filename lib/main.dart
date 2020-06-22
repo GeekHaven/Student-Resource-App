@@ -4,8 +4,10 @@ import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
+import 'package:studentresourceapp/pages/subject.dart';
 
 void main() {
+  set();
   runApp(MyApp());
 }
 
