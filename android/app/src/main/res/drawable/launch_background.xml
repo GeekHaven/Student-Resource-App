@@ -3,10 +3,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@android:color/white" />
 
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+    <!--Add the App Logo here for the splash screen -->
+    <item
+    android:width="100dp"
+    android:height="100dp"
+    android:drawable="@drawable/geekhaven"
+    android:gravity="center" />
 </layer-list>

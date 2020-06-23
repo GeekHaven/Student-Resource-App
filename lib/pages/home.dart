@@ -6,11 +6,7 @@ import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/pages/subject.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
-
-import 'package:studentresourceapp/utils/signinutil.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-
-//final _firestoreSemester = Firestore.instance.collection('Semesters');
 
 class Home extends StatefulWidget {
   @override
@@ -100,7 +96,7 @@ class _HomeState extends State<Home> {
                       });
                       return Container(child: ListView(children: subjects));
                     }
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   },
                 )
               : Center(
