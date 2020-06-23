@@ -17,13 +17,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'SemBreaker',
+        debugShowCheckedModeBanner: false,
+
         home: FutureBuilder(
+
+
           future:
               SharedPreferencesUtil.getBooleanValue(Constants.USER_LOGGED_IN),
           builder: (context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData) {
               return snapshot.data ? Home() : UserDetailGetter();
             }
+            else
             return Blank();
           },
         ));

@@ -1,16 +1,18 @@
-# SemBreaker App
+# SemBreaker App!
 
-A new Flutter project.
+Hola Friends, it’s a common scene on the night before the examinations, we the students knock at each of our topper’s door to get his/her notes and waste a lot of our precious time in doing that. What if there is a central place where you would get all the magical notes and material to pass the papers, the destination is here, the **SemBreaker App**. Sounds fun Right ?
 
-## Getting Started
+___
 
-This project is a starting point for a Flutter application.
+## Features:
 
-A few resources to get you started if this is your first Flutter project:
+<ol>
+  <li>One place access to all the important notes, study materials and previous year questions papers of the examinations.</li>
+  <li>Get the material across the various Semesters & courses.</li>
+  <li>Download the material that is most important to you on your local phone storage and see it offline.</li>
+  <li>If you have got the notes you want upload, contact the moderator of the course mentioned in the app.</li>
+  </ol>
+  
+___
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### This is a Flutter Project and is under development.
