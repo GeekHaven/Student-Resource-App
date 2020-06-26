@@ -44,6 +44,7 @@ dependencies:
   font_awesome_flutter: ^8.8.1
 #  flutter_launch: ^0.1.2
   flutter_open_whatsapp: ^0.1.2
+  cached_network_image: ^2.2.0+1
 
 dev_dependencies:
   flutter_test:
