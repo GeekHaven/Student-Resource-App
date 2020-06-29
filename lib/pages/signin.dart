@@ -19,8 +19,12 @@ class SignIn extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/images/Logo.png"),
-                height:200.0 ,
+
+              Hero(
+                tag: 'logo',
+                child: Image(image: AssetImage("assets/images/Logo.png"),
+                  height:200.0 ,
+                ),
               ),
 
               SizedBox(height: 50),
@@ -36,10 +40,7 @@ class SignIn extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Hero
-                            (
-                              tag: 'logo',
-                              child: Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0)),
+                          Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(

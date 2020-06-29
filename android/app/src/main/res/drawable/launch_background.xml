@@ -5,8 +5,8 @@
 
     <!--Add the App Logo here for the splash screen -->
     <item
-    android:width="100dp"
-    android:height="100dp"
-    android:drawable="@drawable/geekhaven"
+    android:width="200dp"
+    android:height="200dp"
+    android:drawable="@drawable/logo"
     android:gravity="center" />
 </layer-list>
