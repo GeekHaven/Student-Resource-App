@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:studentresourceapp/pages/signin.dart';
 import 'package:studentresourceapp/components/custom_dropdown.dart';
-
+import 'package:studentresourceapp/utils/contstants.dart';
+List<Color> _colors = [Constants.DARK_SKYBLUE, Constants.SKYBLUE];
+List<double> _stops = [0.0, 1.8];
 
 String college="IIITA";
 int batch;
@@ -46,9 +48,12 @@ class _UserDetailGetterState extends State<UserDetailGetter> {
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.all(14.0),
-                      child: Container(
-                          height: 150.0,
-                          child: Image.asset('assets/images/Logo.png')),
+                      child: Hero(
+                        tag: 'logo',
+                        child: Container(
+                            height: 180.0,
+                            child: Image.asset('assets/images/Logo.png')),
+                      ),
                     ),
                   ),
                   Padding(
@@ -97,10 +102,29 @@ child: CustomDropdown(text: "",list: _semester,type: 1,),
 
                   ),
 
-                  RaisedButton(
-                      child: Text('Proceed'),
-                      onPressed: () {
-                        Navigator.of(context).push(
+//                  RaisedButton(
+//                      child: Text('Proceed'),
+//                      onPressed: () {
+//                        Navigator.of(context).push(
+//                          MaterialPageRoute(
+//                            builder: (context) {
+//                              return SignIn(
+//                                  college: college,
+//                                  batch: batch,
+//                                  branch: branch,
+//                                  semester: semester);
+//                            },
+//                          ),
+//                        );
+//                      })
+
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: GestureDetector(
+
+                    onTap: ()
+                    {
+                      Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
                               return SignIn(
@@ -111,7 +135,42 @@ child: CustomDropdown(text: "",list: _semester,type: 1,),
                             },
                           ),
                         );
-                      })
+
+                    },
+                    child: Padding(
+
+                      padding: EdgeInsets.all(36.0),
+                      child: Container(
+
+                        height:50.0,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                            colors: _colors,
+                            stops: _stops,
+
+                          )
+                          ,
+                      ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+
+                              Text("Next",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios,color: Colors.white,
+
+                              )
+                            ],
+                          ),
+                        ),
+
+                    ),
+
+                ),
+                  ),),
                 ]),
           ),
         ),

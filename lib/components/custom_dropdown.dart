@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studentresourceapp/pages/subject.dart';
+
 import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 
@@ -25,6 +25,10 @@ class _CustomDropdownState extends State<CustomDropdown> {
   bool isDropDownOpen=false;
   OverlayEntry floatingDropdown;
     double height,width,xPosition,yPosition;
+    String t="";
+
+
+
   void findDropDownData()
   {
     RenderBox renderBox=actionKey.currentContext.findRenderObject();
@@ -39,6 +43,9 @@ class _CustomDropdownState extends State<CustomDropdown> {
   print(yPosition);
   }
 
+
+
+
   OverlayEntry _createFloatingDropdown (){
     _mediaQueryData = MediaQuery.of(context);
     screenHeight = _mediaQueryData.size.height;
@@ -47,84 +54,93 @@ class _CustomDropdownState extends State<CustomDropdown> {
     return OverlayEntry(builder: (context){
 
       return Positioned(
+
         left: xPosition,
         width: width,
         top: yPosition+height,
         height: (yPosition+4*height +40<screenHeight)?4*height +40 : screenHeight-yPosition-70.0,
 
-        child: Container(
-
+        child: Card(
+  elevation: 8.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(8.0),
+            ),
+          ),
         margin: EdgeInsets.only(left: 24.0,right: 24.0,top:8.0),
-      decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(14.0),
-      color: Colors.white,
-      boxShadow: [
-      BoxShadow(
-      color: Colors.black,
-      blurRadius: 2.0,
-      spreadRadius: 0.0,
-      offset: Offset(2.0, 2.0), // shadow direction: bottom right
-      )
-      ],),
-          child: ListView.separated(
-            padding: EdgeInsets.all(0.0),
-            separatorBuilder: (BuildContext context, int index) => Padding(
-                padding: EdgeInsets.only(left: 15.0,right: 15.0,top: 0.0,bottom: 0.0),
-                child: Divider( thickness: 2,height: 5, color: Constants.DARK_SKYBLUE)),
-            itemBuilder: ( context,  index) {
 
-              final item = widget.list[index];
-           print(item.toString());
-              return Material(
-                child: ListTile(
-                  title: Text(item.toString(),style:
-                    TextStyle(fontWeight: FontWeight.bold),),
+          child: Scrollbar(
 
-                  onTap: () {
-                        int temp=widget.type;
-                        print(temp);
-                        if(temp==1)
-                          {
-                            semester=item;
-                            setState(() {
-                              widget.text=item.toString();
-                              floatingDropdown.remove();
-                              isDropDownOpen=!isDropDownOpen;
-                            });
-                            print(semester);
+            child: ListView.separated(
+              padding: EdgeInsets.all(0.0),
+              separatorBuilder: (BuildContext context, int index) => Padding(
+                  padding: EdgeInsets.only(left: 15.0,right: 15.0,top: 0.0,bottom: 0.0),
+                  child: Divider( thickness: 2,height: 5, color: Constants.DARK_SKYBLUE)),
+              itemBuilder: ( context,  index) {
+                bool isSelected=false;
+                final item = widget.list[index];
+                if(t==item.toString())
+                  isSelected=true;
+             print(item.toString());
+                return Material(
+                  color: isSelected?Constants.SKYBLUE:Colors.white,
+                  child: ListTile(
+                    title: Text(item.toString(),style:
+                      TextStyle(fontWeight: FontWeight.bold),),
+
+                    onTap: () {
+                          int temp=widget.type;
+                          print(temp);
+                          if(temp==1)
+                            {
+                              semester=item;
+                              t=item.toString();
+                              setState(() {
+                                widget.text=item.toString();
+                                floatingDropdown.remove();
+                                isDropDownOpen=!isDropDownOpen;
+                              });
+                              print(semester);
+                            }
+                          else if(temp==2)
+                            {
+                              batch=item;
+                              t=item.toString();
+                              setState(() {
+                                widget.text=item.toString();
+                                floatingDropdown.remove();
+                                isDropDownOpen=!isDropDownOpen;
+                              });
+                              print(batch);
+                            }
+                         else{
+                           branch=item;
+                           t=item.toString();
+                           setState(() {
+                             widget.text=item.toString();
+                             floatingDropdown.remove();
+                             isDropDownOpen=!isDropDownOpen;
+                           });
+                           print(branch);
                           }
-                        else if(temp==2)
-                          {
-                            batch=item;
-                            setState(() {
-                              widget.text=item.toString();
-                              floatingDropdown.remove();
-                              isDropDownOpen=!isDropDownOpen;
-                            });
-                            print(batch);
-                          }
-                       else{
-                         branch=item;
-                         setState(() {
-                           widget.text=item.toString();
-                           floatingDropdown.remove();
-                           isDropDownOpen=!isDropDownOpen;
-                         });
-                         print(branch);
-                        }
 
 
 
-                  }
-                ),
-              );
-            },
-            itemCount: widget.list.length,
+                    }
+                  ),
+                );
+              },
+              itemCount: widget.list.length,
+            ),
           ),
         ),
       );
     });
   }
+
+
+
+
   @override
   void initState() {
    actionKey=LabeledGlobalKey(widget.text);
@@ -180,6 +196,28 @@ class _CustomDropdownState extends State<CustomDropdown> {
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class DropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
