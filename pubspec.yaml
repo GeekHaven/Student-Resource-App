@@ -42,10 +42,9 @@ dependencies:
   path_provider: ^1.6.11
   get_it: ^1.0.3+2
   font_awesome_flutter: ^8.8.1
-#  flutter_launch: ^0.1.2
   flutter_open_whatsapp: ^0.1.2
   cached_network_image: ^2.2.0+1
-
+  flutter_svg: ^0.18.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -62,8 +61,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-assets:
- - assets/images/
+  assets:
+    - assets/images/
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
