@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/utils/signinutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SignIn extends StatelessWidget {
   final String college;
