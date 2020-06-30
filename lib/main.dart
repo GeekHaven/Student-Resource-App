@@ -16,6 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      theme: ThemeData(
+        highlightColor: Constants.DARK_SKYBLUE,
+      ),
         title: 'SemBreaker',
         debugShowCheckedModeBanner: false,
 
