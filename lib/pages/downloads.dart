@@ -54,8 +54,7 @@ class _DownloadsState extends State<Downloads> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         drawer: NavDrawer(userData: userLoad),
         appBar: AppBar(
           title: Text('Downloads'),
@@ -137,8 +136,7 @@ class _DownloadsState extends State<Downloads> {
                   ],
                 ),
         ),
-      ),
-    );
+      );
   }
 
   String modifyPath(String path) {

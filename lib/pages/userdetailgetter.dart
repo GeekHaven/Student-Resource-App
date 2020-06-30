@@ -36,8 +36,7 @@ class _UserDetailGetterState extends State<UserDetailGetter> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -174,7 +173,6 @@ child: CustomDropdown(text: "",list: _semester,type: 1,),
                 ]),
           ),
         ),
-      ),
-    );
+      );
   }
 }

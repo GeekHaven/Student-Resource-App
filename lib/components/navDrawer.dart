@@ -48,9 +48,6 @@ class _NavDrawerState extends State<NavDrawer> {
             accountName: Text(widget.userData.name ?? ' '),
             accountEmail: Text(widget.userData.email ?? ' '),
             currentAccountPicture: CircleAvatar(
-              backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-                  ? Colors.blue
-                  : Colors.white,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(200),
                 child: CachedNetworkImage(

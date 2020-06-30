@@ -11,8 +11,7 @@ class SignIn extends StatelessWidget {
   SignIn({this.college, this.batch, this.branch, this.semester});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
@@ -75,6 +74,6 @@ class SignIn extends StatelessWidget {
           ),
         ),
       ),
-    ));
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:studentresourceapp/components/custom_loader.dart';
 
 class PDFViewer extends StatefulWidget {
   final String url;
@@ -66,7 +67,7 @@ class _PDFViewerState extends State<PDFViewer> {
   @override
   Widget build(BuildContext context) {
     return pathPDF == ''
-        ? Scaffold(body: Center(child: CircularProgressIndicator()))
+        ? Scaffold(body: CustomLoader())
         : PDFViewerScaffold(
             appBar: AppBar(
               title: Text("Document"),

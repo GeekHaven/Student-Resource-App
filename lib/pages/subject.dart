@@ -196,7 +196,7 @@ class _SubjectState extends State<Subject> {
               text: 'Imp. Links',
             )
           ],
-          indicatorColor: Constants.WHITE,
+          //indicatorColor: Constants.WHITE,
           ),
         ),
         body: TabBarView(
