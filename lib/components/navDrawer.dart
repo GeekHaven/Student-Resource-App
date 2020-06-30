@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -50,7 +51,17 @@ class _NavDrawerState extends State<NavDrawer> {
               backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
                   ? Colors.blue
                   : Colors.white,
-              child: Image(image: NetworkImage(widget.userData.imageUrl ?? '')),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(200),
+                child: CachedNetworkImage(
+                    imageUrl: widget.userData.imageUrl,
+                    fadeInCurve: Curves.easeIn,
+                    placeholder: (BuildContext context, String string) {
+                      return Icon(
+                        Icons.person,
+                      );
+                    }),
+              ),
             ),
           ),
           NavItem(
@@ -70,7 +81,8 @@ class _NavDrawerState extends State<NavDrawer> {
                 Navigator.pop(context);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => Downloads()),
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Downloads()),
                 );
               }),
           NavItem(
@@ -110,7 +122,7 @@ class _NavDrawerState extends State<NavDrawer> {
               }),
           NavItem(
             title: 'Sign Out',
-            iconData: Icons.all_out,
+            iconData: Icons.power_settings_new,
             onPressed: () {
               buildSignOutDialog(context);
             },
