@@ -46,6 +46,8 @@ dependencies:
   cached_network_image: ^2.2.0+1
   flutter_svg: ^0.18.0
   flare_flutter: ^2.0.4
+  circle_list: ^1.0.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -5,8 +5,6 @@ import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
 import 'package:studentresourceapp/pages/subject.dart';
-
-import 'utils/contstants.dart';
 import 'utils/contstants.dart';
 
 void main() {
@@ -32,8 +30,14 @@ class MyApp extends StatelessWidget {
             labelColor: Constants.WHITE,
             labelStyle:
                 TextStyle(fontWeight: FontWeight.w600, color: Constants.WHITE),
-            unselectedLabelColor: Constants.SKYBLUE, 
-            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.green),
+            unselectedLabelColor: Constants.SKYBLUE,
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
+            },
           ),
         ),
         title: 'SemBreaker',
