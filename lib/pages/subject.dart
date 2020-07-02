@@ -4,12 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
-
-import '../utils/contstants.dart';
 import '../utils/contstants.dart';
 
 class CallService {
@@ -182,21 +181,23 @@ class _SubjectState extends State<Subject> {
               },
             ),
           ],
-          bottom: TabBar(tabs: [
-            Tab(
-              icon: Icon(Icons.note),
-              text: 'Material',
-            ),
-            Tab(
-              icon: Icon(Icons.edit),
-              text: 'Q-Paper',
-            ),
-            Tab(
-              icon: Icon(Icons.link),
-              text: 'Imp. Links',
-            )
-          ],
-          //indicatorColor: Constants.WHITE,
+          bottom: TabBar(
+            indicatorWeight: 3,
+            indicatorPadding: EdgeInsets.only(right: 4, left: 4),
+            tabs: [
+              Tab(
+                icon: Icon(FontAwesomeIcons.book),
+                text: 'Material',
+              ),
+              Tab(
+                icon: Icon(FontAwesomeIcons.pen),
+                text: 'Q. Paper',
+              ),
+              Tab(
+                icon: Icon(FontAwesomeIcons.link),
+                text: 'Links',
+              )
+            ],
           ),
         ),
         body: TabBarView(
@@ -238,122 +239,144 @@ class StreamWidget extends StatelessWidget {
         if (snapshot.hasData) {
           if (typeKey == 'Material') {
             List materialData = snapshot.data['Material'];
-            print(materialData.toString());
+            //print(materialData.toString());
             List<Widget> listMaterials = [];
             materialData.forEach((element) {
               listMaterials.add(
-                Card(
-                  child: ListTile(
-                    title: Text(element['Title']),
-                    leading: IconButton(
-                        icon: Icon(Icons.remove_red_eye),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PDFViewer(
-                                    url: element['Content URL'],
-                                    sem: widget.semester,
-                                    subjectCode: widget.subjectCode,
-                                    typeKey: typeKey,
-                                    uniqueID: element['id'],
-                                    title: element['Title'],
-                                  )));
-                        }),
-                    trailing: IconButton(
-                        icon: Icon(Icons.file_download),
-                        onPressed: () async {
-                          try {
-                            String url = element['Content URL'];
-                            String dir =
-                                (await getApplicationDocumentsDirectory()).path;
-                            String path =
-                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
-                            if (await File(path).exists()) {
-                              print('$path already exists');
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                  content: Text('File Already Downloaded')));
+                Padding(
+                  padding: const EdgeInsets.only(right: 16, left: 16, top: 12),
+                  child: Card(
+                    shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ListTile(
+                      title: Text(element['Title'],
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      leading: IconButton(
+                          icon: Icon(FontAwesomeIcons.eye),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PDFViewer(
+                                      url: element['Content URL'],
+                                      sem: widget.semester,
+                                      subjectCode: widget.subjectCode,
+                                      typeKey: typeKey,
+                                      uniqueID: element['id'],
+                                      title: element['Title'],
+                                    )));
+                          }),
+                      trailing: IconButton(
+                          icon: Icon(FontAwesomeIcons.fileDownload),
+                          onPressed: () async {
+                            try {
+                              String url = element['Content URL'];
+                              String dir =
+                                  (await getApplicationDocumentsDirectory())
+                                      .path;
+                              String path =
+                                  "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
+                              if (await File(path).exists()) {
+                                print('$path already exists');
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text('File Already Downloaded')));
+                              }
+                              var request =
+                                  await HttpClient().getUrl(Uri.parse(url));
+                              var response = await request.close();
+                              var bytes =
+                                  await consolidateHttpClientResponseBytes(
+                                      response);
+                              File file = new File(path);
+                              await file.writeAsBytes(bytes).then((value) {
+                                print('$path is now downloaded');
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text('Download Complete')));
+                              });
+                              return file;
+                            } catch (err) {
+                              var errorMessage = "Error";
+                              print(errorMessage);
+                              print(err);
+                              return null;
                             }
-                            var request =
-                                await HttpClient().getUrl(Uri.parse(url));
-                            var response = await request.close();
-                            var bytes =
-                                await consolidateHttpClientResponseBytes(
-                                    response);
-                            File file = new File(path);
-                            await file.writeAsBytes(bytes).then((value) {
-                              print('$path is now downloaded');
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text('Download Complete')));
-                            });
-                            return file;
-                          } catch (err) {
-                            var errorMessage = "Error";
-                            print(errorMessage);
-                            print(err);
-                            return null;
-                          }
-                        }),
+                          }),
+                    ),
                   ),
                 ),
               );
             });
-            return Container(child: ListView(children: listMaterials));
+            return Container(
+              child: ListView(children: listMaterials),
+            );
           } else if (typeKey == 'QuestionPapers') {
             List materialData = snapshot.data['QuestionPapers'];
-            print(materialData.toString());
+            //print(materialData.toString());
             List<Widget> listMaterials = [];
             materialData.forEach((element) {
               listMaterials.add(
-                Card(
-                  child: ListTile(
-                    title: Text(element['Title']),
-                    subtitle: Text(element['Type'] + '-' + element['Year']),
-                    leading: IconButton(
-                        icon: Icon(Icons.remove_red_eye),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PDFViewer(
-                                    url: element['URL'],
-                                    sem: widget.semester,
-                                    subjectCode: widget.subjectCode,
-                                    typeKey: typeKey,
-                                    uniqueID: element['id'],
-                                    title: element['Title'],
-                                  )));
-                        }),
-                    trailing: IconButton(
-                        icon: Icon(Icons.file_download),
-                        onPressed: () async {
-                          try {
-                            String url = element['URL'];
-                            String dir =
-                                (await getApplicationDocumentsDirectory()).path;
-                            String path =
-                                "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
-                            if (await File(path).exists()) {
-                              print('$path already exists');
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                  content: Text('File Already Downloaded')));
+                Padding(
+                  padding: const EdgeInsets.only(right: 16, left: 16, top: 12),
+                  child: Card(
+                    shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ListTile(
+                      title: Text(element['Title'],
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      subtitle: Text(element['Type'] + '-' + element['Year']),
+                      leading: IconButton(
+                          icon: Icon(Icons.remove_red_eye),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PDFViewer(
+                                      url: element['URL'],
+                                      sem: widget.semester,
+                                      subjectCode: widget.subjectCode,
+                                      typeKey: typeKey,
+                                      uniqueID: element['id'],
+                                      title: element['Title'],
+                                    )));
+                          }),
+                      trailing: IconButton(
+                          icon: Icon(Icons.file_download),
+                          onPressed: () async {
+                            try {
+                              String url = element['URL'];
+                              String dir =
+                                  (await getApplicationDocumentsDirectory())
+                                      .path;
+                              String path =
+                                  "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
+                              if (await File(path).exists()) {
+                                print('$path already exists');
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text('File Already Downloaded')));
+                              }
+                              var request =
+                                  await HttpClient().getUrl(Uri.parse(url));
+                              var response = await request.close();
+                              var bytes =
+                                  await consolidateHttpClientResponseBytes(
+                                      response);
+                              File file = new File(path);
+                              await file.writeAsBytes(bytes).then((value) {
+                                print('$path is now downloaded');
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text('Download Complete')));
+                              });
+                              return file;
+                            } catch (err) {
+                              var errorMessage = "Error";
+                              print(errorMessage);
+                              print(err);
+                              return null;
                             }
-                            var request =
-                                await HttpClient().getUrl(Uri.parse(url));
-                            var response = await request.close();
-                            var bytes =
-                                await consolidateHttpClientResponseBytes(
-                                    response);
-                            File file = new File(path);
-                            await file.writeAsBytes(bytes).then((value) {
-                              print('$path is now downloaded');
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text('Download Complete')));
-                            });
-                            return file;
-                          } catch (err) {
-                            var errorMessage = "Error";
-                            print(errorMessage);
-                            print(err);
-                            return null;
-                          }
-                        }),
+                          }),
+                    ),
                   ),
                 ),
               );
@@ -361,26 +384,36 @@ class StreamWidget extends StatelessWidget {
             return Container(child: ListView(children: listMaterials));
           } else if (typeKey == 'Important Links') {
             List materialData = snapshot.data['Important Links'];
-            print(materialData.toString());
+            //print(materialData.toString());
             List<Widget> listMaterials = [];
             materialData.forEach((element) {
               listMaterials.add(
-                Card(
-                  child: ListTile(
-                    title: Text(element['Title']),
-                    trailing: IconButton(
-                        icon: Icon(Icons.remove_red_eye),
-                        onPressed: () {
-                          urlLauncher(element['Content URL']);
-                        }),
+                Padding(
+                  padding: const EdgeInsets.only(right: 16, left: 16, top: 12),
+                  child: Card(
+                    shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ListTile(
+                      title: Text(element['Title'],
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      trailing: IconButton(
+                          icon: Icon(FontAwesomeIcons.externalLinkAlt),
+                          onPressed: () {
+                            urlLauncher(element['Content URL']);
+                          }),
+                    ),
                   ),
                 ),
               );
             });
-            return Container(child: ListView(children: listMaterials));
+            return Container(
+                child: Scrollbar(child: ListView(children: listMaterials)));
           }
         }
-        return Center(child: CircularProgressIndicator());
+        return CustomLoader();
       },
     );
   }
