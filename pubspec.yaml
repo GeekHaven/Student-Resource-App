@@ -85,11 +85,11 @@ flutter:
     - family: Yellowtail
       fonts:
         - asset: assets/fonts/Yellowtail-Regular.ttf
-    - family: RobotoMono
-      fonts:
-        - asset: fonts/RobotoMono-Regular.ttf
-        - asset: fonts/RobotoMono-Bold.ttf
-          weight: 700
+    #- family: RobotoMono
+    #  fonts:
+    #    - asset: fonts/RobotoMono-Regular.ttf
+    #    - asset: fonts/RobotoMono-Bold.ttf
+    #      weight: 700
 
 
 

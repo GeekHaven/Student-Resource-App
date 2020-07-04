@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
@@ -30,10 +31,35 @@ class Subject extends StatefulWidget {
   _SubjectState createState() => _SubjectState();
 }
 
-class _SubjectState extends State<Subject> {
+class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
+  ScrollController _scrollController;
+  AnimationController _hideFabAnimController;
+
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
+    _hideFabAnimController = AnimationController(
+      vsync: this,
+      duration: kThemeAnimationDuration,
+      value: 1, // initially visible
+    );
+
+    _scrollController.addListener(() {
+      switch (_scrollController.position.userScrollDirection) {
+        // Scrolling up - forward the animation (value goes to 1)
+        case ScrollDirection.forward:
+          _hideFabAnimController.forward();
+          break;
+        // Scrolling down - reverse the animation (value goes to 0)
+        case ScrollDirection.reverse:
+          _hideFabAnimController.reverse();
+          break;
+        // Idle - keep FAB visibility unchanged
+        case ScrollDirection.idle:
+          break;
+      }
+    });
   }
 
   void handleClick(String value) {
@@ -157,6 +183,13 @@ class _SubjectState extends State<Subject> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    _hideFabAnimController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
@@ -205,16 +238,27 @@ class _SubjectState extends State<Subject> {
             StreamWidget(
               widget: widget,
               typeKey: 'Material',
+              scrollController: _scrollController,
             ),
             StreamWidget(
               widget: widget,
               typeKey: 'QuestionPapers',
+              scrollController: _scrollController,
             ),
             StreamWidget(
               widget: widget,
               typeKey: 'Important Links',
+              scrollController: _scrollController,
             ),
           ],
+        ),
+        floatingActionButton: FadeTransition(
+          opacity: _hideFabAnimController,
+          child: ScaleTransition(
+            scale: _hideFabAnimController,
+            child: FloatingActionButton(
+                child: Icon(FontAwesomeIcons.plus), onPressed: () {}),
+          ),
         ),
       ),
     );
@@ -222,15 +266,22 @@ class _SubjectState extends State<Subject> {
 }
 
 class StreamWidget extends StatelessWidget {
-  const StreamWidget({Key key, @required this.widget, @required this.typeKey})
+  const StreamWidget(
+      {Key key,
+      @required this.widget,
+      @required this.typeKey,
+      @required this.scrollController})
       : super(key: key);
-
+  final ScrollController scrollController;
   final Subject widget;
   final String typeKey;
 
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    
+    return 
+    StreamBuilder(
       stream: Firestore.instance
           .collection('Subjects')
           .document('${widget.semester}_${widget.subjectCode}')
@@ -307,8 +358,12 @@ class StreamWidget extends StatelessWidget {
                 ),
               );
             });
+            listMaterials.add(SizedBox(height: 100));
             return Container(
-              child: ListView(children: listMaterials),
+              child: ListView(
+                children: listMaterials,
+                controller: scrollController,
+              ),
             );
           } else if (typeKey == 'QuestionPapers') {
             List materialData = snapshot.data['QuestionPapers'];
@@ -381,7 +436,10 @@ class StreamWidget extends StatelessWidget {
                 ),
               );
             });
-            return Container(child: ListView(children: listMaterials));
+            listMaterials.add(SizedBox(height: 100));
+            return Container(
+                child: ListView(
+                    controller: scrollController, children: listMaterials));
           } else if (typeKey == 'Important Links') {
             List materialData = snapshot.data['Important Links'];
             //print(materialData.toString());
@@ -409,8 +467,12 @@ class StreamWidget extends StatelessWidget {
                 ),
               );
             });
+            listMaterials.add(SizedBox(height: 100));
             return Container(
-                child: Scrollbar(child: ListView(children: listMaterials)));
+                child: ListView(
+              children: listMaterials,
+              controller: scrollController,
+            ));
           }
         }
         return CustomLoader();
@@ -447,14 +509,6 @@ class ListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           getWidget(),
-
-//          Text(
-//              heading
-//          ),
-//
-//          Text(
-//              subheaading
-//          ),
         ],
       ),
     );
@@ -517,18 +571,3 @@ class ListItem extends StatelessWidget {
     }
   }
 }
-
-/*
-
-Container(
-          child: StreamBuilder(
-            stream: Firestore.instance
-                .collection('Subjects')
-                .document('${widget.semester}_${widget.subjectCode}')
-                .snapshots(),
-            builder: (context, snapshot) {
-              return Text(snapshot.data['MODERATORS'].toString());
-            },
-          ),
-        ),
-*/

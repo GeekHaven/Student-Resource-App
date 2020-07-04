@@ -17,9 +17,11 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   User userLoad = new User();
   bool semesterExists = true;
+  ScrollController _scrollController;
+  AnimationController _hideFabAnimController;
 
   Future fetchUserDetailsFromSharedPref() async {
     var result = await SharedPreferencesUtil.getStringValue(
@@ -52,6 +54,35 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchUserDetailsFromSharedPref();
+
+    _scrollController = ScrollController();
+    _hideFabAnimController = AnimationController(
+      vsync: this,
+      duration: kThemeAnimationDuration,
+      value: 1, // initially visible
+    );
+    _scrollController.addListener(() {
+      switch (_scrollController.position.userScrollDirection) {
+        // Scrolling up - forward the animation (value goes to 1)
+        case ScrollDirection.forward:
+          _hideFabAnimController.forward();
+          break;
+        // Scrolling down - reverse the animation (value goes to 0)
+        case ScrollDirection.reverse:
+          _hideFabAnimController.reverse();
+          break;
+        // Idle - keep FAB visibility unchanged
+        case ScrollDirection.idle:
+          break;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _hideFabAnimController.dispose();
+    super.dispose();
   }
 
   @override
@@ -137,11 +168,12 @@ class _HomeState extends State<Home> {
                       );
                     });
                     subjects.add(SizedBox(
-                      height: 80,
+                      height: 100,
                     ));
 
                     return Container(
                         child: ListView.separated(
+                      controller: _scrollController,
                       itemCount: subjects.length,
                       separatorBuilder: (BuildContext context, int index) =>
                           Divider(
@@ -181,65 +213,73 @@ class _HomeState extends State<Home> {
                     ),
               ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Constants.DARK_SKYBLUE,
-          elevation: 1,
-          isExtended: true,
-          label: Text(
-            'Switch Sem',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  print(userLoad.semester);
-                  return CircleList(
-                    showInitialAnimation: true,
-                    animationSetting: AnimationSetting(
-                        duration: Duration(milliseconds: 800),
-                        curve: Curves.fastOutSlowIn),
-                    children: List.generate(
-                      8,
-                      (index) => ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(1000)),
-                        child: MaterialButton(
-                          height: 60,
-                          minWidth: 60,
-                          color: (index + 1) == userLoad.semester
-                              ? Constants.DARK_SKYBLUE
-                              : Constants.WHITE,
-                          child: Text(
-                            '${index + 1}',
-                            style: TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 36,
-                                color: Constants.BLACK,
-                                fontWeight: FontWeight.w600),
+      floatingActionButton: FadeTransition(
+        opacity: _hideFabAnimController,
+        child: ScaleTransition(
+          scale: _hideFabAnimController,
+          child: FloatingActionButton.extended(
+              backgroundColor: Constants.DARK_SKYBLUE,
+              elevation: 1,
+              isExtended: true,
+              label: Text(
+                'Switch Sem',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      print(userLoad.semester);
+                      return CircleList(
+                        showInitialAnimation: true,
+                        animationSetting: AnimationSetting(
+                            duration: Duration(milliseconds: 800),
+                            curve: Curves.fastOutSlowIn),
+                        children: List.generate(
+                          8,
+                          (index) => ClipRRect(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(1000)),
+                            child: MaterialButton(
+                              height: 60,
+                              minWidth: 60,
+                              color: (index + 1) == userLoad.semester
+                                  ? Constants.DARK_SKYBLUE
+                                  : Constants.WHITE,
+                              child: Text(
+                                '${index + 1}',
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 36,
+                                    color: Constants.BLACK,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              onPressed: () async {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  userLoad.semester = index + 1;
+                                  SharedPreferencesUtil.setStringValue(
+                                      Constants.USER_DETAIL_OBJECT, userLoad);
+                                  Firestore.instance
+                                      .collection(
+                                          Constants.COLLECTION_NAME_USER)
+                                      .document(userLoad.uid)
+                                      .setData({'semester': index + 1},
+                                          merge: true);
+                                });
+                              },
+                            ),
                           ),
-                          onPressed: () async {
-                            Navigator.of(context).pop();
-                            setState(() {
-                              userLoad.semester = index + 1;
-                              SharedPreferencesUtil.setStringValue(
-                                  Constants.USER_DETAIL_OBJECT, userLoad);
-                              Firestore.instance
-                                  .collection(Constants.COLLECTION_NAME_USER)
-                                  .document(userLoad.uid)
-                                  .setData({'semester': index + 1},
-                                      merge: true);
-                            });
-                          },
                         ),
-                      ),
-                    ),
-                    outerCircleColor: Constants.WHITE,
-                  );
-                });
-          }),
+                        outerCircleColor: Constants.WHITE,
+                      );
+                    });
+              }),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
