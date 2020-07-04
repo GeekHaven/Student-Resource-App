@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:studentresourceapp/components/navdrawerItem.dart';
@@ -10,6 +11,7 @@ import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/emailutil.dart';
 import 'package:studentresourceapp/utils/signinutil.dart';
+import 'package:studentresourceapp/utils/contstants.dart';
 
 class NavDrawer extends StatefulWidget {
   NavDrawer({
@@ -37,16 +39,32 @@ class _NavDrawerState extends State<NavDrawer> {
 
   int _selectedSemester;
 
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
+
         child: Stack(children: <Widget>[
+
       ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text(widget.userData.name ?? ' '),
-            accountEmail: Text(widget.userData.email ?? ' '),
+            accountName: Text(widget.userData.name ?? ' ',
+            style: TextStyle(
+              fontFamily: 'RobotoMono',
+              fontSize: 24.0,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            ),
+            accountEmail: Text(widget.userData.email ?? ' ',
+              style: TextStyle(
+                fontFamily: 'RobotoMono',
+                fontSize: 16.0,
+                color: Colors.white,
+              ),
+            ),
             currentAccountPicture: CircleAvatar(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(200),
@@ -57,14 +75,27 @@ class _NavDrawerState extends State<NavDrawer> {
                       return Icon(
                         Icons.person,
                       );
-                    }),
+                    },
+                ),
               ),
             ),
           ),
           NavItem(
-              title: 'Home',
-              iconData: Icons.home,
+              title: Text("Home", style:
+                TextStyle(
+                  color: (current==1)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 17.0,
+                  fontFamily:'RobotoMono',
+                ),),
+             iconData: ImageIcon(AssetImage("assets/grey icons/browser.png"),
+               color: (current==1)?Constants.DARK_SKYBLUE:Constants.STEEL,
+               size:22.0 ,
+             ),
               onPressed: () {
+                setState(() {
+                  current=1;
+                });
                 Navigator.pop(context);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
                 Navigator.of(context).push(
@@ -72,9 +103,21 @@ class _NavDrawerState extends State<NavDrawer> {
                 );
               }),
           NavItem(
-              title: 'Downloads',
-              iconData: Icons.file_download,
-              onPressed: () {
+              title: Text("Downloads", style:
+              TextStyle(
+                fontWeight: FontWeight.normal,
+                color: (current==2)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                fontSize: 17.0,
+                fontFamily:'RobotoMono',
+              ),),
+              iconData: ImageIcon(AssetImage("assets/grey icons/download-Recovered.png"),
+                color: (current==2)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                size:22.0 ,),
+                onPressed: () {
+                setState(() {
+                  current=2;
+                });
+
                 Navigator.pop(context);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
                 Navigator.of(context).push(
@@ -83,9 +126,20 @@ class _NavDrawerState extends State<NavDrawer> {
                 );
               }),
           NavItem(
-              title: 'Share',
-              iconData: Icons.share,
+              title:Text("Share", style:
+            TextStyle(
+              fontWeight: FontWeight.normal,
+              color: (current==3)?Constants.DARK_SKYBLUE:Constants.STEEL,
+              fontSize: 17.0,
+              fontFamily:'RobotoMono',
+                ),),
+              iconData: ImageIcon(AssetImage("assets/grey icons/share-Recovered.png"),
+                color: (current==3)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                size:22.0 ,),
               onPressed: () {
+                setState(() {
+                  current=3;
+                });
                 Navigator.pop(context);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
                 Navigator.of(context).push(
@@ -97,9 +151,21 @@ class _NavDrawerState extends State<NavDrawer> {
                         'Checkout the new Sem Breaker App on your Smart Phone.');
               }),
           NavItem(
-              title: 'Feedback',
-              iconData: Icons.feedback,
+              title: Text("Feedback", style:
+            TextStyle(
+              fontWeight: FontWeight.normal,
+              color: (current==4)?Constants.DARK_SKYBLUE:Constants.STEEL,
+              fontSize: 17.0,
+              fontFamily:'RobotoMono',
+                  ),),
+              iconData: ImageIcon(AssetImage("assets/grey icons/feedback-Recovered.png"),
+                color: (current==4)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                size:22.0 ,
+              ),
               onPressed: () {
+                setState(() {
+                  current=4;
+                });
                 Email email = Email(
                     emailaddress: "studentresourceapp@gmail.com",
                     subject: "Feedback/Suggestions regarding SemBreaker App",
@@ -107,38 +173,66 @@ class _NavDrawerState extends State<NavDrawer> {
                         "My Feedback/Suggestions for the SemBreaker App are:");
                 email.launchEmail();
               }),
+
           NavItem(
-              title: 'About',
-              iconData: Icons.info,
+              title: Text("About", style:
+              TextStyle(
+                fontWeight: FontWeight.normal,
+                color: (current==5)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                fontSize: 17.0,
+                fontFamily:'RobotoMono',
+              ),),
+
+              iconData: ImageIcon(AssetImage("assets/grey icons/help-Recovered.png"),
+                color: (current==5)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                size:22.0 ,),
+
+
               onPressed: () {
+                setState(() {
+                  current=5;
+                });
                 Navigator.pop(context);
                 Navigator.popUntil(context, ModalRoute.withName('/'));
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => About(),
                 ));
-              }),
+              }
+
+              ),
           NavItem(
-            title: 'Sign Out',
-            iconData: Icons.power_settings_new,
+            title: Text("Log Out", style:
+            TextStyle(
+              fontWeight: FontWeight.normal,
+              color: (current==6)?Constants.DARK_SKYBLUE:Constants.STEEL,
+              fontSize: 17.0,
+              fontFamily:'RobotoMono',
+            ),),
+              iconData: ImageIcon(AssetImage("assets/grey icons/logout.png"),
+                color: (current==6)?Constants.DARK_SKYBLUE:Constants.STEEL,
+                size:22.0 ,),
             onPressed: () {
+              setState(() {
+                current=6;
+              });
               buildSignOutDialog(context);
             },
           )
         ],
       ),
       Positioned(
-        top: 30,
+        top: 50,
         right: 0,
+//        left: 240,
         child: FlatButton(
-            child: Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
+            child: ImageIcon(AssetImage("assets/grey icons/edit.png"),color: Colors.white,size: 18.0,),
             onPressed: () {
               buildShowModalBottomSheet(context);
-            }),
+            },
       ),
-    ]));
+      ),
+    ]
+      ),);
   }
 
   Future buildSignOutDialog(BuildContext context) {

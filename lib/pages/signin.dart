@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/utils/signinutil.dart';
 
+
 class SignIn extends StatelessWidget {
   final String college;
   final int batch;
@@ -11,18 +12,15 @@ class SignIn extends StatelessWidget {
   SignIn({this.college, this.batch, this.branch, this.semester});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
-              Hero(
-                tag: 'logo',
-                child: Image(image: AssetImage("assets/images/Logo.png"),
-                  height:200.0 ,
-                ),
+              Image(image: AssetImage("assets/images/Logo.png"),
+                height:200.0 ,
               ),
 
               SizedBox(height: 50),
@@ -74,6 +72,6 @@ class SignIn extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }
