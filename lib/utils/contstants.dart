@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+int current=1;
 class Constants {
   static const USER_LOGGED_IN = 'is_user_logged_in';
   static const USER_DETAIL_OBJECT = 'user_object';
