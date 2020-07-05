@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
+import 'package:unicorndial/unicorndial.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
@@ -75,13 +76,33 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 
   void modno(BuildContext context) {
     showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+        ),
         context: context,
         builder: (builder) {
           return Container(
+            decoration: BoxDecoration(
+                color: Constants.WHITE,
+                borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(24.0),
+                    topRight: const Radius.circular(24.0))),
             child: Column(
               children: <Widget>[
                 Center(
-                  child: Icon(Icons.arrow_drop_down),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 12),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        height: 6,
+                        width: 64,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  ),
                 ),
                 StreamBuilder(
                   stream: Firestore.instance
@@ -128,13 +149,33 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 
   void recBooks(BuildContext context) {
     showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+        ),
         context: context,
         builder: (builder) {
           return Container(
+            decoration: BoxDecoration(
+                color: Constants.WHITE,
+                borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(24.0),
+                    topRight: const Radius.circular(24.0))),
             child: Column(
               children: <Widget>[
                 Center(
-                  child: Icon(Icons.arrow_drop_down),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 12),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        height: 6,
+                        width: 64,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  ),
                 ),
                 StreamBuilder(
                   stream: Firestore.instance
@@ -200,7 +241,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
           title: Text('${widget.subjectCode}',
               style: TextStyle(
                   fontFamily: 'Montserrat', fontWeight: FontWeight.bold)),
-          actions: <Widget>[
+          /*actions: <Widget>[
             PopupMenuButton<String>(
               onSelected: handleClick,
               icon: Icon(Icons.info_outline),
@@ -213,21 +254,21 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                 }).toList();
               },
             ),
-          ],
+          ],*/
           bottom: TabBar(
             indicatorWeight: 3,
             indicatorPadding: EdgeInsets.only(right: 4, left: 4),
             tabs: [
               Tab(
-                icon: Icon(FontAwesomeIcons.book),
+                icon: ImageIcon(AssetImage('assets/svgIcons/book.png')),
                 text: 'Material',
               ),
               Tab(
-                icon: Icon(FontAwesomeIcons.pen),
+                icon: ImageIcon(AssetImage('assets/svgIcons/pencil.png')),
                 text: 'Q. Paper',
               ),
               Tab(
-                icon: Icon(FontAwesomeIcons.link),
+                icon: ImageIcon(AssetImage('assets/svgIcons/link.png')),
                 text: 'Links',
               )
             ],
@@ -255,10 +296,44 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
         floatingActionButton: FadeTransition(
           opacity: _hideFabAnimController,
           child: ScaleTransition(
-            scale: _hideFabAnimController,
-            child: FloatingActionButton(
-                child: Icon(FontAwesomeIcons.plus), onPressed: () {}),
-          ),
+              scale: _hideFabAnimController,
+              child: UnicornDialer(
+                backgroundColor: Colors.white70,
+                parentButton: Icon(Icons.info_outline),
+                parentButtonBackground: Constants.DARK_SKYBLUE,
+                finalButtonIcon: Icon(Icons.close),
+                childPadding: 12,
+                childButtons: [
+                  UnicornButton(
+                    labelColor: Colors.black,
+                    hasLabel: true,
+                    labelText: 'Books',
+                    currentButton: FloatingActionButton(
+                      heroTag: null,
+                      mini: true,
+                      onPressed: () {
+                        recBooks(context);
+                      },
+                      backgroundColor: Constants.DARK_SKYBLUE,
+                      child: ImageIcon(AssetImage('assets/svgIcons/book.png'), size: 20)
+                    ),
+                  ),
+                  UnicornButton(
+                    labelColor: Colors.black,
+                    hasLabel: true,
+                    labelText: 'Moderators',
+                    currentButton: FloatingActionButton(
+                      heroTag: null,
+                      mini: true,
+                      onPressed: () {
+                        modno(context);
+                      },
+                      backgroundColor: Constants.DARK_SKYBLUE,
+                      child: ImageIcon(AssetImage('assets/svgIcons/moderators.png'), size: 20)
+                    ),
+                  ),
+                ],
+              )),
         ),
       ),
     );
@@ -276,12 +351,9 @@ class StreamWidget extends StatelessWidget {
   final Subject widget;
   final String typeKey;
 
-
   @override
   Widget build(BuildContext context) {
-    
-    return 
-    StreamBuilder(
+    return StreamBuilder(
       stream: Firestore.instance
           .collection('Subjects')
           .document('${widget.semester}_${widget.subjectCode}')
@@ -306,7 +378,7 @@ class StreamWidget extends StatelessWidget {
                       title: Text(element['Title'],
                           style: TextStyle(fontWeight: FontWeight.w600)),
                       leading: IconButton(
-                          icon: Icon(FontAwesomeIcons.eye),
+                          icon: ImageIcon(AssetImage('assets/svgIcons/preview.png')),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PDFViewer(
@@ -319,7 +391,7 @@ class StreamWidget extends StatelessWidget {
                                     )));
                           }),
                       trailing: IconButton(
-                          icon: Icon(FontAwesomeIcons.fileDownload),
+                          icon: ImageIcon(AssetImage('assets/svgIcons/download.png'), size: 20),
                           onPressed: () async {
                             try {
                               String url = element['Content URL'];
@@ -384,7 +456,7 @@ class StreamWidget extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.w600)),
                       subtitle: Text(element['Type'] + '-' + element['Year']),
                       leading: IconButton(
-                          icon: Icon(Icons.remove_red_eye),
+                          icon: ImageIcon(AssetImage('assets/svgIcons/preview.png')),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PDFViewer(
@@ -397,7 +469,7 @@ class StreamWidget extends StatelessWidget {
                                     )));
                           }),
                       trailing: IconButton(
-                          icon: Icon(Icons.file_download),
+                          icon: ImageIcon(AssetImage('assets/svgIcons/download.png'), size: 20),
                           onPressed: () async {
                             try {
                               String url = element['URL'];
@@ -458,7 +530,8 @@ class StreamWidget extends StatelessWidget {
                       title: Text(element['Title'],
                           style: TextStyle(fontWeight: FontWeight.w600)),
                       trailing: IconButton(
-                          icon: Icon(FontAwesomeIcons.externalLinkAlt),
+                          icon:
+                              ImageIcon(AssetImage('assets/svgIcons/external Link.png')),
                           onPressed: () {
                             urlLauncher(element['Content URL']);
                           }),
