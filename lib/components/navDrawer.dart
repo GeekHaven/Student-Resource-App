@@ -13,6 +13,9 @@ import 'package:studentresourceapp/utils/emailutil.dart';
 import 'package:studentresourceapp/utils/signinutil.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 
+import '../utils/contstants.dart';
+import '../utils/contstants.dart';
+
 class NavDrawer extends StatefulWidget {
   NavDrawer({
     @required this.userData,
@@ -101,7 +104,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (BuildContext context) => Home()),
                 );
-              }),
+              } , isSelected: current==1?true:false,),
           NavItem(
               title: Text("Downloads", style:
               TextStyle(
@@ -124,7 +127,7 @@ class _NavDrawerState extends State<NavDrawer> {
                   MaterialPageRoute(
                       builder: (BuildContext context) => Downloads()),
                 );
-              }),
+              },isSelected: current==2?true:false,),
           NavItem(
               title:Text("Share", style:
             TextStyle(
@@ -137,19 +140,17 @@ class _NavDrawerState extends State<NavDrawer> {
                 color: (current==3)?Constants.DARK_SKYBLUE:Constants.STEEL,
                 size:22.0 ,),
               onPressed: () {
-                setState(() {
-                  current=3;
-                });
-                Navigator.pop(context);
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => Home()),
-                );
+
+//                Navigator.pop(context);
+//                Navigator.popUntil(context, ModalRoute.withName('/'));
+//                Navigator.of(context).push(
+//                  MaterialPageRoute(builder: (BuildContext context) => Home()),
+//                );
                 Share.share(
                     'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - Link',
                     subject:
                         'Checkout the new Sem Breaker App on your Smart Phone.');
-              }),
+              },isSelected: false,),
           NavItem(
               title: Text("Feedback", style:
             TextStyle(
@@ -163,16 +164,14 @@ class _NavDrawerState extends State<NavDrawer> {
                 size:22.0 ,
               ),
               onPressed: () {
-                setState(() {
-                  current=4;
-                });
+
                 Email email = Email(
                     emailaddress: "studentresourceapp@gmail.com",
                     subject: "Feedback/Suggestions regarding SemBreaker App",
                     body:
                         "My Feedback/Suggestions for the SemBreaker App are:");
                 email.launchEmail();
-              }),
+              },isSelected: false,),
 
           NavItem(
               title: Text("About", style:
@@ -198,7 +197,7 @@ class _NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => About(),
                 ));
               }
-
+,isSelected: current==5?true:false,
               ),
           NavItem(
             title: Text("Log Out", style:
@@ -212,11 +211,9 @@ class _NavDrawerState extends State<NavDrawer> {
                 color: (current==6)?Constants.DARK_SKYBLUE:Constants.STEEL,
                 size:22.0 ,),
             onPressed: () {
-              setState(() {
-                current=6;
-              });
+
               buildSignOutDialog(context);
-            },
+            },isSelected: false,
           )
         ],
       ),
