@@ -46,6 +46,7 @@ dependencies:
   cached_network_image: ^2.2.0+1
   flare_flutter: ^2.0.4
   circle_list: ^1.0.2
+  unicorndial: ^1.1.5
   
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"
@@ -73,6 +74,7 @@ flutter:
     - assets/images/
     - assets/flareFiles/
     - assets/grey icons/
+    - assets/svgIcons/
   fonts:
     - family: MontSerrat
       fonts: 

@@ -17,10 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
         theme: ThemeData(
           splashColor: Constants.SKYBLUE,
           fontFamily: 'Montserrat',
           primaryColor: Constants.DARK_SKYBLUE,
+          backgroundColor: Colors.white,
           primaryIconTheme: IconTheme.of(context).copyWith(color: Colors.white),
           indicatorColor: Constants.WHITE,
           primaryTextTheme: TextTheme(
