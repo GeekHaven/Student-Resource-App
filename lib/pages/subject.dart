@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
@@ -256,8 +257,10 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
             ),
           ],*/
           bottom: TabBar(
-            indicatorWeight: 3,
-            indicatorPadding: EdgeInsets.only(right: 4, left: 4),
+            indicator: MD2Indicator(
+                indicatorHeight: 4,
+                indicatorColor: Colors.white,
+                indicatorSize: MD2IndicatorSize.normal),
             tabs: [
               Tab(
                 icon: ImageIcon(AssetImage('assets/svgIcons/book.png')),
@@ -309,28 +312,29 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                     hasLabel: true,
                     labelText: 'Books',
                     currentButton: FloatingActionButton(
-                      heroTag: null,
-                      mini: true,
-                      onPressed: () {
-                        recBooks(context);
-                      },
-                      backgroundColor: Constants.DARK_SKYBLUE,
-                      child: ImageIcon(AssetImage('assets/svgIcons/book.png'), size: 20)
-                    ),
+                        heroTag: null,
+                        mini: true,
+                        onPressed: () {
+                          recBooks(context);
+                        },
+                        backgroundColor: Constants.DARK_SKYBLUE,
+                        child: ImageIcon(AssetImage('assets/svgIcons/book.png'),
+                            size: 20)),
                   ),
                   UnicornButton(
                     labelColor: Colors.black,
                     hasLabel: true,
                     labelText: 'Moderators',
                     currentButton: FloatingActionButton(
-                      heroTag: null,
-                      mini: true,
-                      onPressed: () {
-                        modno(context);
-                      },
-                      backgroundColor: Constants.DARK_SKYBLUE,
-                      child: ImageIcon(AssetImage('assets/svgIcons/moderators.png'), size: 20)
-                    ),
+                        heroTag: null,
+                        mini: true,
+                        onPressed: () {
+                          modno(context);
+                        },
+                        backgroundColor: Constants.DARK_SKYBLUE,
+                        child: ImageIcon(
+                            AssetImage('assets/svgIcons/moderators.png'),
+                            size: 20)),
                   ),
                 ],
               )),
@@ -378,7 +382,8 @@ class StreamWidget extends StatelessWidget {
                       title: Text(element['Title'],
                           style: TextStyle(fontWeight: FontWeight.w600)),
                       leading: IconButton(
-                          icon: ImageIcon(AssetImage('assets/svgIcons/preview.png')),
+                          icon: ImageIcon(
+                              AssetImage('assets/svgIcons/preview.png')),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PDFViewer(
@@ -391,7 +396,9 @@ class StreamWidget extends StatelessWidget {
                                     )));
                           }),
                       trailing: IconButton(
-                          icon: ImageIcon(AssetImage('assets/svgIcons/download.png'), size: 20),
+                          icon: ImageIcon(
+                              AssetImage('assets/svgIcons/download.png'),
+                              size: 20),
                           onPressed: () async {
                             try {
                               String url = element['Content URL'];
@@ -456,7 +463,8 @@ class StreamWidget extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.w600)),
                       subtitle: Text(element['Type'] + '-' + element['Year']),
                       leading: IconButton(
-                          icon: ImageIcon(AssetImage('assets/svgIcons/preview.png')),
+                          icon: ImageIcon(
+                              AssetImage('assets/svgIcons/preview.png')),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PDFViewer(
@@ -469,7 +477,9 @@ class StreamWidget extends StatelessWidget {
                                     )));
                           }),
                       trailing: IconButton(
-                          icon: ImageIcon(AssetImage('assets/svgIcons/download.png'), size: 20),
+                          icon: ImageIcon(
+                              AssetImage('assets/svgIcons/download.png'),
+                              size: 20),
                           onPressed: () async {
                             try {
                               String url = element['URL'];
@@ -530,8 +540,8 @@ class StreamWidget extends StatelessWidget {
                       title: Text(element['Title'],
                           style: TextStyle(fontWeight: FontWeight.w600)),
                       trailing: IconButton(
-                          icon:
-                              ImageIcon(AssetImage('assets/svgIcons/external Link.png')),
+                          icon: ImageIcon(
+                              AssetImage('assets/svgIcons/external Link.png')),
                           onPressed: () {
                             urlLauncher(element['Content URL']);
                           }),
