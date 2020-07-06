@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
-import 'package:unicorndial/unicorndial.dart';
+import 'package:studentresourceapp/utils/unicorndial_edited.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
@@ -299,7 +299,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
               scale: _hideFabAnimController,
               child: UnicornDialer(
                 backgroundColor: Colors.white70,
-                parentButton: Icon(Icons.info_outline),
+                parentButton: ImageIcon(AssetImage('assets/svgIcons/info.png')),
                 parentButtonBackground: Constants.DARK_SKYBLUE,
                 finalButtonIcon: Icon(Icons.close),
                 childPadding: 12,
