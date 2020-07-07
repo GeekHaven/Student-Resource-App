@@ -120,13 +120,13 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final name = mod[i]['Name'];
 
                         ListItem lis =
-                            ListItem(heading: 'Name: ', subheaading: name);
+                            ListItem(heading: name, subheaading:'');
 
                         messageWidget.add(lis);
 
                         lis = ListItem(
                             heading: 'Contact No. : ', subheaading: ctnum);
-                        messageWidget.add(lis);
+//                        messageWidget.add(lis);
 
                         lis = ListItem(phone: true, subheaading: ctnum);
                         messageWidget.add(lis);
@@ -195,7 +195,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final publication = RecBooks[i]['Publication'];
 
                         ListItem lis = ListItem(
-                            heading: '', subheaading: booktitle, b: true);
+                             subheaading: booktitle, b: true);
                         messageWidget.add(lis);
 
                         lis =
@@ -581,6 +581,7 @@ class ListItem extends StatelessWidget {
 
   String heading;
   String subheaading;
+  Icon head;
   bool b = false;
   bool c = false;
   bool phone = false;
@@ -603,8 +604,13 @@ class ListItem extends StatelessWidget {
         height: 10.0,
         width: 200.0,
         child: Divider(
-          color: Colors.teal,
-          height: 50.0,
+          color: Colors.grey,
+          height: 0.0,
+          thickness: 0.0,
+          indent: 40.0,
+          endIndent: 40.0,
+
+
         ),
       );
     }
@@ -612,10 +618,11 @@ class ListItem extends StatelessWidget {
       return Row(
         children: <Widget>[
           IconButton(
-              icon: Icon(Icons.call, color: Colors.teal),
+              icon: Icon(Icons.call, color: Colors.teal,size: 34.0,),
               onPressed: () => _service.call(subheaading)),
+          SizedBox(width: 25.0,),
           IconButton(
-              icon: Icon(FontAwesomeIcons.whatsapp, color: Colors.teal),
+              icon: Icon(FontAwesomeIcons.whatsapp, color: Colors.teal,size: 34.0,),
               onPressed: () {
                 FlutterOpenWhatsapp.sendSingleMessage(subheaading, "");
               })
@@ -624,14 +631,22 @@ class ListItem extends StatelessWidget {
     }
 
     if (b == true) {
-      return Text(
-        subheaading,
-        style: TextStyle(
-          color: Colors.teal,
-          fontWeight: FontWeight.bold,
-          fontSize: 20.0,
-        ),
-      );
+
+        return Row(
+          children:<Widget> [
+            ImageIcon(AssetImage('assets/svgIcons/book.png'),color: Colors.teal,),
+            SizedBox(width: 10.0,),
+            Text(
+              subheaading,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                fontFamily: 'Montserrat',
+              ),
+            ),
+          ],
+
+        );
     } else {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -641,12 +656,14 @@ class ListItem extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
+              fontFamily: 'Montserrat',
             ),
           ),
           Text(
             subheaading,
             style: TextStyle(
               fontSize: 20.0,
+              fontFamily: 'Montserrat',
             ),
           ),
         ],
