@@ -365,197 +365,220 @@ class StreamWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (typeKey == 'Material') {
-            List materialData = snapshot.data['Material'];
-            //print(materialData.toString());
-            List<Widget> listMaterials = [];
-            materialData.forEach((element) {
-              listMaterials.add(
-                Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 16, top: 12),
-                  child: Card(
-                    shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ListTile(
-                      title: Text(element['Title'],
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      leading: IconButton(
-                          icon: ImageIcon(
-                              AssetImage('assets/svgIcons/preview.png')),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => PDFViewer(
-                                      url: element['Content URL'],
-                                      sem: widget.semester,
-                                      subjectCode: widget.subjectCode,
-                                      typeKey: typeKey,
-                                      uniqueID: element['id'],
-                                      title: element['Title'],
-                                    )));
-                          }),
-                      trailing: IconButton(
-                          icon: ImageIcon(
-                              AssetImage('assets/svgIcons/download.png'),
-                              size: 20),
-                          onPressed: () async {
-                            try {
-                              String url = element['Content URL'];
-                              String dir =
-                                  (await getApplicationDocumentsDirectory())
-                                      .path;
-                              String path =
-                                  "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
-                              if (await File(path).exists()) {
-                                print('$path already exists');
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text('File Already Downloaded')));
+            try {
+              List materialData = snapshot.data['Material'];
+              //print(materialData.toString());
+              List<Widget> listMaterials = [];
+              materialData.forEach((element) {
+                listMaterials.add(
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 16, left: 16, top: 12),
+                    child: Card(
+                      shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: ListTile(
+                        title: Text(element['Title'],
+                            style: TextStyle(fontWeight: FontWeight.w600)),
+                        leading: IconButton(
+                            icon: ImageIcon(
+                                AssetImage('assets/svgIcons/preview.png')),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PDFViewer(
+                                        url: element['Content URL'],
+                                        sem: widget.semester,
+                                        subjectCode: widget.subjectCode,
+                                        typeKey: typeKey,
+                                        uniqueID: element['id'],
+                                        title: element['Title'],
+                                      )));
+                            }),
+                        trailing: IconButton(
+                            icon: ImageIcon(
+                                AssetImage('assets/svgIcons/download.png'),
+                                size: 20),
+                            onPressed: () async {
+                              try {
+                                String url = element['Content URL'];
+                                String dir =
+                                    (await getApplicationDocumentsDirectory())
+                                        .path;
+                                String path =
+                                    "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
+                                if (await File(path).exists()) {
+                                  print('$path already exists');
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                      content:
+                                          Text('File Already Downloaded')));
+                                }
+                                var request =
+                                    await HttpClient().getUrl(Uri.parse(url));
+                                var response = await request.close();
+                                var bytes =
+                                    await consolidateHttpClientResponseBytes(
+                                        response);
+                                File file = new File(path);
+                                await file.writeAsBytes(bytes).then((value) {
+                                  print('$path is now downloaded');
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text('Download Complete')));
+                                });
+                                return file;
+                              } catch (err) {
+                                var errorMessage = "Error";
+                                print(errorMessage);
+                                print(err);
+                                return null;
                               }
-                              var request =
-                                  await HttpClient().getUrl(Uri.parse(url));
-                              var response = await request.close();
-                              var bytes =
-                                  await consolidateHttpClientResponseBytes(
-                                      response);
-                              File file = new File(path);
-                              await file.writeAsBytes(bytes).then((value) {
-                                print('$path is now downloaded');
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text('Download Complete')));
-                              });
-                              return file;
-                            } catch (err) {
-                              var errorMessage = "Error";
-                              print(errorMessage);
-                              print(err);
-                              return null;
-                            }
-                          }),
+                            }),
+                      ),
                     ),
                   ),
+                );
+              });
+              listMaterials.add(SizedBox(height: 100));
+              return Container(
+                child: ListView(
+                  children: listMaterials,
+                  controller: scrollController,
                 ),
               );
-            });
-            listMaterials.add(SizedBox(height: 100));
-            return Container(
-              child: ListView(
+            } catch (err) {
+              return Center(
+                  child: Text(
+                      'No Content available for this semester.\n Come back later'));
+            }
+          } else if (typeKey == 'QuestionPapers') {
+            try {
+              List materialData = snapshot.data['QuestionPapers'];
+              //print(materialData.toString());
+              List<Widget> listMaterials = [];
+              materialData.forEach((element) {
+                listMaterials.add(
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 16, left: 16, top: 12),
+                    child: Card(
+                      shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: ListTile(
+                        title: Text(element['Title'],
+                            style: TextStyle(fontWeight: FontWeight.w600)),
+                        subtitle: Text(element['Type'] + '-' + element['Year']),
+                        leading: IconButton(
+                            icon: ImageIcon(
+                                AssetImage('assets/svgIcons/preview.png')),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PDFViewer(
+                                        url: element['URL'],
+                                        sem: widget.semester,
+                                        subjectCode: widget.subjectCode,
+                                        typeKey: typeKey,
+                                        uniqueID: element['id'],
+                                        title: element['Title'],
+                                      )));
+                            }),
+                        trailing: IconButton(
+                            icon: ImageIcon(
+                                AssetImage('assets/svgIcons/download.png'),
+                                size: 20),
+                            onPressed: () async {
+                              try {
+                                String url = element['URL'];
+                                String dir =
+                                    (await getApplicationDocumentsDirectory())
+                                        .path;
+                                String path =
+                                    "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
+                                if (await File(path).exists()) {
+                                  print('$path already exists');
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                      content:
+                                          Text('File Already Downloaded')));
+                                }
+                                var request =
+                                    await HttpClient().getUrl(Uri.parse(url));
+                                var response = await request.close();
+                                var bytes =
+                                    await consolidateHttpClientResponseBytes(
+                                        response);
+                                File file = new File(path);
+                                await file.writeAsBytes(bytes).then((value) {
+                                  print('$path is now downloaded');
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text('Download Complete')));
+                                });
+                                return file;
+                              } catch (err) {
+                                var errorMessage = "Error";
+                                print(errorMessage);
+                                print(err);
+                                return null;
+                              }
+                            }),
+                      ),
+                    ),
+                  ),
+                );
+              });
+              listMaterials.add(SizedBox(height: 100));
+              return Container(
+                  child: ListView(
+                      controller: scrollController, children: listMaterials));
+            } catch (err) {
+              return Center(
+                  child: Text(
+                      'No Content available for this Subject.\n Come back later'));
+            }
+          } else if (typeKey == 'Important Links') {
+            try {
+              List materialData = snapshot.data['Important Links'];
+              //print(materialData.toString());
+              List<Widget> listMaterials = [];
+              materialData.forEach((element) {
+                listMaterials.add(
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 16, left: 16, top: 12),
+                    child: Card(
+                      shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: ListTile(
+                        title: Text(element['Title'],
+                            style: TextStyle(fontWeight: FontWeight.w600)),
+                        trailing: IconButton(
+                            icon: ImageIcon(AssetImage(
+                                'assets/svgIcons/external Link.png')),
+                            onPressed: () {
+                              urlLauncher(element['Content URL']);
+                            }),
+                      ),
+                    ),
+                  ),
+                );
+              });
+              listMaterials.add(SizedBox(height: 100));
+              return Container(
+                  child: ListView(
                 children: listMaterials,
                 controller: scrollController,
-              ),
-            );
-          } else if (typeKey == 'QuestionPapers') {
-            List materialData = snapshot.data['QuestionPapers'];
-            //print(materialData.toString());
-            List<Widget> listMaterials = [];
-            materialData.forEach((element) {
-              listMaterials.add(
-                Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 16, top: 12),
-                  child: Card(
-                    shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ListTile(
-                      title: Text(element['Title'],
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      subtitle: Text(element['Type'] + '-' + element['Year']),
-                      leading: IconButton(
-                          icon: ImageIcon(
-                              AssetImage('assets/svgIcons/preview.png')),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => PDFViewer(
-                                      url: element['URL'],
-                                      sem: widget.semester,
-                                      subjectCode: widget.subjectCode,
-                                      typeKey: typeKey,
-                                      uniqueID: element['id'],
-                                      title: element['Title'],
-                                    )));
-                          }),
-                      trailing: IconButton(
-                          icon: ImageIcon(
-                              AssetImage('assets/svgIcons/download.png'),
-                              size: 20),
-                          onPressed: () async {
-                            try {
-                              String url = element['URL'];
-                              String dir =
-                                  (await getApplicationDocumentsDirectory())
-                                      .path;
-                              String path =
-                                  "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
-                              if (await File(path).exists()) {
-                                print('$path already exists');
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text('File Already Downloaded')));
-                              }
-                              var request =
-                                  await HttpClient().getUrl(Uri.parse(url));
-                              var response = await request.close();
-                              var bytes =
-                                  await consolidateHttpClientResponseBytes(
-                                      response);
-                              File file = new File(path);
-                              await file.writeAsBytes(bytes).then((value) {
-                                print('$path is now downloaded');
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text('Download Complete')));
-                              });
-                              return file;
-                            } catch (err) {
-                              var errorMessage = "Error";
-                              print(errorMessage);
-                              print(err);
-                              return null;
-                            }
-                          }),
-                    ),
-                  ),
-                ),
-              );
-            });
-            listMaterials.add(SizedBox(height: 100));
-            return Container(
-                child: ListView(
-                    controller: scrollController, children: listMaterials));
-          } else if (typeKey == 'Important Links') {
-            List materialData = snapshot.data['Important Links'];
-            //print(materialData.toString());
-            List<Widget> listMaterials = [];
-            materialData.forEach((element) {
-              listMaterials.add(
-                Padding(
-                  padding: const EdgeInsets.only(right: 16, left: 16, top: 12),
-                  child: Card(
-                    shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ListTile(
-                      title: Text(element['Title'],
-                          style: TextStyle(fontWeight: FontWeight.w600)),
-                      trailing: IconButton(
-                          icon: ImageIcon(
-                              AssetImage('assets/svgIcons/external Link.png')),
-                          onPressed: () {
-                            urlLauncher(element['Content URL']);
-                          }),
-                    ),
-                  ),
-                ),
-              );
-            });
-            listMaterials.add(SizedBox(height: 100));
-            return Container(
-                child: ListView(
-              children: listMaterials,
-              controller: scrollController,
-            ));
+              ));
+            } catch (err) {
+              return Center(
+                  child: Text(
+                      'No Content available for this semester.\n Come back later'));
+            }
           }
         }
         return CustomLoader();

@@ -118,74 +118,80 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     .document('${userLoad.semester}')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    Map branchSubjects = snapshot.data['branches']
-                        ['${userLoad.branch.toUpperCase()}'];
-                    print(branchSubjects.toString());
-                    List<Widget> subjects = [];
-                    branchSubjects.forEach((key, value) {
-                      subjects.add(
-                        FlatButton(
-                          child: ListTile(
-                            leading: Image.asset(
-                              'assets/images/Computer.png',
-                              height: 32,
-                            ),
-                            title: Text(
-                              key,
-                              style: TextStyle(
-                                  color: Constants.BLACK,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            subtitle: Text(
-                              value,
-                              style: TextStyle(
-                                  color: Constants.STEEL,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            trailing: Icon(
-                              Icons.keyboard_arrow_right,
-                              color: Constants.BLACK,
-                              size: 36,
-                            ),
-                          ),
-                          splashColor: Constants.SKYBLUE,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Subject(
-                                      semester: userLoad.semester,
-                                      subjectCode: key);
-                                },
+                  try {
+                    if (snapshot.hasData) {
+                      Map branchSubjects = snapshot.data['branches']
+                          ['${userLoad.branch.toUpperCase()}'];
+                      print(branchSubjects.toString());
+                      List<Widget> subjects = [];
+                      branchSubjects.forEach((key, value) {
+                        subjects.add(
+                          FlatButton(
+                            child: ListTile(
+                              leading: Image.asset(
+                                'assets/images/Computer.png',
+                                height: 32,
                               ),
-                            );
-                          },
-                        ),
-                      );
-                    });
-                    subjects.add(SizedBox(
-                      height: 100,
-                    ));
+                              title: Text(
+                                key,
+                                style: TextStyle(
+                                    color: Constants.BLACK,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Text(
+                                value,
+                                style: TextStyle(
+                                    color: Constants.STEEL,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: Constants.BLACK,
+                                size: 36,
+                              ),
+                            ),
+                            splashColor: Constants.SKYBLUE,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Subject(
+                                        semester: userLoad.semester,
+                                        subjectCode: key);
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      });
+                      subjects.add(SizedBox(
+                        height: 100,
+                      ));
 
-                    return Container(
-                        child: ListView.separated(
-                      controller: _scrollController,
-                      itemCount: subjects.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Divider(
-                        thickness: 0.5,
-                        color: Constants.SMOKE,
-                        indent: 24,
-                        endIndent: 24,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return subjects[index];
-                      },
-                    ));
+                      return Container(
+                          child: ListView.separated(
+                        controller: _scrollController,
+                        itemCount: subjects.length,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(
+                          thickness: 0.5,
+                          color: Constants.SMOKE,
+                          indent: 24,
+                          endIndent: 24,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return subjects[index];
+                        },
+                      ));
+                    }
+                  } catch (err) {
+                    return Center(
+                        child: Text(
+                            'No Content available for this semester.\n Come back later'));
                   }
                   return CustomLoader();
                 },
