@@ -19,9 +19,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   User userLoad = new User();
-  bool semesterExists = true;
+  //bool semesterExists = true;
   ScrollController _scrollController;
   AnimationController _hideFabAnimController;
+  bool admin = false;
 
   Future fetchUserDetailsFromSharedPref() async {
     var result = await SharedPreferencesUtil.getStringValue(
@@ -32,6 +33,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       userLoad = user;
     });
 
+/*
     final snapShot = await Firestore.instance
         .collection('Semesters')
         .document('${user.semester.toString()}')
@@ -47,14 +49,27 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       setState(() {
         semesterExists = false;
       });
-    }
+    }*/
+  }
+
+  void checkIfAdmin() async {
+    final QuerySnapshot result =
+        await Firestore.instance.collection('admins').getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    documents.forEach((data){
+      if(data.documentID == userLoad.uid){
+        setState(() {
+          admin = true;
+        });
+      }
+    });
   }
 
   @override
   void initState() {
     super.initState();
     fetchUserDetailsFromSharedPref();
-
+    checkIfAdmin();
     _scrollController = ScrollController();
     _hideFabAnimController = AnimationController(
       vsync: this,
@@ -88,7 +103,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavDrawer(userData: userLoad),
+      drawer: NavDrawer(userData: userLoad, admin: admin),
       appBar: AppBar(
         backgroundColor: Constants.DARK_SKYBLUE,
         elevation: 0,
@@ -110,115 +125,114 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             preferredSize: Size.fromHeight(28)),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: semesterExists
-            ? StreamBuilder(
-                stream: Firestore.instance
-                    .collection('Semesters')
-                    .document('${userLoad.semester}')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  try {
-                    if (snapshot.hasData) {
-                      Map branchSubjects = snapshot.data['branches']
-                          ['${userLoad.branch.toUpperCase()}'];
-                      print(branchSubjects.toString());
-                      List<Widget> subjects = [];
-                      branchSubjects.forEach((key, value) {
-                        subjects.add(
-                          FlatButton(
-                            child: ListTile(
-                              leading: Image.asset(
-                                'assets/images/Computer.png',
-                                height: 32,
-                              ),
-                              title: Text(
-                                key,
-                                style: TextStyle(
-                                    color: Constants.BLACK,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              subtitle: Text(
-                                value,
-                                style: TextStyle(
-                                    color: Constants.STEEL,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: Constants.BLACK,
-                                size: 36,
-                              ),
-                            ),
-                            splashColor: Constants.SKYBLUE,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return Subject(
-                                        semester: userLoad.semester,
-                                        subjectCode: key);
-                                  },
-                                ),
-                              );
-                            },
+          padding: const EdgeInsets.only(top: 20),
+          child: StreamBuilder(
+            stream: Firestore.instance
+                .collection('Semesters')
+                .document('${userLoad.semester}')
+                .snapshots(),
+            builder: (context, snapshot) {
+              try {
+                if (snapshot.hasData) {
+                  Map branchSubjects = snapshot.data['branches']
+                      ['${userLoad.branch.toUpperCase()}'];
+                  print(branchSubjects.toString());
+                  List<Widget> subjects = [];
+                  branchSubjects.forEach((key, value) {
+                    subjects.add(
+                      FlatButton(
+                        child: ListTile(
+                          leading: Image.asset(
+                            'assets/images/Computer.png',
+                            height: 32,
                           ),
-                        );
-                      });
-                      subjects.add(SizedBox(
-                        height: 100,
-                      ));
-
-                      return Container(
-                          child: ListView.separated(
-                        controller: _scrollController,
-                        itemCount: subjects.length,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Divider(
-                          thickness: 0.5,
-                          color: Constants.SMOKE,
-                          indent: 24,
-                          endIndent: 24,
+                          title: Text(
+                            key,
+                            style: TextStyle(
+                                color: Constants.BLACK,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text(
+                            value,
+                            style: TextStyle(
+                                color: Constants.STEEL,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
+                            color: Constants.BLACK,
+                            size: 36,
+                          ),
                         ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return subjects[index];
+                        splashColor: Constants.SKYBLUE,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Subject(
+                                    semester: userLoad.semester,
+                                    subjectCode: key);
+                              },
+                            ),
+                          );
                         },
-                      ));
-                    }
-                  } catch (err) {
-                    return Center(
-                        child: Text(
-                            'No Content available for this semester.\n Come back later'));
-                  }
-                  return CustomLoader();
-                },
-              )
-            : Center(
-                child: TyperAnimatedTextKit(
-                    //Case when there is no Material present
-                    onTap: () {
-                      print("Tap Event");
-                    },
-                    speed:
-                        Duration(milliseconds: 100), //Duration of TextAnimation
+                      ),
+                    );
+                  });
+                  subjects.add(SizedBox(
+                    height: 100,
+                  ));
 
-                    text: [
-                      "Oops😵",
-                      "It feels Lonely Here🙄",
-                      "The Content is not Uploaded yet😬",
-                      "It's Still Under Construction🚧",
-                      "It would be Uploaded Soon😃"
-                    ],
-                    textStyle: TextStyle(fontSize: 25.0, fontFamily: "Agne"),
-                    textAlign: TextAlign.center,
-                    alignment:
-                        AlignmentDirectional.topStart // or Alignment.topLeft
+                  return Container(
+                      child: ListView.separated(
+                    controller: _scrollController,
+                    itemCount: subjects.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(
+                      thickness: 0.5,
+                      color: Constants.SMOKE,
+                      indent: 24,
+                      endIndent: 24,
                     ),
-              ),
-      ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return subjects[index];
+                    },
+                  ));
+                }
+              } catch (err) {
+                return Center(
+                  child: TyperAnimatedTextKit(
+                      //Case when there is no Material present
+                      onTap: () {
+                        print("Tap Event");
+                      },
+                      speed: Duration(
+                          milliseconds: 100), //Duration of TextAnimation
+
+                      text: [
+                        "Oops😵",
+                        "It feels Lonely Here🙄",
+                        "The Content is not Uploaded yet😬",
+                        "It's Still Under Construction🚧",
+                        "It would be Uploaded Soon😃"
+                      ],
+                      textStyle: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                      textAlign: TextAlign.center,
+                      alignment:
+                          AlignmentDirectional.topStart // or Alignment.topLeft
+                      ),
+                );
+              }
+              return CustomLoader();
+            },
+          )
+          /*,*/
+          ),
       floatingActionButton: FadeTransition(
         opacity: _hideFabAnimController,
         child: ScaleTransition(
