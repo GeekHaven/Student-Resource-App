@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
+import 'package:studentresourceapp/components/error_animatedtext.dart';
 import 'package:studentresourceapp/components/navDrawer.dart';
+import 'package:studentresourceapp/components/nocontent_animatedtext.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/pages/subject.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
@@ -52,12 +54,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }*/
   }
 
-  void checkIfAdmin() async {
+  Future checkIfAdmin() async {
     final QuerySnapshot result =
         await Firestore.instance.collection('admins').getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
-    documents.forEach((data){
-      if(data.documentID == userLoad.uid){
+    documents.forEach((data) {
+      if (data.documentID == userLoad.uid) {
         setState(() {
           admin = true;
         });
@@ -125,114 +127,93 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             preferredSize: Size.fromHeight(28)),
       ),
       body: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: StreamBuilder(
-            stream: Firestore.instance
-                .collection('Semesters')
-                .document('${userLoad.semester}')
-                .snapshots(),
-            builder: (context, snapshot) {
-              try {
-                if (snapshot.hasData) {
-                  Map branchSubjects = snapshot.data['branches']
-                      ['${userLoad.branch.toUpperCase()}'];
-                  print(branchSubjects.toString());
-                  List<Widget> subjects = [];
-                  branchSubjects.forEach((key, value) {
-                    subjects.add(
-                      FlatButton(
-                        child: ListTile(
-                          leading: Image.asset(
-                            'assets/images/Computer.png',
-                            height: 32,
-                          ),
-                          title: Text(
-                            key,
-                            style: TextStyle(
-                                color: Constants.BLACK,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          subtitle: Text(
-                            value,
-                            style: TextStyle(
-                                color: Constants.STEEL,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          trailing: Icon(
-                            Icons.keyboard_arrow_right,
-                            color: Constants.BLACK,
-                            size: 36,
-                          ),
+        padding: const EdgeInsets.only(top: 20),
+        child: StreamBuilder(
+          stream: Firestore.instance
+              .collection('Semesters')
+              .document('${userLoad.semester}')
+              .snapshots(),
+          builder: (context, snapshot) {
+            try {
+              if (snapshot.hasData) {
+                Map branchSubjects = snapshot.data['branches']
+                    ['${userLoad.branch.toUpperCase()}'];
+                print(branchSubjects.toString());
+                List<Widget> subjects = [];
+                branchSubjects.forEach((key, value) {
+                  subjects.add(
+                    FlatButton(
+                      child: ListTile(
+                        leading: Image.asset(
+                          'assets/images/Computer.png',
+                          height: 32,
                         ),
-                        splashColor: Constants.SKYBLUE,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Subject(
-                                    semester: userLoad.semester,
-                                    subjectCode: key);
-                              },
-                            ),
-                          );
-                        },
+                        title: Text(
+                          key,
+                          style: TextStyle(
+                              color: Constants.BLACK,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        subtitle: Text(
+                          value,
+                          style: TextStyle(
+                              color: Constants.STEEL,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        trailing: Icon(
+                          Icons.keyboard_arrow_right,
+                          color: Constants.BLACK,
+                          size: 36,
+                        ),
                       ),
-                    );
-                  });
-                  subjects.add(SizedBox(
-                    height: 100,
-                  ));
-
-                  return Container(
-                      child: ListView.separated(
-                    controller: _scrollController,
-                    itemCount: subjects.length,
-                    separatorBuilder: (BuildContext context, int index) =>
-                        Divider(
-                      thickness: 0.5,
-                      color: Constants.SMOKE,
-                      indent: 24,
-                      endIndent: 24,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return subjects[index];
-                    },
-                  ));
-                }
-              } catch (err) {
-                return Center(
-                  child: TyperAnimatedTextKit(
-                      //Case when there is no Material present
-                      onTap: () {
-                        print("Tap Event");
+                      splashColor: Constants.SKYBLUE,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Subject(
+                                  semester: userLoad.semester,
+                                  subjectCode: key);
+                            },
+                          ),
+                        );
                       },
-                      speed: Duration(
-                          milliseconds: 100), //Duration of TextAnimation
+                    ),
+                  );
+                });
+                if (subjects.isEmpty) {
+                  return NoContentAnimatedText();
+                }
+                subjects.add(SizedBox(
+                  height: 100,
+                ));
 
-                      text: [
-                        "Oops😵",
-                        "It feels Lonely Here🙄",
-                        "The Content is not Uploaded yet😬",
-                        "It's Still Under Construction🚧",
-                        "It would be Uploaded Soon😃"
-                      ],
-                      textStyle: TextStyle(
-                        fontSize: 25.0,
-                      ),
-                      textAlign: TextAlign.center,
-                      alignment:
-                          AlignmentDirectional.topStart // or Alignment.topLeft
-                      ),
-                );
+                return Container(
+                    child: ListView.separated(
+                  controller: _scrollController,
+                  itemCount: subjects.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      Divider(
+                    thickness: 0.5,
+                    color: Constants.SMOKE,
+                    indent: 24,
+                    endIndent: 24,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return subjects[index];
+                  },
+                ));
               }
-              return CustomLoader();
-            },
-          )
-          /*,*/
-          ),
+            } catch (err) {
+              return ErrorAnimatedText();
+            }
+            return CustomLoader();
+          },
+        ),
+      ),
       floatingActionButton: FadeTransition(
         opacity: _hideFabAnimController,
         child: ScaleTransition(

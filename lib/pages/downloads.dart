@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/components/navDrawer.dart';
@@ -13,6 +14,7 @@ class Downloads extends StatefulWidget {
 }
 
 class _DownloadsState extends State<Downloads> {
+  bool admin = false;
   User userLoad = new User();
   String directory;
   List file = new List();
@@ -44,18 +46,31 @@ class _DownloadsState extends State<Downloads> {
       });
     });
   }
+  Future checkIfAdmin() async {
+    final QuerySnapshot result =
+        await Firestore.instance.collection('admins').getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    documents.forEach((data){
+      if(data.documentID == userLoad.uid){
+        setState(() {
+          admin = true;
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _listofFiles();
     fetchUserDetailsFromSharedPref();
+    checkIfAdmin();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavDrawer(userData: userLoad),
+        drawer: NavDrawer(userData: userLoad, admin: admin,),
         appBar: AppBar(
           title: Text('Downloads'),
         ),
