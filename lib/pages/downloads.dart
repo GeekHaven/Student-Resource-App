@@ -7,6 +7,7 @@ import 'package:studentresourceapp/components/navDrawer.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
+import 'package:studentresourceapp/pages/pdf.dart';
 
 class Downloads extends StatefulWidget {
   @override
@@ -88,61 +89,101 @@ class _DownloadsState extends State<Downloads> {
                             String filename = modifiedPath
                                 .substring(modifiedPath.lastIndexOf('/') + 1);
                             var arr = filename.split('_');
+                            int uniqueId = int.parse(arr[3]);
                             int sem = int.parse(arr[0]);
                             String subjectcode = arr[1];
                             String typeKey = arr[2];
                             String title = arr[4];
-                            return Card(
-                              child: ListTile(
-                                title: Text(title),
-                                subtitle: Text(
-                                    "$sem/$subjectcode/${typeKey == 'M' ? 'Material' : 'Q-Paper'}"),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.delete, color: Colors.red),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text("⚠ Confirm delete"),
-                                          content: Text(
-                                              "Do you really want to delete this item?"),
-                                          actions: [
-                                            FlatButton(
-                                              child: Text("Yes"),
-                                              onPressed: () async {
-                                                try {
-                                                  if (await File(modifiedPath)
-                                                      .exists()) {
-                                                    print('Path exists');
-                                                    File(modifiedPath)
-                                                        .deleteSync();
-                                                    List temp = file;
-                                                    temp.removeWhere(
-                                                        (element) =>
-                                                            element ==
-                                                            file[index]);
-                                                    setState(() {
-                                                      file = temp;
-                                                    });
+                            return Padding(
+                              padding:
+                              const EdgeInsets.only(right: 16, left: 16, top: 12),
+                              child: Card(
+                                shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  leading: IconButton(
+                                      icon: ImageIcon(
+                                          AssetImage('assets/svgIcons/preview.png')),
+                                      onPressed: () {
+                                        Navigator.of(context).push(MaterialPageRoute(
+                                            builder: (context) => PDFViewer(
+                                              sem: sem,
+                                              url: '',
+                                              subjectCode: subjectcode,
+                                              typeKey: typeKey,
+                                              uniqueID: uniqueId,
+                                              title: title,
+                                            )));
+                                      }),
+                                  title: Text(title,style: TextStyle(fontWeight: FontWeight.w600)),
+                                  subtitle: Text(
+                                      "$sem/$subjectcode/${typeKey == 'M' ? 'Material' : 'Q-Paper'}"),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red,size: 24),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+
+                                            contentPadding: EdgeInsets.all(32.0),
+                                            title: Text("⚠ Confirm Delete",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),),
+                                            content: Text(
+                                                "Do you really want to delete this item?",
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+
+                                            ),),
+                                            actions: [
+                                              FlatButton(
+                                                child: Text("Yes",
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                ),),
+                                                onPressed: () async {
+                                                  try {
+                                                    if (await File(modifiedPath)
+                                                        .exists()) {
+                                                      print('Path exists');
+                                                      File(modifiedPath)
+                                                          .deleteSync();
+                                                      List temp = file;
+                                                      temp.removeWhere(
+                                                          (element) =>
+                                                              element ==
+                                                              file[index]);
+                                                      setState(() {
+                                                        file = temp;
+                                                      });
+                                                    }
+                                                  } catch (err) {
+                                                    print(err);
                                                   }
-                                                } catch (err) {
-                                                  print(err);
-                                                }
-                                                Navigator.of(context).pop(true);
-                                              },
-                                            ),
-                                            FlatButton(
-                                              child: Text("No"),
-                                              onPressed: () {
-                                                Navigator.of(context).pop(true);
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
+                                                  Navigator.of(context).pop(true);
+                                                },
+                                              ),
+                                              FlatButton(
+                                                child: Text("No",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                      ),
+                                                    ),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop(true);
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             );
