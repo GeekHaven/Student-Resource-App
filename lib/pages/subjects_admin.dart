@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/unicorndial_edited.dart';
+List<Color> _colors = [Constants.DARK_SKYBLUE, Constants.SKYBLUE];
+List<double> _stops = [0.0, 1.8];
 
 class SubjectsAdmin extends StatefulWidget {
   SubjectsAdmin({this.subjectCode});
@@ -17,6 +19,9 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     String author;
     String publication;
     showModalBottomSheet(
+        isScrollControlled: true,
+        isDismissible: true,
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
@@ -25,12 +30,14 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         context: context,
         builder: (builder) {
           return Container(
+            height: MediaQuery.of(context).size.height / 2 +
+                MediaQuery.of(context).viewInsets.bottom,
             decoration: BoxDecoration(
                 color: Constants.WHITE,
                 borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(24.0),
                     topRight: const Radius.circular(24.0))),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 Center(
                   child: Padding(
@@ -45,39 +52,64 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Book Name',
-                    labelText: 'Book Name',
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text("Add a Book",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),),
                   ),
-                  onChanged: (value) {
-                    bookName = value;
-                  },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Authors',
-                    labelText: 'Authors',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Book Name',
+                      labelText: 'Book Name',
+                    ),
+                    onChanged: (value) {
+                      bookName = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    author = value;
-                  },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Publication',
-                    labelText: 'Publication',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                      hintText: 'Authors',
+                      labelText: 'Authors',
+
+                    ),
+                    onChanged: (value) {
+                      author = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    publication = value;
-                  },
                 ),
-                IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () {
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Publication',
+                      labelText: 'Publication',
+                    ),
+                    onChanged: (value) {
+                      publication = value;
+                    },
+                  ),
+                ),
+
+                GestureDetector(
+
+                  onTap: ()
+                  {
+                    {
                       Firestore.instance
                           .collection('Subjects')
                           .document(widget.subjectCode)
@@ -90,7 +122,44 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           }
                         ])
                       }).whenComplete(() => Navigator.of(context).pop());
-                    })
+                    }
+
+
+                  },
+                  child: Padding(
+
+                    padding: EdgeInsets.all(36.0),
+                    child: Container(
+
+                      height:50.0,
+                      width: 120.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        gradient: LinearGradient(
+                          colors: _colors,
+                          stops: _stops,
+
+                        )
+                        ,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+
+                            Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
+                            Spacer(),
+                            Icon(Icons.arrow_forward_ios,color: Colors.white,
+
+                            )
+                          ],
+                        ),
+                      ),
+
+                    ),
+
+                  ),
+                )
               ],
             ),
           );
@@ -102,6 +171,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     String url;
 
     showModalBottomSheet(
+        isScrollControlled: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
@@ -110,6 +180,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         context: context,
         builder: (builder) {
           return Container(
+            height: MediaQuery.of(context).size.height / 2 +
+                MediaQuery.of(context).viewInsets.bottom,
             decoration: BoxDecoration(
                 color: Constants.WHITE,
                 borderRadius: new BorderRadius.only(
@@ -130,29 +202,49 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Title',
-                    labelText: 'Title',
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text("Add the Link",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),),
                   ),
-                  onChanged: (value) {
-                    title = value;
-                  },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'URL',
-                    labelText: 'URL',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Title',
+                      labelText: 'Title',
+                    ),
+                    onChanged: (value) {
+                      title = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    url = value;
-                  },
                 ),
-                IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () {
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'URL',
+                      labelText: 'URL',
+                    ),
+                    onChanged: (value) {
+                      url = value;
+                    },
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+
+                    onTap: ()
+                    {
                       Firestore.instance
                           .collection('Subjects')
                           .document(widget.subjectCode)
@@ -164,7 +256,42 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           }
                         ])
                       }).whenComplete(() => Navigator.of(context).pop());
-                    })
+                    },
+                    child: Padding(
+
+                      padding: EdgeInsets.all(36.0),
+                      child: Container(
+
+                        height:50.0,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                            colors: _colors,
+                            stops: _stops,
+
+                          )
+                          ,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+
+                              Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios,color: Colors.white,
+
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ),
+
+                    ),
+                  ),
+                )
               ],
             ),
           );
@@ -177,6 +304,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     String year;
     String url;
     showModalBottomSheet(
+        isScrollControlled: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
@@ -185,12 +313,14 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         context: context,
         builder: (builder) {
           return Container(
+            height: MediaQuery.of(context).size.height / 2 +
+                MediaQuery.of(context).viewInsets.bottom,
             decoration: BoxDecoration(
                 color: Constants.WHITE,
                 borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(24.0),
                     topRight: const Radius.circular(24.0))),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 Center(
                   child: Padding(
@@ -205,49 +335,76 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Title',
-                    labelText: 'Title',
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text("Add QPaper",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),),
                   ),
-                  onChanged: (value) {
-                    title = value;
-                  },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Exam Type - C1/C2/C3..',
-                    labelText: 'Exam Type',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Title',
+                      labelText: 'Title',
+                    ),
+                    onChanged: (value) {
+                      title = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    type = value;
-                  },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Year',
-                    labelText: 'Year',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Exam Type - C1/C2/C3..',
+                      labelText: 'Exam Type',
+                    ),
+                    onChanged: (value) {
+                      type = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    year = value;
-                  },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'URL',
-                    labelText: 'URL',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Year',
+                      labelText: 'Year',
+                    ),
+                    onChanged: (value) {
+                      year = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    url = value;
-                  },
                 ),
-                IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () {
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'URL',
+                      labelText: 'URL',
+                    ),
+                    onChanged: (value) {
+                      url = value;
+                    },
+                  ),
+                ),
+
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+
+                    onTap: ()
+                    {
                       Firestore.instance
                           .collection('Subjects')
                           .document(widget.subjectCode)
@@ -261,7 +418,43 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           }
                         ])
                       }).whenComplete(() => Navigator.of(context).pop());
-                    })
+                    },
+                    child: Padding(
+
+                      padding: EdgeInsets.all(36.0),
+                      child: Container(
+
+                        height:50.0,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                            colors: _colors,
+                            stops: _stops,
+
+                          )
+                          ,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+
+                              Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios,color: Colors.white,
+
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ),
+
+                    ),
+                  ),
+                )
+
               ],
             ),
           );
@@ -272,6 +465,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     String title;
     String url;
     showModalBottomSheet(
+        isScrollControlled: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
@@ -280,12 +474,14 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         context: context,
         builder: (builder) {
           return Container(
+            height: MediaQuery.of(context).size.height / 2 +
+                MediaQuery.of(context).viewInsets.bottom,
             decoration: BoxDecoration(
                 color: Constants.WHITE,
                 borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(24.0),
                     topRight: const Radius.circular(24.0))),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 Center(
                   child: Padding(
@@ -300,29 +496,49 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Title',
-                    labelText: 'Title',
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text("Add Material",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),),
                   ),
-                  onChanged: (value) {
-                    title = value;
-                  },
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'URL',
-                    labelText: 'URL',
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Title',
+                      labelText: 'Title',
+                    ),
+                    onChanged: (value) {
+                      title = value;
+                    },
                   ),
-                  onChanged: (value) {
-                    url = value;
-                  },
                 ),
-                IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () {
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'URL',
+                      labelText: 'URL',
+                    ),
+                    onChanged: (value) {
+                      url = value;
+                    },
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+
+                    onTap: ()
+                    {
                       Firestore.instance
                           .collection('Subjects')
                           .document(widget.subjectCode)
@@ -334,7 +550,42 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           }
                         ])
                       }).whenComplete(() => Navigator.of(context).pop());
-                    })
+                    },
+                    child: Padding(
+
+                      padding: EdgeInsets.all(36.0),
+                      child: Container(
+
+                        height:50.0,
+                        width: 120.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                            colors: _colors,
+                            stops: _stops,
+
+                          )
+                          ,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+
+                              Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios,color: Colors.white,
+
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ),
+
+                    ),
+                  ),
+                )
               ],
             ),
           );
