@@ -7,6 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
+import 'package:studentresourceapp/components/error_animatedtext.dart';
+import 'package:studentresourceapp/components/nocontent_animatedtext.dart';
 import 'package:studentresourceapp/pages/pdf.dart';
 import 'package:studentresourceapp/utils/unicorndial_edited.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -119,8 +121,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final ctnum = mod[i]['Contact Number'];
                         final name = mod[i]['Name'];
 
-                        ListItem lis =
-                            ListItem(heading: name, subheaading:'');
+                        ListItem lis = ListItem(heading: name, subheaading: '');
 
                         messageWidget.add(lis);
 
@@ -194,8 +195,8 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final booktitle = RecBooks[i]['BookTitle'];
                         final publication = RecBooks[i]['Publication'];
 
-                        ListItem lis = ListItem(
-                             subheaading: booktitle, b: true);
+                        ListItem lis =
+                            ListItem(subheaading: booktitle, b: true);
                         messageWidget.add(lis);
 
                         lis =
@@ -440,6 +441,9 @@ class StreamWidget extends StatelessWidget {
                   ),
                 );
               });
+              if (listMaterials.isEmpty) {
+                return NoContentAnimatedText();
+              }
               listMaterials.add(SizedBox(height: 100));
               return Container(
                 child: ListView(
@@ -448,9 +452,7 @@ class StreamWidget extends StatelessWidget {
                 ),
               );
             } catch (err) {
-              return Center(
-                  child: Text(
-                      'No Content available for this semester.\n Come back later'));
+              return ErrorAnimatedText();
             }
           } else if (typeKey == 'QuestionPapers') {
             try {
@@ -518,10 +520,7 @@ class StreamWidget extends StatelessWidget {
                                 });
                                 return file;
                               } catch (err) {
-                                var errorMessage = "Error";
-                                print(errorMessage);
-                                print(err);
-                                return null;
+                                ErrorAnimatedText();
                               }
                             }),
                       ),
@@ -529,6 +528,9 @@ class StreamWidget extends StatelessWidget {
                   ),
                 );
               });
+              if (listMaterials.isEmpty) {
+                return NoContentAnimatedText();
+              }
               listMaterials.add(SizedBox(height: 100));
               return Container(
                   child: ListView(
@@ -568,6 +570,9 @@ class StreamWidget extends StatelessWidget {
                   ),
                 );
               });
+              if (listMaterials.isEmpty) {
+                return NoContentAnimatedText();
+              }
               listMaterials.add(SizedBox(height: 100));
               return Container(
                   child: ListView(
@@ -575,9 +580,7 @@ class StreamWidget extends StatelessWidget {
                 controller: scrollController,
               ));
             } catch (err) {
-              return Center(
-                  child: Text(
-                      'No Content available for this semester.\n Come back later'));
+              return ErrorAnimatedText();
             }
           }
         }
@@ -632,8 +635,6 @@ class ListItem extends StatelessWidget {
           thickness: 0.0,
           indent: 40.0,
           endIndent: 40.0,
-
-
         ),
       );
     }
@@ -641,11 +642,21 @@ class ListItem extends StatelessWidget {
       return Row(
         children: <Widget>[
           IconButton(
-              icon: Icon(Icons.call, color: Colors.teal,size: 34.0,),
+              icon: Icon(
+                Icons.call,
+                color: Colors.teal,
+                size: 34.0,
+              ),
               onPressed: () => _service.call(subheaading)),
-          SizedBox(width: 25.0,),
+          SizedBox(
+            width: 25.0,
+          ),
           IconButton(
-              icon: Icon(FontAwesomeIcons.whatsapp, color: Colors.teal,size: 34.0,),
+              icon: Icon(
+                FontAwesomeIcons.whatsapp,
+                color: Colors.teal,
+                size: 34.0,
+              ),
               onPressed: () {
                 FlutterOpenWhatsapp.sendSingleMessage(subheaading, "");
               })
@@ -654,22 +665,25 @@ class ListItem extends StatelessWidget {
     }
 
     if (b == true) {
-
-        return Row(
-          children:<Widget> [
-            ImageIcon(AssetImage('assets/svgIcons/book.png'),color: Colors.teal,),
-            SizedBox(width: 10.0,),
-            Text(
-              subheaading,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-                fontFamily: 'Montserrat',
-              ),
+      return Row(
+        children: <Widget>[
+          ImageIcon(
+            AssetImage('assets/svgIcons/book.png'),
+            color: Colors.teal,
+          ),
+          SizedBox(
+            width: 10.0,
+          ),
+          Text(
+            subheaading,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+              fontFamily: 'Montserrat',
             ),
-          ],
-
-        );
+          ),
+        ],
+      );
     } else {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
