@@ -14,20 +14,18 @@ class NoContentAnimatedText extends StatelessWidget {
           onTap: () {
             print("Tap Event");
           },
-          speed: Duration(
-              milliseconds: 100), //Duration of TextAnimation
+          speed: Duration(milliseconds: 100), //Duration of TextAnimation
 
           text: [
             "Oops😵",
             "It feels Lonely Here🙄",
-            "Subjects are not Added yet😬",
+            "¯\_(ツ)_/¯",
           ],
           textStyle: TextStyle(
             fontSize: 25.0,
           ),
           textAlign: TextAlign.center,
-          alignment: AlignmentDirectional
-              .topStart // or Alignment.topLeft
+          alignment: AlignmentDirectional.topStart // or Alignment.topLeft
           ),
     );
   }
