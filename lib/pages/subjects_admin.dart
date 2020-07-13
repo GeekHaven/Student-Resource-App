@@ -29,6 +29,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         context: context,
         builder: (builder) {
           return Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             height: MediaQuery.of(context).size.height / 2 +
                 MediaQuery.of(context).viewInsets.bottom,
             decoration: BoxDecoration(
@@ -36,8 +38,9 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                 borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(24.0),
                     topRight: const Radius.circular(24.0))),
-            child: ListView(
-              children: <Widget>[
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 12),
@@ -63,65 +66,72 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Book Name',
-                      labelText: 'Book Name',
-                    ),
-                    onChanged: (value) {
-                      bookName = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.red),
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Book Name',
+                            labelText: 'Book Name',
+                          ),
+                          onChanged: (value) {
+                            bookName = value;
+                          },
+                        ),
                       ),
-                      hintText: 'Authors',
-                      labelText: 'Authors',
-                    ),
-                    onChanged: (value) {
-                      author = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Publication',
-                      labelText: 'Publication',
-                    ),
-                    onChanged: (value) {
-                      publication = value;
-                    },
-                  ),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      {
-                        Firestore.instance
-                            .collection('Subjects')
-                            .document(widget.subjectCode)
-                            .updateData({
-                          'Recommended Books': FieldValue.arrayUnion([
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            hintText: 'Authors',
+                            labelText: 'Authors',
+                          ),
+                          onChanged: (value) {
+                            author = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Publication',
+                            labelText: 'Publication',
+                          ),
+                          onChanged: (value) {
+                            publication = value;
+                          },
+                        ),
+                      ),
+                      GestureDetector(
+                          onTap: () {
                             {
-                              'BookTitle': bookName,
-                              'Author': author,
-                              'Publication': publication
+                              Firestore.instance
+                                  .collection('Subjects')
+                                  .document(widget.subjectCode)
+                                  .updateData({
+                                'Recommended Books': FieldValue.arrayUnion([
+                                  {
+                                    'BookTitle': bookName,
+                                    'Author': author,
+                                    'Publication': publication
+                                  }
+                                ])
+                              }).whenComplete(
+                                      () => Navigator.of(context).pop());
                             }
-                          ])
-                        }).whenComplete(() => Navigator.of(context).pop());
-                      }
-                    },
-                    child: AddButton())
+                          },
+                          child: AddButton())
+                    ],
+                  ),
+                ),
               ],
             ),
           );
@@ -142,6 +152,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         context: context,
         builder: (builder) {
           return Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             height: MediaQuery.of(context).size.height / 2 +
                 MediaQuery.of(context).viewInsets.bottom,
             decoration: BoxDecoration(
@@ -150,6 +162,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     topLeft: const Radius.circular(24.0),
                     topRight: const Radius.circular(24.0))),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Center(
                   child: Padding(
@@ -176,50 +189,57 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Title',
-                      labelText: 'Title',
-                    ),
-                    onChanged: (value) {
-                      title = value;
-                    },
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Title',
+                            labelText: 'Title',
+                          ),
+                          onChanged: (value) {
+                            title = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'URL',
+                            labelText: 'URL',
+                          ),
+                          onChanged: (value) {
+                            url = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Firestore.instance
+                                .collection('Subjects')
+                                .document(widget.subjectCode)
+                                .updateData({
+                              'Important Links': FieldValue.arrayUnion([
+                                {
+                                  'Content URL': url,
+                                  'Title': title,
+                                }
+                              ])
+                            }).whenComplete(() => Navigator.of(context).pop());
+                          },
+                          child: AddButton(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'URL',
-                      labelText: 'URL',
-                    ),
-                    onChanged: (value) {
-                      url = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                      onTap: () {
-                        Firestore.instance
-                            .collection('Subjects')
-                            .document(widget.subjectCode)
-                            .updateData({
-                          'Important Links': FieldValue.arrayUnion([
-                            {
-                              'Content URL': url,
-                              'Title': title,
-                            }
-                          ])
-                        }).whenComplete(() => Navigator.of(context).pop());
-                      },
-                      child: AddButton()),
-                )
               ],
             ),
           );
@@ -243,12 +263,15 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
           return Container(
             height: MediaQuery.of(context).size.height / 2 +
                 MediaQuery.of(context).viewInsets.bottom,
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             decoration: BoxDecoration(
                 color: Constants.WHITE,
                 borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(24.0),
                     topRight: const Radius.circular(24.0))),
-            child: ListView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Center(
                   child: Padding(
@@ -275,79 +298,85 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Title',
-                      labelText: 'Title',
-                    ),
-                    onChanged: (value) {
-                      title = value;
-                    },
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Title',
+                            labelText: 'Title',
+                          ),
+                          onChanged: (value) {
+                            title = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Exam Type - C1/C2/C3..',
+                            labelText: 'Exam Type',
+                          ),
+                          onChanged: (value) {
+                            type = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Year',
+                            labelText: 'Year',
+                          ),
+                          onChanged: (value) {
+                            year = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'URL',
+                            labelText: 'URL',
+                          ),
+                          onChanged: (value) {
+                            url = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Firestore.instance
+                                .collection('Subjects')
+                                .document(widget.subjectCode)
+                                .updateData({
+                              'QuestionPapers': FieldValue.arrayUnion([
+                                {
+                                  'Title': title,
+                                  'Type': type,
+                                  'URL': url,
+                                  'Year': year
+                                }
+                              ])
+                            }).whenComplete(() => Navigator.of(context).pop());
+                          },
+                          child: AddButton(),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Exam Type - C1/C2/C3..',
-                      labelText: 'Exam Type',
-                    ),
-                    onChanged: (value) {
-                      type = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Year',
-                      labelText: 'Year',
-                    ),
-                    onChanged: (value) {
-                      year = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'URL',
-                      labelText: 'URL',
-                    ),
-                    onChanged: (value) {
-                      url = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Firestore.instance
-                          .collection('Subjects')
-                          .document(widget.subjectCode)
-                          .updateData({
-                        'QuestionPapers': FieldValue.arrayUnion([
-                          {
-                            'Title': title,
-                            'Type': type,
-                            'URL': url,
-                            'Year': year
-                          }
-                        ])
-                      }).whenComplete(() => Navigator.of(context).pop());
-                    },
-                    child: AddButton(),
-                  ),
-                )
               ],
             ),
           );
@@ -367,6 +396,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         context: context,
         builder: (builder) {
           return Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             height: MediaQuery.of(context).size.height / 2 +
                 MediaQuery.of(context).viewInsets.bottom,
             decoration: BoxDecoration(
@@ -374,8 +405,9 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                 borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(24.0),
                     topRight: const Radius.circular(24.0))),
-            child: ListView(
-              children: <Widget>[
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12, bottom: 12),
@@ -401,50 +433,57 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Title',
-                      labelText: 'Title',
-                    ),
-                    onChanged: (value) {
-                      title = value;
-                    },
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Title',
+                            labelText: 'Title',
+                          ),
+                          onChanged: (value) {
+                            title = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'URL',
+                            labelText: 'URL',
+                          ),
+                          onChanged: (value) {
+                            url = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Firestore.instance
+                                .collection('Subjects')
+                                .document(widget.subjectCode)
+                                .updateData({
+                              'Material': FieldValue.arrayUnion([
+                                {
+                                  'Title': title,
+                                  'Content URL': url,
+                                }
+                              ])
+                            }).whenComplete(() => Navigator.of(context).pop());
+                          },
+                          child: AddButton(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'URL',
-                      labelText: 'URL',
-                    ),
-                    onChanged: (value) {
-                      url = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                      onTap: () {
-                        Firestore.instance
-                            .collection('Subjects')
-                            .document(widget.subjectCode)
-                            .updateData({
-                          'Material': FieldValue.arrayUnion([
-                            {
-                              'Title': title,
-                              'Content URL': url,
-                            }
-                          ])
-                        }).whenComplete(() => Navigator.of(context).pop());
-                      },
-                      child: AddButton()),
-                )
               ],
             ),
           );
