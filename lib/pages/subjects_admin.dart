@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/unicorndial_edited.dart';
+
 List<Color> _colors = [Constants.DARK_SKYBLUE, Constants.SKYBLUE];
 List<double> _stops = [0.0, 1.8];
 
@@ -21,7 +21,6 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     showModalBottomSheet(
         isScrollControlled: true,
         isDismissible: true,
-
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
@@ -55,11 +54,13 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text("Add a Book",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),),
+                    child: Text(
+                      "Add a Book",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -84,7 +85,6 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       hintText: 'Authors',
                       labelText: 'Authors',
-
                     ),
                     onChanged: (value) {
                       author = value;
@@ -104,62 +104,24 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     },
                   ),
                 ),
-
                 GestureDetector(
-
-                  onTap: ()
-                  {
-                    {
-                      Firestore.instance
-                          .collection('Subjects')
-                          .document(widget.subjectCode)
-                          .updateData({
-                        'Recommended Books': FieldValue.arrayUnion([
-                          {
-                            'BookTitle': bookName,
-                            'Author': author,
-                            'Publication': publication
-                          }
-                        ])
-                      }).whenComplete(() => Navigator.of(context).pop());
-                    }
-
-
-                  },
-                  child: Padding(
-
-                    padding: EdgeInsets.all(36.0),
-                    child: Container(
-
-                      height:50.0,
-                      width: 120.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        gradient: LinearGradient(
-                          colors: _colors,
-                          stops: _stops,
-
-                        )
-                        ,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          children: [
-
-                            Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
-                            Spacer(),
-                            Icon(Icons.arrow_forward_ios,color: Colors.white,
-
-                            )
-                          ],
-                        ),
-                      ),
-
-                    ),
-
-                  ),
-                )
+                    onTap: () {
+                      {
+                        Firestore.instance
+                            .collection('Subjects')
+                            .document(widget.subjectCode)
+                            .updateData({
+                          'Recommended Books': FieldValue.arrayUnion([
+                            {
+                              'BookTitle': bookName,
+                              'Author': author,
+                              'Publication': publication
+                            }
+                          ])
+                        }).whenComplete(() => Navigator.of(context).pop());
+                      }
+                    },
+                    child: AddButton())
               ],
             ),
           );
@@ -205,11 +167,13 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text("Add the Link",
+                    child: Text(
+                      "Add the Link",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                      ),),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -238,59 +202,23 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     },
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-
-                    onTap: ()
-                    {
-                      Firestore.instance
-                          .collection('Subjects')
-                          .document(widget.subjectCode)
-                          .updateData({
-                        'Important Links': FieldValue.arrayUnion([
-                          {
-                            'Content URL': url,
-                            'Title': title,
-                          }
-                        ])
-                      }).whenComplete(() => Navigator.of(context).pop());
-                    },
-                    child: Padding(
-
-                      padding: EdgeInsets.all(36.0),
-                      child: Container(
-
-                        height:50.0,
-                        width: 120.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          gradient: LinearGradient(
-                            colors: _colors,
-                            stops: _stops,
-
-                          )
-                          ,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-
-                              Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
-                              Spacer(),
-                              Icon(Icons.arrow_forward_ios,color: Colors.white,
-
-                              )
-                            ],
-                          ),
-                        ),
-
-                      ),
-
-                    ),
-                  ),
+                      onTap: () {
+                        Firestore.instance
+                            .collection('Subjects')
+                            .document(widget.subjectCode)
+                            .updateData({
+                          'Important Links': FieldValue.arrayUnion([
+                            {
+                              'Content URL': url,
+                              'Title': title,
+                            }
+                          ])
+                        }).whenComplete(() => Navigator.of(context).pop());
+                      },
+                      child: AddButton()),
                 )
               ],
             ),
@@ -338,11 +266,13 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text("Add QPaper",
+                    child: Text(
+                      "Add QPaper",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                      ),),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -397,14 +327,10 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     },
                   ),
                 ),
-
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-
-                    onTap: ()
-                    {
+                    onTap: () {
                       Firestore.instance
                           .collection('Subjects')
                           .document(widget.subjectCode)
@@ -419,42 +345,9 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                         ])
                       }).whenComplete(() => Navigator.of(context).pop());
                     },
-                    child: Padding(
-
-                      padding: EdgeInsets.all(36.0),
-                      child: Container(
-
-                        height:50.0,
-                        width: 120.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          gradient: LinearGradient(
-                            colors: _colors,
-                            stops: _stops,
-
-                          )
-                          ,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-
-                              Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
-                              Spacer(),
-                              Icon(Icons.arrow_forward_ios,color: Colors.white,
-
-                              )
-                            ],
-                          ),
-                        ),
-
-                      ),
-
-                    ),
+                    child: AddButton(),
                   ),
                 )
-
               ],
             ),
           );
@@ -499,11 +392,13 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text("Add Material",
+                    child: Text(
+                      "Add Material",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                      ),),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -532,59 +427,23 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     },
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-
-                    onTap: ()
-                    {
-                      Firestore.instance
-                          .collection('Subjects')
-                          .document(widget.subjectCode)
-                          .updateData({
-                        'Material': FieldValue.arrayUnion([
-                          {
-                            'Title': title,
-                            'Content URL': url,
-                          }
-                        ])
-                      }).whenComplete(() => Navigator.of(context).pop());
-                    },
-                    child: Padding(
-
-                      padding: EdgeInsets.all(36.0),
-                      child: Container(
-
-                        height:50.0,
-                        width: 120.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          gradient: LinearGradient(
-                            colors: _colors,
-                            stops: _stops,
-
-                          )
-                          ,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-
-                              Text("Add",style: TextStyle(color :Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),),
-                              Spacer(),
-                              Icon(Icons.arrow_forward_ios,color: Colors.white,
-
-                              )
-                            ],
-                          ),
-                        ),
-
-                      ),
-
-                    ),
-                  ),
+                      onTap: () {
+                        Firestore.instance
+                            .collection('Subjects')
+                            .document(widget.subjectCode)
+                            .updateData({
+                          'Material': FieldValue.arrayUnion([
+                            {
+                              'Title': title,
+                              'Content URL': url,
+                            }
+                          ])
+                        }).whenComplete(() => Navigator.of(context).pop());
+                      },
+                      child: AddButton()),
                 )
               ],
             ),
@@ -668,6 +527,49 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AddButton extends StatelessWidget {
+  const AddButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(36.0),
+      child: Container(
+        height: 50.0,
+        width: 120.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          gradient: LinearGradient(
+            colors: _colors,
+            stops: _stops,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            children: [
+              Text(
+                "Add",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              Spacer(),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
