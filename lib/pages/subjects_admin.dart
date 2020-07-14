@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:studentresourceapp/components/addButton.dart';
+import 'package:studentresourceapp/components/custom_loader.dart';
+import 'package:studentresourceapp/components/error_animatedtext.dart';
+import 'package:studentresourceapp/components/nocontent_animatedtext.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/unicorndial_edited.dart';
 
 List<Color> _colors = [Constants.DARK_SKYBLUE, Constants.SKYBLUE];
 List<double> _stops = [0.0, 1.8];
+String selectedOption = 'Materials';
 
 class SubjectsAdmin extends StatefulWidget {
   SubjectsAdmin({this.subjectCode});
@@ -14,6 +19,13 @@ class SubjectsAdmin extends StatefulWidget {
 }
 
 class _SubjectsAdminState extends State<SubjectsAdmin> {
+  List<String> list = [
+    'Materials',
+    'Q - Papers',
+    'Imp. Links',
+    'Books',
+    'Moderators'
+  ];
   void addBookBottomSheet(BuildContext context) {
     String bookName;
     String author;
@@ -492,9 +504,285 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
 
   @override
   Widget build(BuildContext context) {
+    print(selectedOption);
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.subjectCode}'),
+        actions: [],
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: DropdownButton(
+                iconEnabledColor: Constants.DARK_SKYBLUE,
+                underline: ClipRRect(),
+                value: selectedOption,
+                onChanged: (value) {
+                  setState(() {
+                    selectedOption = value;
+                  });
+                },
+                items: list.map((item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            StreamBuilder(
+              stream: Firestore.instance
+                  .collection('Subjects')
+                  .document(widget.subjectCode)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                List<Widget> items = [];
+                if (snapshot.hasData) {
+                  if (selectedOption == 'Materials') {
+                    try {
+                      List materialData = snapshot.data['Material'];
+                      materialData.forEach((element) {
+                        items.add(
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 16, left: 16, top: 12),
+                            child: Tooltip(
+                              message: element['Content URL'],
+                              child: Card(
+                                shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    element['Title'],
+                                  ),
+                                  subtitle: Text(
+                                    "ID: ${element['id'].toString()}",
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      buildDeleteDialog(
+                                          context, 'Material', element);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                      if (items.isEmpty) {
+                        return NoContentAnimatedText();
+                      }
+                      //items.add(SizedBox(height: 100));
+                      return Expanded(
+                        child: ListView(
+                          children: items,
+                        ),
+                      );
+                    } catch (err) {
+                      return ErrorAnimatedText();
+                    }
+                  } else if (selectedOption == 'Q - Papers') {
+                    try {
+                      List materialData = snapshot.data['QuestionPapers'];
+                      materialData.forEach((element) {
+                        items.add(
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 16, left: 16, top: 12),
+                            child: Tooltip(
+                              message: element['URL'],
+                              child: Card(
+                                shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    element['Title'],
+                                  ),
+                                  subtitle: Text(
+                                    "${element['Type']} ${element['Year']}\nID: ${element['ID'] ?? 'unknown'}",
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      buildDeleteDialog(
+                                          context, 'QuestionPapers', element);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                      if (items.isEmpty) {
+                        return NoContentAnimatedText();
+                      }
+                      //items.add(SizedBox(height: 100));
+                      return Expanded(
+                        child: ListView(
+                          children: items,
+                        ),
+                      );
+                    } catch (err) {
+                      return ErrorAnimatedText();
+                    }
+                  } else if (selectedOption == 'Imp. Links') {
+                    try {
+                      List materialData = snapshot.data['Important Links'];
+                      materialData.forEach((element) {
+                        items.add(
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 16, left: 16, top: 12),
+                            child: Tooltip(
+                              message: element['Content URL'],
+                              child: Card(
+                                shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    element['Title'],
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      buildDeleteDialog(
+                                          context, 'Important Links', element);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                      if (items.isEmpty) {
+                        return NoContentAnimatedText();
+                      }
+                      //items.add(SizedBox(height: 100));
+                      return Expanded(
+                        child: ListView(
+                          children: items,
+                        ),
+                      );
+                    } catch (err) {
+                      return ErrorAnimatedText();
+                    }
+                  } else if (selectedOption == 'Books') {
+                    try {
+                      List materialData = snapshot.data['Recommended Books'];
+                      materialData.forEach((element) {
+                        items.add(
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 16, left: 16, top: 12),
+                            child: Tooltip(
+                              message: "Publisher: ${element['Publication']}",
+                              child: Card(
+                                shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    element['BookTitle'],
+                                  ),
+                                  subtitle: Text('by- ${element['Author']}'),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      buildDeleteDialog(context,
+                                          'Recommended Books', element);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                      if (items.isEmpty) {
+                        return NoContentAnimatedText();
+                      }
+                      //items.add(SizedBox(height: 100));
+                      return Expanded(
+                        child: ListView(
+                          children: items,
+                        ),
+                      );
+                    } catch (err) {
+                      return ErrorAnimatedText();
+                    }
+                  } else if (selectedOption == 'Moderators') {
+                    try {
+                      List materialData = snapshot.data['MODERATORS'];
+                      materialData.forEach((element) {
+                        items.add(
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 16, left: 16, top: 12),
+                            child: Tooltip(
+                              message: element['uid'],
+                              child: Card(
+                                shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    element['Name'],
+                                  ),
+                                  subtitle: Text('Contact Number'),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      buildDeleteDialog(
+                                          context, 'MODERATORS', element);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                      if (items.isEmpty) {
+                        return NoContentAnimatedText();
+                      }
+                      //items.add(SizedBox(height: 100));
+                      return Expanded(
+                        child: ListView(
+                          children: items,
+                        ),
+                      );
+                    } catch (err) {
+                      return ErrorAnimatedText();
+                    }
+                  }
+                }
+                return CustomLoader();
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButton: UnicornDialer(
         hasNotch: true,
@@ -569,47 +857,45 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
       ),
     );
   }
-}
 
-class AddButton extends StatelessWidget {
-  const AddButton({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(36.0),
-      child: Container(
-        height: 50.0,
-        width: 120.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          gradient: LinearGradient(
-            colors: _colors,
-            stops: _stops,
+  Future buildDeleteDialog(BuildContext context, String type, element) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(32.0),
+          title: Text(
+            "⚠ Confirm Delete",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            children: [
-              Text(
-                "Add",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              Spacer(),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
-              )
-            ],
+          content: Text(
+            "Do you really want to delete this item?\nThis can't be undone",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
           ),
-        ),
-      ),
+          actions: [
+            FlatButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Firestore.instance
+                      .collection('Subjects')
+                      .document(widget.subjectCode)
+                      .updateData({
+                    type: FieldValue.arrayRemove([element])
+                  }).then((value) => Navigator.of(context).pop());
+                }),
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }
