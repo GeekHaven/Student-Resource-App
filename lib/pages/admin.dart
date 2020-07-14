@@ -22,9 +22,10 @@ class _AdminState extends State<Admin> {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection('admins')
-              .document('8kEd4KnlysNfwFBZqpiMDWpaRbP2')
+              .document(widget.uid)
               .snapshots(),
           builder: (context, snapshot) {
+            print(widget.uid);
             if (snapshot.hasData) {
               try {
                 List subjectAssigned = snapshot.data['subjects_assigned'];

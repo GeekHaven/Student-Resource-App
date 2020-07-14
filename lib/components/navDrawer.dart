@@ -160,11 +160,6 @@ class _NavDrawerState extends State<NavDrawer> {
                 size: 22.0,
               ),
               onPressed: () {
-//                Navigator.pop(context);
-//                Navigator.popUntil(context, ModalRoute.withName('/'));
-//                Navigator.of(context).push(
-//                  MaterialPageRoute(builder: (BuildContext context) => Home()),
-//                );
                 Share.share(
                     'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - Link',
                     subject:
@@ -228,32 +223,37 @@ class _NavDrawerState extends State<NavDrawer> {
               },
               isSelected: current == 5 ? true : false,
             ),
-            if(widget.admin)NavItem(
-              title: Text(
-                "Admin Panel",
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
+            if (widget.admin)
+              NavItem(
+                title: Text(
+                  "Admin Panel",
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: (current == 6)
+                        ? Constants.DARK_SKYBLUE
+                        : Constants.STEEL,
+                    fontSize: 17.0,
+                    fontFamily: 'RobotoMono',
+                  ),
+                ),
+                iconData: Icon(
+                  Icons.developer_mode,
                   color:
                       (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
-                  fontSize: 17.0,
-                  fontFamily: 'RobotoMono',
+                  size: 22.0,
                 ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => Admin(
+                              uid: widget.userData.uid,
+                            )),
+                  );
+                },
+                isSelected: false,
               ),
-              iconData: Icon(Icons.developer_mode,
-                color:
-                    (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
-                size: 22.0,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Admin(uid: uid,)),
-                );
-              },
-              isSelected: false,
-            ),
             NavItem(
               title: Text(
                 "Log Out",
@@ -271,9 +271,7 @@ class _NavDrawerState extends State<NavDrawer> {
                     (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
-              onPressed: () {
-                
-              },
+              onPressed: () {},
               isSelected: false,
             )
           ],
