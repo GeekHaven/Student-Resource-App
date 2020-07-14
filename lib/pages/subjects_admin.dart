@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studentresourceapp/components/addButton.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/components/error_animatedtext.dart';
@@ -7,8 +8,6 @@ import 'package:studentresourceapp/components/nocontent_animatedtext.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/unicorndial_edited.dart';
 
-List<Color> _colors = [Constants.DARK_SKYBLUE, Constants.SKYBLUE];
-List<double> _stops = [0.0, 1.8];
 String selectedOption = 'Materials';
 
 class SubjectsAdmin extends StatefulWidget {
@@ -26,10 +25,15 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     'Books',
     'Moderators'
   ];
-  void addBookBottomSheet(BuildContext context) {
+  void addBookBottomSheet(BuildContext context, dynamic element) {
     String bookName;
     String author;
     String publication;
+    if(element != null){
+      bookName = element['BookTitle'];
+      author = element['Author'];
+      publication = element['Publication'];
+    }
     showModalBottomSheet(
         isScrollControlled: true,
         isDismissible: true,
@@ -83,7 +87,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: bookName,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Book Name',
@@ -96,7 +101,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: author,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.red),
@@ -111,7 +117,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue:publication,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Publication',
@@ -150,10 +157,13 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         });
   }
 
-  void addImpLinkBottomSheet(BuildContext context) {
+  void addImpLinkBottomSheet(BuildContext context, dynamic element) {
     String title;
     String url;
-
+    if(element != null){
+      title = element['Title'];
+      url = element['Content URL'];
+    }
     showModalBottomSheet(
         isScrollControlled: true,
         shape: RoundedRectangleBorder(
@@ -206,7 +216,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: title,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Title',
@@ -219,7 +230,9 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue:
+                              url,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'URL',
@@ -258,11 +271,17 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         });
   }
 
-  void addQPapersBottomSheet(BuildContext context) {
+  void addQPapersBottomSheet(BuildContext context, dynamic element) {
     String title;
     String type;
     String year;
     String url;
+    if (element != null){
+      title = element['Title'];
+      type = element['Type'];
+      year = element['Year'];
+      url = element['URL'];
+    }
     showModalBottomSheet(
         isScrollControlled: true,
         shape: RoundedRectangleBorder(
@@ -315,7 +334,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: title,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Title',
@@ -328,7 +348,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: type,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Exam Type - C1/C2/C3..',
@@ -341,7 +362,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: year,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Year',
@@ -354,7 +376,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: url,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'URL',
@@ -395,9 +418,13 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         });
   }
 
-  void addMaterialBottomSheet(BuildContext context) {
+  void addMaterialBottomSheet(BuildContext context, dynamic element) {
     String title;
     String url;
+    if(element !=null){
+      title = element['Title'];
+      url = element['Content URL'];
+    }
     showModalBottomSheet(
         isScrollControlled: true,
         shape: RoundedRectangleBorder(
@@ -450,7 +477,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: title,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Title',
@@ -463,7 +491,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: url,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'URL',
@@ -478,6 +507,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () {
+                            print(url + title);
                             Firestore.instance
                                 .collection('Subjects')
                                 .document(widget.subjectCode)
@@ -540,11 +570,11 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                   .collection('Subjects')
                   .document(widget.subjectCode)
                   .snapshots(),
-              builder: (context, snapshot) {
+              builder: (innercontext, snapshot) {
                 List<Widget> items = [];
                 if (snapshot.hasData) {
-                  if (selectedOption == 'Materials') {
-                    try {
+                  try {
+                    if (selectedOption == 'Materials') {
                       List materialData = snapshot.data['Material'];
                       materialData.forEach((element) {
                         items.add(
@@ -566,6 +596,12 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                   subtitle: Text(
                                     "ID: ${element['id'].toString()}",
                                   ),
+                                  leading: IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        addMaterialBottomSheet(
+                                            context, element);
+                                      }),
                                   trailing: IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red),
                                     onPressed: () {
@@ -579,20 +615,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           ),
                         );
                       });
-                      if (items.isEmpty) {
-                        return NoContentAnimatedText();
-                      }
-                      //items.add(SizedBox(height: 100));
-                      return Expanded(
-                        child: ListView(
-                          children: items,
-                        ),
-                      );
-                    } catch (err) {
-                      return ErrorAnimatedText();
-                    }
-                  } else if (selectedOption == 'Q - Papers') {
-                    try {
+                    } else if (selectedOption == 'Q - Papers') {
                       List materialData = snapshot.data['QuestionPapers'];
                       materialData.forEach((element) {
                         items.add(
@@ -614,6 +637,11 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                   subtitle: Text(
                                     "${element['Type']} ${element['Year']}\nID: ${element['ID'] ?? 'unknown'}",
                                   ),
+                                  leading: IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        addQPapersBottomSheet(context, element);
+                                      }),
                                   trailing: IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red),
                                     onPressed: () {
@@ -627,20 +655,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           ),
                         );
                       });
-                      if (items.isEmpty) {
-                        return NoContentAnimatedText();
-                      }
-                      //items.add(SizedBox(height: 100));
-                      return Expanded(
-                        child: ListView(
-                          children: items,
-                        ),
-                      );
-                    } catch (err) {
-                      return ErrorAnimatedText();
-                    }
-                  } else if (selectedOption == 'Imp. Links') {
-                    try {
+                    } else if (selectedOption == 'Imp. Links') {
                       List materialData = snapshot.data['Important Links'];
                       materialData.forEach((element) {
                         items.add(
@@ -659,6 +674,11 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                   title: Text(
                                     element['Title'],
                                   ),
+                                  leading: IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        addImpLinkBottomSheet(context, element);
+                                      }),
                                   trailing: IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red),
                                     onPressed: () {
@@ -672,20 +692,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           ),
                         );
                       });
-                      if (items.isEmpty) {
-                        return NoContentAnimatedText();
-                      }
-                      //items.add(SizedBox(height: 100));
-                      return Expanded(
-                        child: ListView(
-                          children: items,
-                        ),
-                      );
-                    } catch (err) {
-                      return ErrorAnimatedText();
-                    }
-                  } else if (selectedOption == 'Books') {
-                    try {
+                    } else if (selectedOption == 'Books') {
                       List materialData = snapshot.data['Recommended Books'];
                       materialData.forEach((element) {
                         items.add(
@@ -705,6 +712,11 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                     element['BookTitle'],
                                   ),
                                   subtitle: Text('by- ${element['Author']}'),
+                                  leading: IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {
+                                        addBookBottomSheet(context, element);
+                                      }),
                                   trailing: IconButton(
                                     icon: Icon(Icons.delete, color: Colors.red),
                                     onPressed: () {
@@ -718,20 +730,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           ),
                         );
                       });
-                      if (items.isEmpty) {
-                        return NoContentAnimatedText();
-                      }
-                      //items.add(SizedBox(height: 100));
-                      return Expanded(
-                        child: ListView(
-                          children: items,
-                        ),
-                      );
-                    } catch (err) {
-                      return ErrorAnimatedText();
-                    }
-                  } else if (selectedOption == 'Moderators') {
-                    try {
+                    } else if (selectedOption == 'Moderators') {
                       List materialData = snapshot.data['MODERATORS'];
                       materialData.forEach((element) {
                         items.add(
@@ -764,18 +763,17 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           ),
                         );
                       });
-                      if (items.isEmpty) {
-                        return NoContentAnimatedText();
-                      }
-                      //items.add(SizedBox(height: 100));
-                      return Expanded(
-                        child: ListView(
-                          children: items,
-                        ),
-                      );
-                    } catch (err) {
-                      return ErrorAnimatedText();
                     }
+                    if (items.isEmpty) {
+                      return NoContentAnimatedText();
+                    }
+                    return Expanded(
+                      child: ListView(
+                        children: items,
+                      ),
+                    );
+                  } catch (err) {
+                    return ErrorAnimatedText();
                   }
                 }
                 return CustomLoader();
@@ -802,7 +800,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
               heroTag: null,
               mini: true,
               onPressed: () {
-                addBookBottomSheet(context);
+                addBookBottomSheet(context, null);
               },
               backgroundColor: Constants.DARK_SKYBLUE,
               child:
@@ -817,7 +815,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
               heroTag: null,
               mini: true,
               onPressed: () {
-                addImpLinkBottomSheet(context);
+                addImpLinkBottomSheet(context, null);
               },
               backgroundColor: Constants.DARK_SKYBLUE,
               child:
@@ -832,7 +830,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
               heroTag: null,
               mini: true,
               onPressed: () {
-                addMaterialBottomSheet(context);
+                addMaterialBottomSheet(context, null);
               },
               backgroundColor: Constants.DARK_SKYBLUE,
               child: Icon(Icons.note_add),
@@ -846,7 +844,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
               heroTag: null,
               mini: true,
               onPressed: () {
-                addQPapersBottomSheet(context);
+                addQPapersBottomSheet(context, null);
               },
               backgroundColor: Constants.DARK_SKYBLUE,
               child:
