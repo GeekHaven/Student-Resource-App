@@ -51,15 +51,15 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 
     _scrollController.addListener(() {
       switch (_scrollController.position.userScrollDirection) {
-        // Scrolling up - forward the animation (value goes to 1)
+      // Scrolling up - forward the animation (value goes to 1)
         case ScrollDirection.forward:
           _hideFabAnimController.forward();
           break;
-        // Scrolling down - reverse the animation (value goes to 0)
+      // Scrolling down - reverse the animation (value goes to 0)
         case ScrollDirection.reverse:
           _hideFabAnimController.reverse();
           break;
-        // Idle - keep FAB visibility unchanged
+      // Idle - keep FAB visibility unchanged
         case ScrollDirection.idle:
           break;
       }
@@ -79,6 +79,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 
   void modno(BuildContext context) {
     showModalBottomSheet(
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
@@ -113,7 +114,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                       .document('${widget.semester}_${widget.subjectCode}')
                       .snapshots(),
                   builder: (context, snapshot) {
-                    List<ListItem> messageWidget = [];
+                    List<Widget> messageWidget = [];
                     if (snapshot.hasData) {
                       List mod = snapshot.data['MODERATORS'];
                       print(mod);
@@ -121,15 +122,15 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final ctnum = mod[i]['Contact Number'];
                         final name = mod[i]['Name'];
 
-                        ListItem lis = ListItem(heading: name, subheaading: '');
+//                        ListItem lis = ListItem(heading: name, subheaading: '');
+                        dynamic it=Center(child:Text(name,style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold,fontFamily: 'Montserrat',),));
+                        messageWidget.add(it);
 
-                        messageWidget.add(lis);
-
-                        lis = ListItem(
-                            heading: 'Contact No. : ', subheaading: ctnum);
+//                        lis = ListItem(
+//                            heading: 'Contact No. : ', subheaading: ctnum);
 //                        messageWidget.add(lis);
 
-                        lis = ListItem(phone: true, subheaading: ctnum);
+                        ListItem lis = ListItem(phone: true, subheaading: ctnum);
                         messageWidget.add(lis);
 
                         lis = ListItem(c: true);
@@ -196,7 +197,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final publication = RecBooks[i]['Publication'];
 
                         ListItem lis =
-                            ListItem(subheaading: booktitle, b: true);
+                        ListItem(subheaading: booktitle, b: true);
                         messageWidget.add(lis);
 
                         lis =
@@ -348,9 +349,9 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 class StreamWidget extends StatelessWidget {
   const StreamWidget(
       {Key key,
-      @required this.widget,
-      @required this.typeKey,
-      @required this.scrollController})
+        @required this.widget,
+        @required this.typeKey,
+        @required this.scrollController})
       : super(key: key);
   final ScrollController scrollController;
   final Subject widget;
@@ -374,7 +375,7 @@ class StreamWidget extends StatelessWidget {
                 listMaterials.add(
                   Padding(
                     padding:
-                        const EdgeInsets.only(right: 16, left: 16, top: 12),
+                    const EdgeInsets.only(right: 16, left: 16, top: 12),
                     child: Card(
                       shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
                       elevation: 2,
@@ -390,13 +391,13 @@ class StreamWidget extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PDFViewer(
-                                        url: element['Content URL'],
-                                        sem: widget.semester,
-                                        subjectCode: widget.subjectCode,
-                                        typeKey: typeKey,
-                                        uniqueID: element['id'],
-                                        title: element['Title'],
-                                      )));
+                                    url: element['Content URL'],
+                                    sem: widget.semester,
+                                    subjectCode: widget.subjectCode,
+                                    typeKey: typeKey,
+                                    uniqueID: element['id'],
+                                    title: element['Title'],
+                                  )));
                             }),
                         trailing: IconButton(
                             icon: ImageIcon(
@@ -409,19 +410,19 @@ class StreamWidget extends StatelessWidget {
                                     (await getApplicationDocumentsDirectory())
                                         .path;
                                 String path =
-                                    "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
+                                    "$dir/${widget.semester}${widget.subjectCode}${typeKey[0]}${element['id']}${element['Title']}";
                                 if (await File(path).exists()) {
                                   print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
-                                          Text('File Already Downloaded')));
+                                      Text('File Already Downloaded')));
                                 }
                                 var request =
-                                    await HttpClient().getUrl(Uri.parse(url));
+                                await HttpClient().getUrl(Uri.parse(url));
                                 var response = await request.close();
                                 var bytes =
-                                    await consolidateHttpClientResponseBytes(
-                                        response);
+                                await consolidateHttpClientResponseBytes(
+                                    response);
                                 File file = new File(path);
                                 await file.writeAsBytes(bytes).then((value) {
                                   print('$path is now downloaded');
@@ -463,7 +464,7 @@ class StreamWidget extends StatelessWidget {
                 listMaterials.add(
                   Padding(
                     padding:
-                        const EdgeInsets.only(right: 16, left: 16, top: 12),
+                    const EdgeInsets.only(right: 16, left: 16, top: 12),
                     child: Card(
                       shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
                       elevation: 2,
@@ -480,13 +481,13 @@ class StreamWidget extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PDFViewer(
-                                        url: element['URL'],
-                                        sem: widget.semester,
-                                        subjectCode: widget.subjectCode,
-                                        typeKey: typeKey,
-                                        uniqueID: element['id'],
-                                        title: element['Title'],
-                                      )));
+                                    url: element['URL'],
+                                    sem: widget.semester,
+                                    subjectCode: widget.subjectCode,
+                                    typeKey: typeKey,
+                                    uniqueID: element['id'],
+                                    title: element['Title'],
+                                  )));
                             }),
                         trailing: IconButton(
                             icon: ImageIcon(
@@ -499,19 +500,19 @@ class StreamWidget extends StatelessWidget {
                                     (await getApplicationDocumentsDirectory())
                                         .path;
                                 String path =
-                                    "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
+                                    "$dir/${widget.semester}${widget.subjectCode}${typeKey[0]}${element['id']}${element['Title']}";
                                 if (await File(path).exists()) {
                                   print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
-                                          Text('File Already Downloaded')));
+                                      Text('File Already Downloaded')));
                                 }
                                 var request =
-                                    await HttpClient().getUrl(Uri.parse(url));
+                                await HttpClient().getUrl(Uri.parse(url));
                                 var response = await request.close();
                                 var bytes =
-                                    await consolidateHttpClientResponseBytes(
-                                        response);
+                                await consolidateHttpClientResponseBytes(
+                                    response);
                                 File file = new File(path);
                                 await file.writeAsBytes(bytes).then((value) {
                                   print('$path is now downloaded');
@@ -549,7 +550,7 @@ class StreamWidget extends StatelessWidget {
                 listMaterials.add(
                   Padding(
                     padding:
-                        const EdgeInsets.only(right: 16, left: 16, top: 12),
+                    const EdgeInsets.only(right: 16, left: 16, top: 12),
                     child: Card(
                       shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
                       elevation: 2,
@@ -576,9 +577,9 @@ class StreamWidget extends StatelessWidget {
               listMaterials.add(SizedBox(height: 100));
               return Container(
                   child: ListView(
-                children: listMaterials,
-                controller: scrollController,
-              ));
+                    children: listMaterials,
+                    controller: scrollController,
+                  ));
             } catch (err) {
               return ErrorAnimatedText();
             }
@@ -626,15 +627,17 @@ class ListItem extends StatelessWidget {
 
   Widget getWidget() {
     if (c == true) {
-      return SizedBox(
-        height: 10.0,
-        width: 200.0,
-        child: Divider(
-          color: Colors.grey,
-          height: 0.0,
-          thickness: 0.0,
-          indent: 40.0,
-          endIndent: 40.0,
+      return Expanded(
+        child: SizedBox(
+          height: 10.0,
+          width: 200.0,
+          child: Divider(
+            color: Colors.grey,
+            height: 0.0,
+            thickness: 0.0,
+            indent: 40.0,
+            endIndent: 40.0,
+          ),
         ),
       );
     }
@@ -665,45 +668,71 @@ class ListItem extends StatelessWidget {
     }
 
     if (b == true) {
-      return Row(
-        children: <Widget>[
-          ImageIcon(
-            AssetImage('assets/svgIcons/book.png'),
-            color: Colors.teal,
+      return Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Row(
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: ImageIcon(
+                  AssetImage('assets/svgIcons/book.png'),
+                  size: 44.0,
+                  color: Colors.teal,
+                ),
+              ),
+//            SizedBox(
+//              width: 10.0,
+//            ),
+              Expanded(
+                child: Text(
+                  subheaading,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(
-            width: 10.0,
-          ),
-          Text(
-            subheaading,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-              fontFamily: 'Montserrat',
-            ),
-          ),
-        ],
+        ),
       );
     } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
-            heading,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-              fontFamily: 'Montserrat',
+      return Expanded(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  width: 55.0,
+                ),
+                Expanded(
+                  child: Text(
+                    heading,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.0,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    subheaading,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          Text(
-            subheaading,
-            style: TextStyle(
-              fontSize: 20.0,
-              fontFamily: 'Montserrat',
-            ),
-          ),
-        ],
+        ),
       );
     }
   }
