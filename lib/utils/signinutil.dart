@@ -83,6 +83,6 @@ class SignInUtil {
   void signOutGoogle() async {
     await googleSignIn.signOut();
     SharedPreferencesUtil.clearPreferences();
-    print("User Sign Out");
+    //print("User Sign Out");
   }
 }

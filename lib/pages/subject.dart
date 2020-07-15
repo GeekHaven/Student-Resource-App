@@ -117,7 +117,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                     List<Widget> messageWidget = [];
                     if (snapshot.hasData) {
                       List mod = snapshot.data['MODERATORS'];
-                      print(mod);
+                      //print(mod);
                       for (int i = 0; i < mod.length; i++) {
                         final ctnum = mod[i]['Contact Number'];
                         final name = mod[i]['Name'];
@@ -391,13 +391,15 @@ class StreamWidget extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PDFViewer(
-                                    url: element['Content URL'],
-                                    sem: widget.semester,
-                                    subjectCode: widget.subjectCode,
-                                    typeKey: typeKey,
-                                    uniqueID: element['id'],
-                                    title: element['Title'],
-                                  )));
+
+                                        url: element['Content URL'],
+                                        sem: widget.semester,
+                                        subjectCode: widget.subjectCode,
+                                        typeKey: typeKey,
+                                        uniqueID: int.parse(element['id']),
+                                        title: element['Title'],
+                                      )));
+
                             }),
                         trailing: IconButton(
                             icon: ImageIcon(
@@ -412,7 +414,7 @@ class StreamWidget extends StatelessWidget {
                                 String path =
                                     "$dir/${widget.semester}${widget.subjectCode}${typeKey[0]}${element['id']}${element['Title']}";
                                 if (await File(path).exists()) {
-                                  print('$path already exists');
+                                  //print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
                                       Text('File Already Downloaded')));
@@ -425,15 +427,15 @@ class StreamWidget extends StatelessWidget {
                                     response);
                                 File file = new File(path);
                                 await file.writeAsBytes(bytes).then((value) {
-                                  print('$path is now downloaded');
+                                  //print('$path is now downloaded');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text('Download Complete')));
                                 });
                                 return file;
                               } catch (err) {
                                 var errorMessage = "Error";
-                                print(errorMessage);
-                                print(err);
+                                //print(errorMessage);
+                                //print(err);
                                 return null;
                               }
                             }),
@@ -502,7 +504,7 @@ class StreamWidget extends StatelessWidget {
                                 String path =
                                     "$dir/${widget.semester}${widget.subjectCode}${typeKey[0]}${element['id']}${element['Title']}";
                                 if (await File(path).exists()) {
-                                  print('$path already exists');
+                                  //print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
                                       Text('File Already Downloaded')));
@@ -515,7 +517,7 @@ class StreamWidget extends StatelessWidget {
                                     response);
                                 File file = new File(path);
                                 await file.writeAsBytes(bytes).then((value) {
-                                  print('$path is now downloaded');
+                                  //print('$path is now downloaded');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text('Download Complete')));
                                 });

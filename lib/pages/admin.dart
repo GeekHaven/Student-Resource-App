@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/pages/subjects_admin.dart';
 
+bool canManageModerators = false;
+
 class Admin extends StatefulWidget {
   Admin({this.uid});
 
@@ -12,12 +14,32 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
+  Future checkModeratorManageAccess() async {
+    final QuerySnapshot result =
+        await Firestore.instance.collection('admins').getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    documents.forEach((data) {
+      if (data.data['canManageModerators'] == true &&
+          data.documentID == widget.uid) {
+        setState(() {
+          canManageModerators = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkModeratorManageAccess();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin'),
-      ),
+        ),
       body: Container(
         child: StreamBuilder(
           stream: Firestore.instance
@@ -25,7 +47,6 @@ class _AdminState extends State<Admin> {
               .document(widget.uid)
               .snapshots(),
           builder: (context, snapshot) {
-            print(widget.uid);
             if (snapshot.hasData) {
               try {
                 List subjectAssigned = snapshot.data['subjects_assigned'];
@@ -46,7 +67,12 @@ class _AdminState extends State<Admin> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => SubjectsAdmin(subjectCode: element,)),
+                                builder: (BuildContext context) =>
+                                    SubjectsAdmin(
+                                        subjectCode: element,
+                                        canManageModerators:
+                                            canManageModerators),
+                              ),
                             );
                           },
                         ),

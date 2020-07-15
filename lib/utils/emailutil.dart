@@ -20,7 +20,7 @@ class Email{
       }
     }
     catch(e){
-      print(e.toString());
+      //print(e.toString());
     }
   }
 }

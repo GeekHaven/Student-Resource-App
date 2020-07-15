@@ -12,7 +12,7 @@ class ErrorAnimatedText extends StatelessWidget {
       child: TyperAnimatedTextKit(
           //Case when there is no Material present
           onTap: () {
-            print("Tap Event");
+            //print("Tap Event");
           },
           speed:
               Duration(milliseconds: 100), //Duration of TextAnimation
