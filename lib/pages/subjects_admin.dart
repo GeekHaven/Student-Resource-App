@@ -4,6 +4,7 @@ import 'package:studentresourceapp/components/addButton.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/components/error_animatedtext.dart';
 import 'package:studentresourceapp/components/nocontent_animatedtext.dart';
+import 'package:studentresourceapp/pages/admin.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/unicorndial_edited.dart';
 import 'package:intl/intl.dart';
@@ -11,8 +12,9 @@ import 'package:intl/intl.dart';
 String selectedOption = 'Materials';
 
 class SubjectsAdmin extends StatefulWidget {
-  SubjectsAdmin({this.subjectCode});
+  SubjectsAdmin({this.subjectCode, this.canManageModerators});
   final String subjectCode;
+  final bool canManageModerators;
   @override
   _SubjectsAdminState createState() => _SubjectsAdminState();
 }
@@ -534,9 +536,147 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         });
   }
 
+  void addModeratorBottomSheet(BuildContext context, dynamic element) {
+    String name;
+    String contactNumber;
+    String uid;
+    if (element != null) {
+      name = element['Name'];
+      contactNumber = element['Contact Number'];
+      uid = element['uid'];
+    }
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+        ),
+        context: context,
+        builder: (builder) {
+          return Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            height: MediaQuery.of(context).size.height / 2 +
+                MediaQuery.of(context).viewInsets.bottom,
+            decoration: BoxDecoration(
+                color: Constants.WHITE,
+                borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(24.0),
+                    topRight: const Radius.circular(24.0))),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 12),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        height: 6,
+                        width: 64,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "Add Moderator",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          initialValue: name,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Name',
+                            labelText: 'Name',
+                          ),
+                          onChanged: (value) {
+                            name = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          initialValue: contactNumber,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Contact Number',
+                            labelText: 'Contact Number',
+                          ),
+                          onChanged: (value) {
+                            contactNumber = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          initialValue: uid,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'uid',
+                            labelText: 'uid',
+                          ),
+                          onChanged: (value) {
+                            uid = value;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Firestore.instance
+                                .collection('Subjects')
+                                .document(widget.subjectCode)
+                                .updateData({
+                              'MODERATORS': FieldValue.arrayUnion([
+                                {
+                                  'uid': uid ?? '',
+                                  'Name': name ?? '',
+                                  'Contact Number': contactNumber ?? '',
+                                }
+                              ])
+                            });
+
+                            Firestore.instance
+                                .collection('admins')
+                                .document(uid)
+                                .setData({
+                              'subjects_assigned':
+                                  FieldValue.arrayUnion([widget.subjectCode]),
+                              'canManageModerators': false
+                            }).whenComplete(() => Navigator.of(context).pop());
+                          },
+                          child: AddButton(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(selectedOption);
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.subjectCode}'),
@@ -751,14 +891,27 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                   title: Text(
                                     element['Name'],
                                   ),
-                                  subtitle: Text('Contact Number'),
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.delete, color: Colors.red),
-                                    onPressed: () {
-                                      buildDeleteDialog(
-                                          context, 'MODERATORS', element);
-                                    },
-                                  ),
+                                  subtitle: Text(
+                                      element['Contact Number'].toString()),
+                                  trailing: canManageModerators == true
+                                      ? IconButton(
+                                          icon: Icon(Icons.delete,
+                                              color: Colors.red),
+                                          onPressed: () {
+                                            buildDeleteModeratorDialog(context,
+                                                element, element['uid']);
+                                          },
+                                        )
+                                      : null,
+                                  leading: canManageModerators == true
+                                      ? IconButton(
+                                          icon: Icon(Icons.edit),
+                                          onPressed: () {
+                                            addModeratorBottomSheet(
+                                                context, element);
+                                          },
+                                        )
+                                      : null,
                                 ),
                               ),
                             ),
@@ -794,6 +947,22 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
         backgroundColor: Colors.white70,
         parentButtonBackground: Constants.DARK_SKYBLUE,
         childButtons: [
+          if (canManageModerators)
+            UnicornButton(
+              labelText: 'Moderators',
+              labelColor: Colors.black,
+              hasLabel: true,
+              currentButton: FloatingActionButton(
+                heroTag: null,
+                mini: true,
+                onPressed: () {
+                  addModeratorBottomSheet(context, null);
+                },
+                backgroundColor: Constants.DARK_SKYBLUE,
+                child: ImageIcon(AssetImage('assets/svgIcons/moderators.png'),
+                    size: 20),
+              ),
+            ),
           UnicornButton(
             labelText: 'Books',
             labelColor: Colors.black,
@@ -855,6 +1024,55 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
           ),
         ],
       ),
+    );
+  }
+
+  Future buildDeleteModeratorDialog(BuildContext context, element, String uid) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(32.0),
+          title: Text(
+            "⚠ Confirm Delete",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            "Do you really want to delete this item?\nThis can't be undone",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          actions: [
+            FlatButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Firestore.instance
+                      .collection('admins')
+                      .document(uid)
+                      .updateData({
+                    'subjects_assigned':
+                        FieldValue.arrayRemove([widget.subjectCode.toString()])
+                  });
+
+                  Firestore.instance
+                      .collection('Subjects')
+                      .document(widget.subjectCode)
+                      .updateData({
+                    'MODERATORS': FieldValue.arrayRemove([element])
+                  }).then((value) => Navigator.of(context).pop());
+                }),
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
