@@ -33,17 +33,17 @@ class _CustomDropdownState extends State<CustomDropdown> {
     Offset offset = renderBox.localToGlobal(Offset.zero);
     xPosition = offset.dx;
     yPosition = offset.dy;
-    print(height);
-    print(width);
-    print(xPosition);
-    print(yPosition);
+    //print(height);
+    //print(width);
+    //print(xPosition);
+    //print(yPosition);
   }
 
   OverlayEntry _createFloatingDropdown() {
     _mediaQueryData = MediaQuery.of(context);
     screenHeight = _mediaQueryData.size.height;
-    print(screenHeight);
-    print(yPosition + 4 * height + 40);
+    //print(screenHeight);
+    //print(yPosition + 4 * height + 40);
     return OverlayEntry(builder: (context) {
       return Positioned(
         left: xPosition,
@@ -72,7 +72,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                 bool isSelected = false;
                 final item = widget.list[index];
                 if (t == item.toString()) isSelected = true;
-                print(item.toString());
+                //print(item.toString());
                 return Material(
                   color: isSelected ? Constants.SKYBLUE : Colors.white,
                   child: ListTile(
@@ -82,7 +82,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                       ),
                       onTap: () {
                         int temp = widget.type;
-                        print(temp);
+                        //print(temp);
                         if (temp == 1) {
                           semester = item;
                           t = item.toString();
@@ -91,7 +91,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                             floatingDropdown.remove();
                             isDropDownOpen = !isDropDownOpen;
                           });
-                          print(semester);
+                          //print(semester);
                         } else if (temp == 2) {
                           batch = item;
                           t = item.toString();
@@ -100,7 +100,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                             floatingDropdown.remove();
                             isDropDownOpen = !isDropDownOpen;
                           });
-                          print(batch);
+                          //print(batch);
                         } else if(temp == 3){
                           branch = item;
                           t = item.toString();
@@ -109,7 +109,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                             floatingDropdown.remove();
                             isDropDownOpen = !isDropDownOpen;
                           });
-                          print(branch);
+                          //print(branch);
                         }
                         
                       }),

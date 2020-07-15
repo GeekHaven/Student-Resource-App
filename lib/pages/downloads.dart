@@ -38,10 +38,10 @@ class _DownloadsState extends State<Downloads> {
             element.toString().lastIndexOf('/') + 1,
             element.toString().lastIndexOf('\''));
         if (filename.startsWith(RegExp(r'([0-9])\_[A-Z]\w'))) {
-          print('correct file type found');
+          //print('correct file type found');
           return false;
         } else {
-          print('expected file name not found. removing it...');
+          //print('expected file name not found. removing it...');
           return true;
         }
       });
@@ -161,7 +161,7 @@ class _DownloadsState extends State<Downloads> {
                                                 try {
                                                   if (await File(modifiedPath)
                                                       .exists()) {
-                                                    print('Path exists');
+                                                    //print('Path exists');
                                                     File(modifiedPath)
                                                         .deleteSync();
                                                     List temp = file;
@@ -174,7 +174,7 @@ class _DownloadsState extends State<Downloads> {
                                                     });
                                                   }
                                                 } catch (err) {
-                                                  print(err);
+                                                  //print(err);
                                                 }
                                                 Navigator.of(context).pop(true);
                                               },

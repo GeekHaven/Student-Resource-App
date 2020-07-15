@@ -46,10 +46,10 @@ class _PDFViewerState extends State<PDFViewer> {
       String path =
           '$dir/${widget.sem}_${widget.subjectCode}_${widget.typeKey[0]}_${fileID}_${widget.title}';
       if (await File(path).exists()) {
-        print('$path is already present');
+        //print('$path is already present');
         return File(path);
       }
-      print('Creating new file $path');
+      //print('Creating new file $path');
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);

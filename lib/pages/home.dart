@@ -138,7 +138,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               if (snapshot.hasData) {
                 Map branchSubjects = snapshot.data['branches']
                     ['${userLoad.branch.toUpperCase()}'];
-                print(branchSubjects.toString());
                 List<Widget> subjects = [];
                 branchSubjects.forEach((key, value) {
                   subjects.add(
@@ -233,8 +232,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      print(userLoad.semester);
-                      return CircleList(
+                     return CircleList(
                         showInitialAnimation: true,
                         animationSetting: AnimationSetting(
                             duration: Duration(milliseconds: 800),

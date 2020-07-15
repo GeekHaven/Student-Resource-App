@@ -116,7 +116,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                     List<ListItem> messageWidget = [];
                     if (snapshot.hasData) {
                       List mod = snapshot.data['MODERATORS'];
-                      print(mod);
+                      //print(mod);
                       for (int i = 0; i < mod.length; i++) {
                         final ctnum = mod[i]['Contact Number'];
                         final name = mod[i]['Name'];
@@ -411,7 +411,7 @@ class StreamWidget extends StatelessWidget {
                                 String path =
                                     "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                                 if (await File(path).exists()) {
-                                  print('$path already exists');
+                                  //print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
                                           Text('File Already Downloaded')));
@@ -424,15 +424,15 @@ class StreamWidget extends StatelessWidget {
                                         response);
                                 File file = new File(path);
                                 await file.writeAsBytes(bytes).then((value) {
-                                  print('$path is now downloaded');
+                                  //print('$path is now downloaded');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text('Download Complete')));
                                 });
                                 return file;
                               } catch (err) {
                                 var errorMessage = "Error";
-                                print(errorMessage);
-                                print(err);
+                                //print(errorMessage);
+                                //print(err);
                                 return null;
                               }
                             }),
@@ -501,7 +501,7 @@ class StreamWidget extends StatelessWidget {
                                 String path =
                                     "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                                 if (await File(path).exists()) {
-                                  print('$path already exists');
+                                  //print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
                                           Text('File Already Downloaded')));
@@ -514,7 +514,7 @@ class StreamWidget extends StatelessWidget {
                                         response);
                                 File file = new File(path);
                                 await file.writeAsBytes(bytes).then((value) {
-                                  print('$path is now downloaded');
+                                  //print('$path is now downloaded');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text('Download Complete')));
                                 });
