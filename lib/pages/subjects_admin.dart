@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:studentresourceapp/components/addButton.dart';
 import 'package:studentresourceapp/components/custom_loader.dart';
 import 'package:studentresourceapp/components/error_animatedtext.dart';
 import 'package:studentresourceapp/components/nocontent_animatedtext.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/unicorndial_edited.dart';
+import 'package:intl/intl.dart';
 
 String selectedOption = 'Materials';
 
@@ -29,7 +29,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     String bookName;
     String author;
     String publication;
-    if(element != null){
+    if (element != null) {
       bookName = element['BookTitle'];
       author = element['Author'];
       publication = element['Publication'];
@@ -118,7 +118,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          initialValue:publication,
+                          initialValue: publication,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Publication',
@@ -138,9 +138,9 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                   .updateData({
                                 'Recommended Books': FieldValue.arrayUnion([
                                   {
-                                    'BookTitle': bookName,
-                                    'Author': author,
-                                    'Publication': publication
+                                    'BookTitle': bookName ?? '',
+                                    'Author': author ?? '',
+                                    'Publication': publication ?? ''
                                   }
                                 ])
                               }).whenComplete(
@@ -160,7 +160,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
   void addImpLinkBottomSheet(BuildContext context, dynamic element) {
     String title;
     String url;
-    if(element != null){
+    if (element != null) {
       title = element['Title'];
       url = element['Content URL'];
     }
@@ -231,8 +231,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          initialValue:
-                              url,
+                          initialValue: url,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'URL',
@@ -253,8 +252,8 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                 .updateData({
                               'Important Links': FieldValue.arrayUnion([
                                 {
-                                  'Content URL': url,
-                                  'Title': title,
+                                  'Content URL': url ?? '',
+                                  'Title': title ?? '',
                                 }
                               ])
                             }).whenComplete(() => Navigator.of(context).pop());
@@ -276,7 +275,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
     String type;
     String year;
     String url;
-    if (element != null){
+    if (element != null) {
       title = element['Title'];
       type = element['Type'];
       year = element['Year'];
@@ -392,16 +391,18 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () {
+                            DateTime now = DateTime.now();
                             Firestore.instance
                                 .collection('Subjects')
                                 .document(widget.subjectCode)
                                 .updateData({
                               'QuestionPapers': FieldValue.arrayUnion([
                                 {
-                                  'Title': title,
-                                  'Type': type,
-                                  'URL': url,
-                                  'Year': year
+                                  'id': DateFormat("yyMMddHHmmss").format(now),
+                                  'Title': title ?? '',
+                                  'Type': type ?? '',
+                                  'URL': url ?? '',
+                                  'Year': year ?? ''
                                 }
                               ])
                             }).whenComplete(() => Navigator.of(context).pop());
@@ -421,7 +422,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
   void addMaterialBottomSheet(BuildContext context, dynamic element) {
     String title;
     String url;
-    if(element !=null){
+    if (element != null) {
       title = element['Title'];
       url = element['Content URL'];
     }
@@ -507,15 +508,16 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
                           onTap: () {
-                            print(url + title);
+                            DateTime now = DateTime.now();
                             Firestore.instance
                                 .collection('Subjects')
                                 .document(widget.subjectCode)
                                 .updateData({
                               'Material': FieldValue.arrayUnion([
                                 {
-                                  'Title': title,
-                                  'Content URL': url,
+                                  'id': DateFormat("yyMMddHHmmss").format(now),
+                                  'Title': title ?? '',
+                                  'Content URL': url ?? '',
                                 }
                               ])
                             }).whenComplete(() => Navigator.of(context).pop());
@@ -635,7 +637,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                                     element['Title'],
                                   ),
                                   subtitle: Text(
-                                    "${element['Type']} ${element['Year']}\nID: ${element['ID'] ?? 'unknown'}",
+                                    "${element['Type']} ${element['Year']}\nID: ${element['id'] ?? 'unknown'}",
                                   ),
                                   leading: IconButton(
                                       icon: Icon(Icons.edit),
