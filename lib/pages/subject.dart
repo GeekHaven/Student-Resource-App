@@ -394,7 +394,7 @@ class StreamWidget extends StatelessWidget {
                                         sem: widget.semester,
                                         subjectCode: widget.subjectCode,
                                         typeKey: typeKey,
-                                        uniqueID: element['id'],
+                                        uniqueID: int.parse(element['id']),
                                         title: element['Title'],
                                       )));
                             }),
