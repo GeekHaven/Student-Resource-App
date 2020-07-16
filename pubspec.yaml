@@ -48,6 +48,7 @@ dependencies:
   circle_list: ^1.0.2
   md2_tab_indicator: ^1.0.2
   #unicorndial: ^1.1.5
+  getwidget: ^1.1.0
   
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"
