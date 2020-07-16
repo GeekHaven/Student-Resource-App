@@ -169,7 +169,6 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
         context: context,
         builder: (builder) {
           return Container(
-
             decoration: BoxDecoration(
                 color: Constants.WHITE,
                 borderRadius: new BorderRadius.only(
@@ -682,31 +681,33 @@ class ListItem extends StatelessWidget {
 
     if (b == true) {
       return Flexible(
-
         child: Padding(
           padding: const EdgeInsets.all(0.0),
           child: Row(
 //            crossAxisAlignment: ,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-
             children: <Widget>[
               Flexible(
                 flex: 1,
                 child: ImageIcon(
-                  AssetImage('assets/svgIcons/book.png'),
+                  AssetImage('assets/svgIcons/book.png',
+                  ),
                   size: 30.0,
                   color: Colors.teal,
+
                 ),
+
               ),
-              SizedBox(
-                width: 10.0,
-              ),
+//              SizedBox(
+//                width: 10.0,
+//              ),
               Flexible(
-                flex: 3,
+                flex: 4,
 //                fit: FlexFit.loose,
                 child: Text(
                   subheaading,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
@@ -720,7 +721,6 @@ class ListItem extends StatelessWidget {
       );
     } else {
       return Flexible(
-
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(4.0),
@@ -730,8 +730,7 @@ class ListItem extends StatelessWidget {
 //                SizedBox(
 //                  width: 55.0,
 //                ),
-               Flexible(
-                  
+                Flexible(
                   child: Text(
                     heading,
                     style: TextStyle(
@@ -741,10 +740,10 @@ class ListItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                      Flexible(
-
+                Flexible(
                   child: Text(
                     subheaading,
+
                     style: TextStyle(
                       fontSize: 18.0,
                       fontFamily: 'Montserrat',
