@@ -271,7 +271,9 @@ class _NavDrawerState extends State<NavDrawer> {
                     (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
-              onPressed: () {},
+              onPressed: () {
+                buildSignOutDialog(context);
+              },
               isSelected: false,
             )
           ],
