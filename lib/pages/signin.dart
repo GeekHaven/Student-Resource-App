@@ -59,6 +59,9 @@ class SignIn extends StatelessWidget {
                             branch: branch)
                         .signInWithGoogle()
                         .whenComplete(() {
+                          
+                  Navigator.pop(context);
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
