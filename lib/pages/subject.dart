@@ -28,6 +28,7 @@ void set() {
 
 class Subject extends StatefulWidget {
   Subject({this.semester, this.subjectCode});
+
   final int semester;
   final String subjectCode;
 
@@ -145,7 +146,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         messageWidget.add(lis);
                       }
                     }
-                    return Expanded(
+                    return Flexible(
                       child: ListView(
                         children: messageWidget,
                       ),
@@ -168,6 +169,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
         context: context,
         builder: (builder) {
           return Container(
+
             decoration: BoxDecoration(
                 color: Constants.WHITE,
                 borderRadius: new BorderRadius.only(
@@ -613,6 +615,7 @@ class StreamWidget extends StatelessWidget {
 
 class ListItem extends StatelessWidget {
   final CallService _service = locator<CallService>();
+
   @override
   ListItem({this.heading, this.subheaading, this.b, this.c, this.phone});
 
@@ -678,24 +681,30 @@ class ListItem extends StatelessWidget {
     }
 
     if (b == true) {
-      return Expanded(
+      return Flexible(
+
         child: Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: const EdgeInsets.all(0.0),
           child: Row(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          crossAxisAlignment: CrossAxisAlignment.center,
+//            crossAxisAlignment: ,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+
             children: <Widget>[
-              Expanded(
+              Flexible(
+                flex: 1,
                 child: ImageIcon(
                   AssetImage('assets/svgIcons/book.png'),
-                  size: 44.0,
+                  size: 30.0,
                   color: Colors.teal,
                 ),
               ),
-//            SizedBox(
-//              width: 10.0,
-//            ),
-              Expanded(
+              SizedBox(
+                width: 10.0,
+              ),
+              Flexible(
+                flex: 3,
+//                fit: FlexFit.loose,
                 child: Text(
                   subheaading,
                   style: TextStyle(
@@ -710,17 +719,19 @@ class ListItem extends StatelessWidget {
         ),
       );
     } else {
-      return Expanded(
+      return Flexible(
+
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 55.0,
-                ),
-                Expanded(
+//                SizedBox(
+//                  width: 55.0,
+//                ),
+               Flexible(
+                  
                   child: Text(
                     heading,
                     style: TextStyle(
@@ -730,7 +741,8 @@ class ListItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(
+                      Flexible(
+
                   child: Text(
                     subheaading,
                     style: TextStyle(
