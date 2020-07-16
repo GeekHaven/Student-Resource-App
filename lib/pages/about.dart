@@ -11,6 +11,7 @@ import 'package:studentresourceapp/components/navDrawer.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatefulWidget {
   @override
@@ -68,6 +69,8 @@ class _AboutState extends State<About> {
                 contentbackgroundColor: Colors.transparent,
                 collapsedIcon: Text(''),
                 expandedIcon: Text(''),
+                showAccordion: true,
+                titlePadding: EdgeInsets.only(right: 10, left: 10, top: 10),
                 titleChild: ListTile(
                   leading: Icon(
                     FontAwesomeIcons.featherAlt,
@@ -76,7 +79,7 @@ class _AboutState extends State<About> {
                   ),
                   title: Text(
                     'About the App',
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                   ),
                 ),
                 contentPadding: EdgeInsets.only(left: 80),
@@ -109,6 +112,7 @@ class _AboutState extends State<About> {
                 contentbackgroundColor: Colors.transparent,
                 collapsedIcon: Text(''),
                 expandedIcon: Text(''),
+                titlePadding: EdgeInsets.only(right: 10, left: 10, ),
                 titleChild: ListTile(
                   leading: Icon(
                     Icons.settings,
@@ -117,7 +121,7 @@ class _AboutState extends State<About> {
                   ),
                   title: Text(
                     'Features',
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                   ),
                 ),
                 contentPadding: EdgeInsets.only(left: 80, right: 14),
@@ -232,6 +236,7 @@ class _AboutState extends State<About> {
                 contentbackgroundColor: Colors.transparent,
                 collapsedIcon: Text(''),
                 expandedIcon: Text(''),
+                titlePadding: EdgeInsets.only(right: 10, left: 10, ),
                 titleChild: ListTile(
                   leading: Icon(
                     Icons.settings_ethernet,
@@ -240,97 +245,120 @@ class _AboutState extends State<About> {
                   ),
                   title: Text(
                     'Contributors',
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                   ),
                 ),
                 contentPadding: EdgeInsets.only(left: 80),
                 contentChild: Column(
                   children: <Widget>[
-                    GFListTile(
-                        padding: EdgeInsets.only(
-                            right: 8, left: 0, bottom: 10, top: 10),
-                        margin: EdgeInsets.all(0),
-                        title: Text(
-                          'Avneesh Kumar',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        avatar: GFAvatar(
-                          backgroundColor: Constants.DARK_SKYBLUE,
-                          size: GFSize.MEDIUM + 2,
-                          child: GFAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                'https://avatars1.githubusercontent.com/u/54072374'),
+                    FlatButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () =>
+                          launch('https://github.com/Cybertron-Avneesh'),
+                      child: GFListTile(
+                          padding: EdgeInsets.only(
+                              right: 8, left: 0, bottom: 10, top: 10),
+                          margin: EdgeInsets.all(0),
+                          title: Text(
+                            'Avneesh Kumar',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
                           ),
-                        )),
-                    GFListTile(
-                        padding: EdgeInsets.only(
-                            right: 8, left: 0, bottom: 10, top: 10),
-                        margin: EdgeInsets.all(0),
-                        title: Text(
-                          'Pranav Singhal',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        avatar: GFAvatar(
-                          backgroundColor: Constants.DARK_SKYBLUE,
-                          size: GFSize.MEDIUM + 2,
-                          child: GFAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                'https://avatars2.githubusercontent.com/u/51447798'),
+                          avatar: GFAvatar(
+                            backgroundColor: Constants.DARK_SKYBLUE,
+                            size: GFSize.MEDIUM + 2,
+                            child: GFAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  'https://avatars1.githubusercontent.com/u/54072374'),
+                            ),
+                          )),
+                    ),
+                    FlatButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () =>
+                          launch('https://github.com/singhalpranav22'),
+                      child: GFListTile(
+                          padding: EdgeInsets.only(
+                              right: 8, left: 0, bottom: 10, top: 10),
+                          margin: EdgeInsets.all(0),
+                          title: Text(
+                            'Pranav Singhal',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
                           ),
-                        )),
-                    GFListTile(
-                        padding: EdgeInsets.only(
-                            right: 8, left: 0, bottom: 10, top: 10),
-                        margin: EdgeInsets.all(0),
-                        title: Text(
-                          'Shourya',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        avatar: GFAvatar(
-                          backgroundColor: Constants.DARK_SKYBLUE,
-                          size: GFSize.MEDIUM + 2,
-                          child: GFAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                'https://avatars3.githubusercontent.com/u/58784199'),
+                          avatar: GFAvatar(
+                            backgroundColor: Constants.DARK_SKYBLUE,
+                            size: GFSize.MEDIUM + 2,
+                            child: GFAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  'https://avatars2.githubusercontent.com/u/51447798'),
+                            ),
+                          )),
+                    ),
+                    FlatButton(
+                      onPressed: () => launch('https://github.com/lazyp4nd4'),
+                      padding: EdgeInsets.zero,
+                      child: GFListTile(
+                          padding: EdgeInsets.only(
+                              right: 8, left: 0, bottom: 10, top: 10),
+                          margin: EdgeInsets.all(0),
+                          title: Text(
+                            'Shourya',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
                           ),
-                        )),
-                    GFListTile(
-                        padding: EdgeInsets.only(
-                            right: 8, left: 0, bottom: 10, top: 10),
-                        margin: EdgeInsets.all(0),
-                        title: Text(
-                          'Tushar Kumar',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        avatar: GFAvatar(
-                          backgroundColor: Constants.DARK_SKYBLUE,
-                          size: GFSize.MEDIUM + 2,
-                          child: GFAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                'https://avatars1.githubusercontent.com/u/54072374'),
+                          avatar: GFAvatar(
+                            backgroundColor: Constants.DARK_SKYBLUE,
+                            size: GFSize.MEDIUM + 2,
+                            child: GFAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  'https://avatars3.githubusercontent.com/u/58784199'),
+                            ),
+                          )),
+                    ),
+                    FlatButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () => launch('https://github.com/tktakshila'),
+                      child: GFListTile(
+                          padding: EdgeInsets.only(
+                              right: 8, left: 0, bottom: 10, top: 10),
+                          margin: EdgeInsets.all(0),
+                          title: Text(
+                            'Tushar Kumar',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
                           ),
-                        )),
-                    GFListTile(
-                        padding: EdgeInsets.only(
-                            right: 8, left: 0, bottom: 10, top: 10),
-                        margin: EdgeInsets.all(0),
-                        title: Text(
-                          'Yukta Goplani',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        avatar: GFAvatar(
-                          backgroundColor: Constants.DARK_SKYBLUE,
-                          size: GFSize.MEDIUM + 2,
-                          child: GFAvatar(
-                            backgroundImage: CachedNetworkImageProvider(
-                                'https://avatars2.githubusercontent.com/u/59793009'),
+                          avatar: GFAvatar(
+                            backgroundColor: Constants.DARK_SKYBLUE,
+                            size: GFSize.MEDIUM + 2,
+                            child: GFAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  'https://avatars0.githubusercontent.com/u/58617063'),
+                            ),
+                          )),
+                    ),
+                    FlatButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () =>
+                          launch('https://github.com/yuktagopalani'),
+                      child: GFListTile(
+                          padding: EdgeInsets.only(
+                              right: 8, left: 0, bottom: 10, top: 10),
+                          margin: EdgeInsets.all(0),
+                          title: Text(
+                            'Yukta Goplani',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
                           ),
-                        )),
+                          avatar: GFAvatar(
+                            backgroundColor: Constants.DARK_SKYBLUE,
+                            size: GFSize.MEDIUM + 2,
+                            child: GFAvatar(
+                              backgroundImage: CachedNetworkImageProvider(
+                                  'https://avatars2.githubusercontent.com/u/59793009'),
+                            ),
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -340,6 +368,7 @@ class _AboutState extends State<About> {
                 contentbackgroundColor: Colors.transparent,
                 collapsedIcon: Text(''),
                 expandedIcon: Text(''),
+                titlePadding: EdgeInsets.only(right: 10, left: 10, ),
                 titleChild: ListTile(
                   leading: ImageIcon(
                     AssetImage('assets/images/geekhaven.png'),
@@ -348,7 +377,7 @@ class _AboutState extends State<About> {
                   ),
                   title: Text(
                     'About GeekHaven',
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
                   ),
                 ),
                 contentPadding: EdgeInsets.only(left: 80),
