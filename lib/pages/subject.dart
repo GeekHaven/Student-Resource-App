@@ -51,15 +51,15 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 
     _scrollController.addListener(() {
       switch (_scrollController.position.userScrollDirection) {
-      // Scrolling up - forward the animation (value goes to 1)
+        // Scrolling up - forward the animation (value goes to 1)
         case ScrollDirection.forward:
           _hideFabAnimController.forward();
           break;
-      // Scrolling down - reverse the animation (value goes to 0)
+        // Scrolling down - reverse the animation (value goes to 0)
         case ScrollDirection.reverse:
           _hideFabAnimController.reverse();
           break;
-      // Idle - keep FAB visibility unchanged
+        // Idle - keep FAB visibility unchanged
         case ScrollDirection.idle:
           break;
       }
@@ -79,7 +79,6 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 
   void modno(BuildContext context) {
     showModalBottomSheet(
-
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
@@ -123,14 +122,23 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final name = mod[i]['Name'];
 
 //                        ListItem lis = ListItem(heading: name, subheaading: '');
-                        dynamic it=Center(child:Text(name,style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold,fontFamily: 'Montserrat',),));
+                        dynamic it = Center(
+                            child: Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ));
                         messageWidget.add(it);
 
 //                        lis = ListItem(
 //                            heading: 'Contact No. : ', subheaading: ctnum);
 //                        messageWidget.add(lis);
 
-                        ListItem lis = ListItem(phone: true, subheaading: ctnum);
+                        ListItem lis =
+                            ListItem(phone: true, subheaading: ctnum);
                         messageWidget.add(lis);
 
                         lis = ListItem(c: true);
@@ -197,7 +205,7 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
                         final publication = RecBooks[i]['Publication'];
 
                         ListItem lis =
-                        ListItem(subheaading: booktitle, b: true);
+                            ListItem(subheaading: booktitle, b: true);
                         messageWidget.add(lis);
 
                         lis =
@@ -349,9 +357,9 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 class StreamWidget extends StatelessWidget {
   const StreamWidget(
       {Key key,
-        @required this.widget,
-        @required this.typeKey,
-        @required this.scrollController})
+      @required this.widget,
+      @required this.typeKey,
+      @required this.scrollController})
       : super(key: key);
   final ScrollController scrollController;
   final Subject widget;
@@ -375,7 +383,7 @@ class StreamWidget extends StatelessWidget {
                 listMaterials.add(
                   Padding(
                     padding:
-                    const EdgeInsets.only(right: 16, left: 16, top: 12),
+                        const EdgeInsets.only(right: 16, left: 16, top: 12),
                     child: Card(
                       shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
                       elevation: 2,
@@ -391,7 +399,6 @@ class StreamWidget extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PDFViewer(
-
                                         url: element['Content URL'],
                                         sem: widget.semester,
                                         subjectCode: widget.subjectCode,
@@ -399,7 +406,6 @@ class StreamWidget extends StatelessWidget {
                                         uniqueID: int.parse(element['id']),
                                         title: element['Title'],
                                       )));
-
                             }),
                         trailing: IconButton(
                             icon: ImageIcon(
@@ -412,26 +418,27 @@ class StreamWidget extends StatelessWidget {
                                     (await getApplicationDocumentsDirectory())
                                         .path;
                                 String path =
-                                    "$dir/${widget.semester}${widget.subjectCode}${typeKey[0]}${element['id']}${element['Title']}";
+                                    "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                                 if (await File(path).exists()) {
                                   //print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
-                                      Text('File Already Downloaded')));
+                                          Text('File Already Downloaded')));
+                                } else {
+                                  var request =
+                                      await HttpClient().getUrl(Uri.parse(url));
+                                  var response = await request.close();
+                                  var bytes =
+                                      await consolidateHttpClientResponseBytes(
+                                          response);
+                                  File file = new File(path);
+                                  await file.writeAsBytes(bytes).then((value) {
+                                    //print('$path is now downloaded');
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content: Text('Download Complete')));
+                                  });
+                                  return file;
                                 }
-                                var request =
-                                await HttpClient().getUrl(Uri.parse(url));
-                                var response = await request.close();
-                                var bytes =
-                                await consolidateHttpClientResponseBytes(
-                                    response);
-                                File file = new File(path);
-                                await file.writeAsBytes(bytes).then((value) {
-                                  //print('$path is now downloaded');
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text('Download Complete')));
-                                });
-                                return file;
                               } catch (err) {
                                 var errorMessage = "Error";
                                 //print(errorMessage);
@@ -466,7 +473,7 @@ class StreamWidget extends StatelessWidget {
                 listMaterials.add(
                   Padding(
                     padding:
-                    const EdgeInsets.only(right: 16, left: 16, top: 12),
+                        const EdgeInsets.only(right: 16, left: 16, top: 12),
                     child: Card(
                       shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
                       elevation: 2,
@@ -483,13 +490,13 @@ class StreamWidget extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PDFViewer(
-                                    url: element['URL'],
-                                    sem: widget.semester,
-                                    subjectCode: widget.subjectCode,
-                                    typeKey: typeKey,
-                                    uniqueID: element['id'],
-                                    title: element['Title'],
-                                  )));
+                                        url: element['URL'],
+                                        sem: widget.semester,
+                                        subjectCode: widget.subjectCode,
+                                        typeKey: typeKey,
+                                        uniqueID: int.parse(element['id']),
+                                        title: element['Title'],
+                                      )));
                             }),
                         trailing: IconButton(
                             icon: ImageIcon(
@@ -502,26 +509,27 @@ class StreamWidget extends StatelessWidget {
                                     (await getApplicationDocumentsDirectory())
                                         .path;
                                 String path =
-                                    "$dir/${widget.semester}${widget.subjectCode}${typeKey[0]}${element['id']}${element['Title']}";
+                                    "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                                 if (await File(path).exists()) {
                                   //print('$path already exists');
                                   Scaffold.of(context).showSnackBar(SnackBar(
                                       content:
-                                      Text('File Already Downloaded')));
+                                          Text('File Already Downloaded')));
+                                } else {
+                                  var request =
+                                      await HttpClient().getUrl(Uri.parse(url));
+                                  var response = await request.close();
+                                  var bytes =
+                                      await consolidateHttpClientResponseBytes(
+                                          response);
+                                  File file = new File(path);
+                                  await file.writeAsBytes(bytes).then((value) {
+                                    //print('$path is now downloaded');
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content: Text('Download Complete')));
+                                  });
+                                  return file;
                                 }
-                                var request =
-                                await HttpClient().getUrl(Uri.parse(url));
-                                var response = await request.close();
-                                var bytes =
-                                await consolidateHttpClientResponseBytes(
-                                    response);
-                                File file = new File(path);
-                                await file.writeAsBytes(bytes).then((value) {
-                                  //print('$path is now downloaded');
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text('Download Complete')));
-                                });
-                                return file;
                               } catch (err) {
                                 ErrorAnimatedText();
                               }
@@ -552,7 +560,7 @@ class StreamWidget extends StatelessWidget {
                 listMaterials.add(
                   Padding(
                     padding:
-                    const EdgeInsets.only(right: 16, left: 16, top: 12),
+                        const EdgeInsets.only(right: 16, left: 16, top: 12),
                     child: Card(
                       shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
                       elevation: 2,
@@ -579,9 +587,9 @@ class StreamWidget extends StatelessWidget {
               listMaterials.add(SizedBox(height: 100));
               return Container(
                   child: ListView(
-                    children: listMaterials,
-                    controller: scrollController,
-                  ));
+                children: listMaterials,
+                controller: scrollController,
+              ));
             } catch (err) {
               return ErrorAnimatedText();
             }
