@@ -573,18 +573,20 @@ class _NavDrawerState extends State<NavDrawer> {
                                         borderRadius: BorderRadius.circular(5.0))),
                                 isEmpty: _selectedBranch == widget.userData.branch,
                                 child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    value: _selectedBranch,
-                                    isDense: true,
-                                    dropdownColor: Constants.SKYBLUE,
-                                    onChanged: (String newValue) {
-                                      setState(() {
-                                        _selectedBranch = newValue;
-                                        state.didChange(newValue);
-                                      });
-                                    },
-                                    items: _branches.map((String value) {
-                                      return DropdownMenuItem<String>(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 12.0,right: 12.0),
+                                    child: DropdownButton<String>(
+                                      value: _selectedBranch,
+                                      isDense: true,
+                                      dropdownColor: Colors.white,
+                                      onChanged: (String newValue) {
+                                        setState(() {
+                                          _selectedBranch = newValue;
+                                          state.didChange(newValue);
+                                        });
+                                      },
+                                      items: _branches.map((String value) {
+                                        return DropdownMenuItem<String>(
 //                                      child: Container(
 ////                                        color: Colors.blue,
 //                                        decoration: BoxDecoration(
@@ -598,11 +600,14 @@ class _NavDrawerState extends State<NavDrawer> {
 //                                        width: MediaQuery.of(context).size.width,
 //                                        alignment: Alignment.center,
 //                                      ),
-                                        child: Text(value),
-                                        value: value,
+
+                                          child: Text(value),
+                                          value: value,
+
 //                                      child: Text(value),
-                                      );
-                                    }).toList(),
+                                        );
+                                      }).toList(),
+                                    ),
                                   ),
                                 ),
                               );
@@ -638,10 +643,10 @@ class _NavDrawerState extends State<NavDrawer> {
 
                     },
                             child: Padding(
-            padding: EdgeInsets.all(36.0),
+            padding: EdgeInsets.only(top: 36,bottom: 36,left: 108,right: 108),
             child: Container(
             height: 50.0,
-            width: 120.0,
+            width: 30.0,
             decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
             gradient: LinearGradient(
@@ -651,22 +656,14 @@ class _NavDrawerState extends State<NavDrawer> {
             ),
             child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Row(
-            children: [
-            Text(
-            "Save Changes",
-            style: TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            Icon(
-            Icons.arrow_forward_ios,
-            color: Colors.white,
-            ),
-
-            ],
+            child: Center(
+              child: Text(
+              "Save",
+              style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold),
+              ),
             ),
             ),
             ),
