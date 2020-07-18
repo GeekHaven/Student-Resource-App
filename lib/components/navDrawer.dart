@@ -14,7 +14,7 @@ import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/emailutil.dart';
 import 'package:studentresourceapp/utils/signinutil.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
-
+import 'package:studentresourceapp/components/custom_dropdown.dart';
 import '../utils/contstants.dart';
 
 class NavDrawer extends StatefulWidget {
@@ -87,7 +87,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 "Home",
                 style: TextStyle(
                   color:
-                      (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontWeight: FontWeight.normal,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
@@ -96,7 +96,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/browser.png"),
                 color:
-                    (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -117,7 +117,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -125,7 +125,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/download-Recovered.png"),
                 color:
-                    (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -148,7 +148,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -156,14 +156,14 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/share-Recovered.png"),
                 color:
-                    (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
                 Share.share(
                     'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - Link',
                     subject:
-                        'Checkout the new Sem Breaker App on your Smart Phone.');
+                    'Checkout the new Sem Breaker App on your Smart Phone.');
               },
               isSelected: false,
             ),
@@ -173,7 +173,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -181,7 +181,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/feedback-Recovered.png"),
                 color:
-                    (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -189,7 +189,7 @@ class _NavDrawerState extends State<NavDrawer> {
                     emailaddress: "studentresourceapp@gmail.com",
                     subject: "Feedback/Suggestions regarding SemBreaker App",
                     body:
-                        "My Feedback/Suggestions for the SemBreaker App are:");
+                    "My Feedback/Suggestions for the SemBreaker App are:");
                 email.launchEmail();
               },
               isSelected: false,
@@ -200,7 +200,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -208,7 +208,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/help-Recovered.png"),
                 color:
-                    (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -239,7 +239,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 iconData: Icon(
                   Icons.developer_mode,
                   color:
-                      (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   size: 22.0,
                 ),
                 onPressed: () {
@@ -247,7 +247,8 @@ class _NavDrawerState extends State<NavDrawer> {
                   Navigator.popUntil(context, ModalRoute.withName('/'));
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                        builder: (BuildContext context) => Admin(
+                        builder: (BuildContext context) =>
+                            Admin(
                               uid: widget.userData.uid,
                             )),
                   );
@@ -260,7 +261,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -268,7 +269,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/logout.png"),
                 color:
-                    (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -289,7 +290,7 @@ class _NavDrawerState extends State<NavDrawer> {
               size: 18.0,
             ),
             onPressed: () {
-              buildShowModalBottomSheet(context);
+              buildShowModalBottomShee(context);
             },
           ),
         ),
@@ -331,99 +332,261 @@ class _NavDrawerState extends State<NavDrawer> {
         });
   }
 
-  Future buildShowModalBottomSheet(BuildContext context) {
+//  Future buildShowModalBottomSheet(BuildContext context) {
+//    return showModalBottomSheet(
+//        context: context,
+//        builder: (context) {
+//          return Padding(
+//            padding: const EdgeInsets.all(10),
+//            child: Column(
+//              children: <Widget>[
+//                TextField(
+//                  decoration: InputDecoration(
+//                      border: OutlineInputBorder(),
+//                      labelText: 'Name',
+//                      hintText: widget.userData.name),
+//                  onChanged: (value) {
+//                    setState(() {
+//                      name = value;
+//                    });
+//                  },
+//                ),
+//                Text('Semester'),
+//                FormField<int>(
+//                  builder: (FormFieldState<int> state) {
+//                    return InputDecorator(
+//                      decoration: InputDecoration(
+//                          border: OutlineInputBorder(
+//                              borderRadius: BorderRadius.circular(5.0))),
+//                      child: DropdownButtonHideUnderline(
+//                        child: DropdownButton<int>(
+//                          value: _selectedSemester,
+//                          isDense: true,
+//                          onChanged: (int newValue) {
+//                            setState(() {
+//                              _selectedSemester = newValue;
+//                              state.didChange(newValue);
+//                            });
+//                          },
+//                          items: _semester.map((int value) {
+//                            return DropdownMenuItem<int>(
+//                              value: value,
+//                              child: Text(value.toString()),
+//                            );
+//                          }).toList(),
+//                        ),
+//                      ),
+//                    );
+//                  },
+//                ),
+//                Text('Branch'),
+//                FormField<String>(
+//                  builder: (FormFieldState<String> state) {
+//                    return InputDecorator(
+//                      decoration: InputDecoration(
+//                          border: OutlineInputBorder(
+//                              borderRadius: BorderRadius.circular(5.0))),
+//                      isEmpty: _selectedBranch == '',
+//                      child: DropdownButtonHideUnderline(
+//                        child: DropdownButton<String>(
+//                          value: _selectedBranch,
+//                          isDense: true,
+//                          onChanged: (String newValue) {
+//                            setState(() {
+//                              _selectedBranch = newValue;
+//                              state.didChange(newValue);
+//                            });
+//                          },
+//                          items: _branches.map((String value) {
+//                            return DropdownMenuItem<String>(
+//                              value: value,
+//                              child: Text(value),
+//                            );
+//                          }).toList(),
+//                        ),
+//                      ),
+//                    );
+//                  },
+//                ),
+//                SizedBox(height: 10),
+//                RaisedButton(
+//                  onPressed: () {
+//                    setState(() async {
+//                      Firestore.instance
+//                          .collection('userDetails')
+//                          .document(widget.userData.uid.toString())
+//                          .updateData({
+//                        'name': name,
+//                        'branch': _selectedBranch,
+//                        'semester': _selectedSemester,
+//                      });
+//                      Navigator.pop(context);
+//                    });
+//                  },
+//                  child: Text('Save Changes'),
+//                )
+//              ],
+//            ),
+//          );
+//        });
+//  }
+//}
+  Future buildShowModalBottomShee(BuildContext context) {
+    String Name = "";
     return showModalBottomSheet(
+        isScrollControlled: true,
+        isDismissible: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+        ),
         context: context,
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.all(10),
+        builder: (builder) {
+          return Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery
+                    .of(context)
+                    .viewInsets
+                    .bottom),
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 2 +
+                MediaQuery
+                    .of(context)
+                    .viewInsets
+                    .bottom,
+            decoration: BoxDecoration(
+                color: Constants.WHITE,
+                borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(24.0),
+                    topRight: const Radius.circular(24.0))),
             child: Column(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Name',
-                      hintText: widget.userData.name),
-                  onChanged: (value) {
-                    setState(() {
-                      name = value;
-                    });
-                  },
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 12),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        height: 6,
+                        width: 64,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  ),
                 ),
-                Text('Semester'),
-                FormField<int>(
-                  builder: (FormFieldState<int> state) {
-                    return InputDecorator(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<int>(
-                          value: _selectedSemester,
-                          isDense: true,
-                          onChanged: (int newValue) {
-                            setState(() {
-                              _selectedSemester = newValue;
-                              state.didChange(newValue);
-                            });
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "Edit Profile",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0,right: 20.0),
+                  child: Divider(
+                    height: 10.0,
+                      color: Colors.blue,
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          initialValue: Name,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText:  widget.userData.name,
+                            labelText: 'Name',
+                          ),
+                          onChanged: (value) {
+                            Name = value;
                           },
-                          items: _semester.map((int value) {
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(value.toString()),
-                            );
-                          }).toList(),
                         ),
                       ),
-                    );
-                  },
-                ),
-                Text('Branch'),
-                FormField<String>(
-                  builder: (FormFieldState<String> state) {
-                    return InputDecorator(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                      isEmpty: _selectedBranch == '',
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _selectedBranch,
-                          isDense: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _selectedBranch = newValue;
-                              state.didChange(newValue);
-                            });
-                          },
-                          items: _branches.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+
+//                      Padding(
+//                        padding: const EdgeInsets.all(8.0),
+//                        child: Text('Branch'),
+//                      ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10.0,bottom: 3.0),
+                          child: Text(
+                            "Select Branch",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
                       ),
-                    );
-                  },
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FormField<String>(
+                          builder: (FormFieldState<String> state) {
+                            return InputDecorator(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0))),
+                              isEmpty: _selectedBranch == '',
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: _selectedBranch,
+                                  isDense: true,
+                                  dropdownColor: Colors.blue,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _selectedBranch = newValue;
+                                      state.didChange(newValue);
+                                    });
+                                  },
+                                  items: _branches.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+
+//                    GestureDetector(
+//                        onTap: () {
+//                          {
+//                            Firestore.instance
+//                                .collection('Subjects')
+//                                .document(widget.subjectCode)
+//                                .updateData({
+//                              'Recommended Books': FieldValue.arrayUnion([
+//                                {
+//                                  'BookTitle': bookName ?? '',
+//                                  'Author': author ?? '',
+//                                  'Publication': publication ?? ''
+//                                }
+//                              ])
+//                            }).whenComplete(
+//                                    () => Navigator.of(context).pop());
+//                          }
+//                        },
+//                        child: AddButton())
+                    ],
+                  ),
                 ),
-                SizedBox(height: 10),
-                RaisedButton(
-                  onPressed: () {
-                    setState(() async {
-                      Firestore.instance
-                          .collection('userDetails')
-                          .document(widget.userData.uid.toString())
-                          .updateData({
-                        'name': name,
-                        'branch': _selectedBranch,
-                        'semester': _selectedSemester,
-                      });
-                      Navigator.pop(context);
-                    });
-                  },
-                  child: Text('Save Changes'),
-                )
               ],
             ),
           );
