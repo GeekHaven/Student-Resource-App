@@ -8,9 +8,12 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
-    return Center(child: 
-    FlareActor('assets/flareFiles/book_loader.flr', alignment: Alignment.center, animation: 'opening_closing')
+    return Center(
+      child: FlareActor(
+        'assets/flareFiles/book_loader.flr',
+        alignment: Alignment.center,
+        animation: 'opening_closing',
+      ),
     );
   }
 }

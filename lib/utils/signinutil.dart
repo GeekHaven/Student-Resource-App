@@ -58,13 +58,15 @@ class SignInUtil {
     SharedPreferencesUtil.setBooleanValue(Constants.USER_LOGGED_IN, true);
     SharedPreferencesUtil.setStringValue(Constants.USER_DETAIL_OBJECT, user);
     final userDoc = _firestoreUser.document(uid);
-    userDoc.get().then((docsnapshot) => {
-          //if (docsnapshot.exists)
-          //  {print('Snapshot exists with docID $uid')}
-          //else
-          //  {
-          //print('No existance of doc with docID 123'),
-              _firestoreUser.document(uid.toString()).setData({
+    userDoc.get().then(
+          (docsnapshot) => {
+            //if (docsnapshot.exists)
+            //  {print('Snapshot exists with docID $uid')}
+            //else
+            //  {
+            //print('No existance of doc with docID 123'),
+            _firestoreUser.document(uid.toString()).setData(
+              {
                 'name': name,
                 'email': email,
                 'imageUrl': imageUrl,
@@ -73,9 +75,10 @@ class SignInUtil {
                 'branch': branch,
                 'college': college,
                 'semester': semester,
-              })
-          //  }
-        });
+              },
+            ),
+          },
+        );
 
     return 'signInWithGoogle succeeded: $firebaseuser';
   }
@@ -83,6 +86,5 @@ class SignInUtil {
   void signOutGoogle() async {
     await googleSignIn.signOut();
     SharedPreferencesUtil.clearPreferences();
-    //print("User Sign Out");
   }
 }

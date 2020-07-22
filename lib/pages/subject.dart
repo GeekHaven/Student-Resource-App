@@ -50,21 +50,23 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
       value: 1, // initially visible
     );
 
-    _scrollController.addListener(() {
-      switch (_scrollController.position.userScrollDirection) {
-        // Scrolling up - forward the animation (value goes to 1)
-        case ScrollDirection.forward:
-          _hideFabAnimController.forward();
-          break;
-        // Scrolling down - reverse the animation (value goes to 0)
-        case ScrollDirection.reverse:
-          _hideFabAnimController.reverse();
-          break;
-        // Idle - keep FAB visibility unchanged
-        case ScrollDirection.idle:
-          break;
-      }
-    });
+    _scrollController.addListener(
+      () {
+        switch (_scrollController.position.userScrollDirection) {
+          // Scrolling up - forward the animation (value goes to 1)
+          case ScrollDirection.forward:
+            _hideFabAnimController.forward();
+            break;
+          // Scrolling down - reverse the animation (value goes to 0)
+          case ScrollDirection.reverse:
+            _hideFabAnimController.reverse();
+            break;
+          // Idle - keep FAB visibility unchanged
+          case ScrollDirection.idle:
+            break;
+        }
+      },
+    );
   }
 
   void handleClick(String value) {
@@ -80,159 +82,154 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
 
   void modno(BuildContext context) {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(24),
-          ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(24),
         ),
-        context: context,
-        builder: (builder) {
-          return Container(
-            decoration: BoxDecoration(
-                color: Constants.WHITE,
-                borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(24.0),
-                    topRight: const Radius.circular(24.0))),
-            child: Column(
-              children: <Widget>[
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 12),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        height: 6,
-                        width: 64,
-                        color: Colors.black45,
-                      ),
+      ),
+      context: context,
+      builder: (builder) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Constants.WHITE,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(24.0),
+              topRight: const Radius.circular(24.0),
+            ),
+          ),
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 6,
+                      width: 64,
+                      color: Colors.black45,
                     ),
                   ),
                 ),
-                StreamBuilder(
-                  stream: Firestore.instance
-                      .collection('Subjects')
-                      .document('${widget.semester}_${widget.subjectCode}')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    List<Widget> messageWidget = [];
-                    if (snapshot.hasData) {
-                      List mod = snapshot.data['MODERATORS'];
-                      //print(mod);
-                      for (int i = 0; i < mod.length; i++) {
-                        final ctnum = mod[i]['Contact Number'];
-                        final name = mod[i]['Name'];
+              ),
+              StreamBuilder(
+                stream: Firestore.instance
+                    .collection('Subjects')
+                    .document('${widget.semester}_${widget.subjectCode}')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  List<Widget> messageWidget = [];
+                  if (snapshot.hasData) {
+                    List mod = snapshot.data['MODERATORS'];
+                    //print(mod);
+                    for (int i = 0; i < mod.length; i++) {
+                      final ctnum = mod[i]['Contact Number'];
+                      final name = mod[i]['Name'];
+                      dynamic it = Center(
+                          child: Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ));
+                      messageWidget.add(it);
+                      ListItem lis = ListItem(phone: true, subheaading: ctnum);
+                      messageWidget.add(lis);
 
-//                        ListItem lis = ListItem(heading: name, subheaading: '');
-                        dynamic it = Center(
-                            child: Text(
-                          name,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ));
-                        messageWidget.add(it);
-
-//                        lis = ListItem(
-//                            heading: 'Contact No. : ', subheaading: ctnum);
-//                        messageWidget.add(lis);
-
-                        ListItem lis =
-                            ListItem(phone: true, subheaading: ctnum);
-                        messageWidget.add(lis);
-
-                        lis = ListItem(c: true);
-                        messageWidget.add(lis);
-                      }
+                      lis = ListItem(c: true);
+                      messageWidget.add(lis);
                     }
-                    return Flexible(
-                      child: ListView(
-                        children: messageWidget,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        });
+                  }
+                  return Flexible(
+                    child: ListView(
+                      children: messageWidget,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void recBooks(BuildContext context) {
     showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(24),
-          ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(24),
         ),
-        context: context,
-        builder: (builder) {
-          return Container(
-            decoration: BoxDecoration(
-                color: Constants.WHITE,
-                borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(24.0),
-                    topRight: const Radius.circular(24.0))),
-            child: Column(
-              children: <Widget>[
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 12),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        height: 6,
-                        width: 64,
-                        color: Colors.black45,
-                      ),
+      ),
+      context: context,
+      builder: (builder) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Constants.WHITE,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(24.0),
+              topRight: const Radius.circular(24.0),
+            ),
+          ),
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 6,
+                      width: 64,
+                      color: Colors.black45,
                     ),
                   ),
                 ),
-                StreamBuilder(
-                  stream: Firestore.instance
-                      .collection('Subjects')
-                      .document('${widget.semester}_${widget.subjectCode}')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    List<ListItem> messageWidget = [];
-                    if (snapshot.hasData) {
-                      List RecBooks = snapshot.data['Recommended Books'];
-                      print(RecBooks);
+              ),
+              StreamBuilder(
+                stream: Firestore.instance
+                    .collection('Subjects')
+                    .document('${widget.semester}_${widget.subjectCode}')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  List<ListItem> messageWidget = [];
+                  if (snapshot.hasData) {
+                    List RecBooks = snapshot.data['Recommended Books'];
+                    print(RecBooks);
 
-                      for (int i = 0; i < RecBooks.length; i++) {
-                        final author = RecBooks[i]['Author'];
-                        final booktitle = RecBooks[i]['BookTitle'];
-                        final publication = RecBooks[i]['Publication'];
+                    for (int i = 0; i < RecBooks.length; i++) {
+                      final author = RecBooks[i]['Author'];
+                      final booktitle = RecBooks[i]['BookTitle'];
+                      final publication = RecBooks[i]['Publication'];
 
-                        ListItem lis =
-                            ListItem(subheaading: booktitle, b: true);
-                        messageWidget.add(lis);
+                      ListItem lis = ListItem(subheaading: booktitle, b: true);
+                      messageWidget.add(lis);
 
-                        lis =
-                            ListItem(heading: 'Author : ', subheaading: author);
-                        messageWidget.add(lis);
+                      lis = ListItem(heading: 'Author : ', subheaading: author);
+                      messageWidget.add(lis);
 
-                        lis = ListItem(
-                            heading: 'Publication : ',
-                            subheaading: publication);
+                      lis = ListItem(
+                          heading: 'Publication : ', subheaading: publication);
 
-                        messageWidget.add(lis);
-                        lis = ListItem(c: true);
-                        messageWidget.add(lis);
-                      }
+                      messageWidget.add(lis);
+                      lis = ListItem(c: true);
+                      messageWidget.add(lis);
                     }
-                    return Expanded(
-                      child: ListView(
-                        children: messageWidget,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        });
+                  }
+                  return Expanded(
+                    child: ListView(
+                      children: messageWidget,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -250,23 +247,11 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
         appBar: AppBar(
           backgroundColor: Constants.DARK_SKYBLUE,
           elevation: 0,
-          title: Text('${widget.subjectCode}',
-              style: TextStyle(
-                  fontFamily: 'Montserrat', fontWeight: FontWeight.bold)),
-          /*actions: <Widget>[
-            PopupMenuButton<String>(
-              onSelected: handleClick,
-              icon: Icon(Icons.info_outline),
-              itemBuilder: (BuildContext context) {
-                return {'Recommended Books', 'Moderators'}.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(choice),
-                  );
-                }).toList();
-              },
-            ),
-          ],*/
+          title: Text(
+            '${widget.subjectCode}',
+            style: TextStyle(
+                fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
+          ),
           bottom: TabBar(
             indicator: MD2Indicator(
                 indicatorHeight: 4,
@@ -310,45 +295,48 @@ class _SubjectState extends State<Subject> with SingleTickerProviderStateMixin {
         floatingActionButton: FadeTransition(
           opacity: _hideFabAnimController,
           child: ScaleTransition(
-              scale: _hideFabAnimController,
-              child: UnicornDialer(
-                backgroundColor: Colors.white70,
-                parentButton: ImageIcon(AssetImage('assets/svgIcons/info.png')),
-                parentButtonBackground: Constants.DARK_SKYBLUE,
-                finalButtonIcon: Icon(Icons.close),
-                childPadding: 12,
-                childButtons: [
-                  UnicornButton(
-                    labelColor: Colors.black,
-                    hasLabel: true,
-                    labelText: 'Books',
-                    currentButton: FloatingActionButton(
-                        heroTag: null,
-                        mini: true,
-                        onPressed: () {
-                          recBooks(context);
-                        },
-                        backgroundColor: Constants.DARK_SKYBLUE,
-                        child: ImageIcon(AssetImage('assets/svgIcons/book.png'),
-                            size: 20)),
+            scale: _hideFabAnimController,
+            child: UnicornDialer(
+              backgroundColor: Colors.white70,
+              parentButton: ImageIcon(AssetImage('assets/svgIcons/info.png')),
+              parentButtonBackground: Constants.DARK_SKYBLUE,
+              finalButtonIcon: Icon(Icons.close),
+              childPadding: 12,
+              childButtons: [
+                UnicornButton(
+                  labelColor: Colors.black,
+                  hasLabel: true,
+                  labelText: 'Books',
+                  currentButton: FloatingActionButton(
+                    heroTag: null,
+                    mini: true,
+                    onPressed: () {
+                      recBooks(context);
+                    },
+                    backgroundColor: Constants.DARK_SKYBLUE,
+                    child: ImageIcon(AssetImage('assets/svgIcons/book.png'),
+                        size: 20),
                   ),
-                  UnicornButton(
-                    labelColor: Colors.black,
-                    hasLabel: true,
-                    labelText: 'Moderators',
-                    currentButton: FloatingActionButton(
-                        heroTag: null,
-                        mini: true,
-                        onPressed: () {
-                          modno(context);
-                        },
-                        backgroundColor: Constants.DARK_SKYBLUE,
-                        child: ImageIcon(
-                            AssetImage('assets/svgIcons/moderators.png'),
-                            size: 20)),
+                ),
+                UnicornButton(
+                  labelColor: Colors.black,
+                  hasLabel: true,
+                  labelText: 'Moderators',
+                  currentButton: FloatingActionButton(
+                    heroTag: null,
+                    mini: true,
+                    onPressed: () {
+                      modno(context);
+                    },
+                    backgroundColor: Constants.DARK_SKYBLUE,
+                    child: ImageIcon(
+                        AssetImage('assets/svgIcons/moderators.png'),
+                        size: 20),
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -380,35 +368,45 @@ class StreamWidget extends StatelessWidget {
               List materialData = snapshot.data['Material'];
               //print(materialData.toString());
               List<Widget> listMaterials = [];
-              materialData.forEach((element) {
-                listMaterials.add(
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: 16, left: 16, top: 12),
-                    child: Card(
-                      shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        title: Text(element['Title'],
-                            style: TextStyle(fontWeight: FontWeight.w600)),
-                        leading: IconButton(
+              materialData.forEach(
+                (element) {
+                  listMaterials.add(
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 16, left: 16, top: 12),
+                      child: Card(
+                        shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            element['Title'],
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          leading: IconButton(
                             icon: ImageIcon(
-                                AssetImage('assets/svgIcons/preview.png')),
+                              AssetImage('assets/svgIcons/preview.png'),
+                            ),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
                                   builder: (context) => PDFViewer(
-                                        url: element['Content URL'],
-                                        sem: widget.semester,
-                                        subjectCode: widget.subjectCode,
-                                        typeKey: typeKey,
-                                        uniqueID: int.parse(element['id']),
-                                        title: element['Title'],
-                                      )));
-                            }),
-                        trailing: IconButton(
+                                    url: element['Content URL'],
+                                    sem: widget.semester,
+                                    subjectCode: widget.subjectCode,
+                                    typeKey: typeKey,
+                                    uniqueID: int.parse(
+                                      element['id'],
+                                    ),
+                                    title: element['Title'],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          trailing: IconButton(
                             icon: ImageIcon(
                                 AssetImage('assets/svgIcons/download.png'),
                                 size: 20),
@@ -422,12 +420,15 @@ class StreamWidget extends StatelessWidget {
                                     "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                                 if (await File(path).exists()) {
                                   //print('$path already exists');
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content:
-                                          Text('File Already Downloaded')));
+                                  Scaffold.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('File Already Downloaded'),
+                                    ),
+                                  );
                                 } else {
-                                  var request =
-                                      await HttpClient().getUrl(Uri.parse(url));
+                                  var request = await HttpClient().getUrl(
+                                    Uri.parse(url),
+                                  );
                                   var response = await request.close();
                                   var bytes =
                                       await consolidateHttpClientResponseBytes(
@@ -435,8 +436,11 @@ class StreamWidget extends StatelessWidget {
                                   File file = new File(path);
                                   await file.writeAsBytes(bytes).then((value) {
                                     //print('$path is now downloaded');
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                        content: Text('Download Complete')));
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Download Complete'),
+                                      ),
+                                    );
                                   });
                                   return file;
                                 }
@@ -446,16 +450,20 @@ class StreamWidget extends StatelessWidget {
                                 //print(err);
                                 return null;
                               }
-                            }),
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              });
+                  );
+                },
+              );
               if (listMaterials.isEmpty) {
                 return NoContentAnimatedText();
               }
-              listMaterials.add(SizedBox(height: 100));
+              listMaterials.add(
+                SizedBox(height: 100),
+              );
               return Container(
                 child: ListView(
                   children: listMaterials,
@@ -470,36 +478,42 @@ class StreamWidget extends StatelessWidget {
               List materialData = snapshot.data['QuestionPapers'];
               //print(materialData.toString());
               List<Widget> listMaterials = [];
-              materialData.forEach((element) {
-                listMaterials.add(
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: 16, left: 16, top: 12),
-                    child: Card(
-                      shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        title: Text(element['Title'],
-                            style: TextStyle(fontWeight: FontWeight.w600)),
-                        subtitle: Text(element['Type'] + '-' + element['Year']),
-                        leading: IconButton(
+              materialData.forEach(
+                (element) {
+                  listMaterials.add(
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 16, left: 16, top: 12),
+                      child: Card(
+                        shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ListTile(
+                          title: Text(element['Title'],
+                              style: TextStyle(fontWeight: FontWeight.w600)),
+                          subtitle:
+                              Text(element['Type'] + '-' + element['Year']),
+                          leading: IconButton(
                             icon: ImageIcon(
                                 AssetImage('assets/svgIcons/preview.png')),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
                                   builder: (context) => PDFViewer(
-                                        url: element['URL'],
-                                        sem: widget.semester,
-                                        subjectCode: widget.subjectCode,
-                                        typeKey: typeKey,
-                                        uniqueID: int.parse(element['id']),
-                                        title: element['Title'],
-                                      )));
-                            }),
-                        trailing: IconButton(
+                                    url: element['URL'],
+                                    sem: widget.semester,
+                                    subjectCode: widget.subjectCode,
+                                    typeKey: typeKey,
+                                    uniqueID: int.parse(element['id']),
+                                    title: element['Title'],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          trailing: IconButton(
                             icon: ImageIcon(
                                 AssetImage('assets/svgIcons/download.png'),
                                 size: 20),
@@ -513,84 +527,107 @@ class StreamWidget extends StatelessWidget {
                                     "$dir/${widget.semester}_${widget.subjectCode}_${typeKey[0]}_${element['id']}_${element['Title']}";
                                 if (await File(path).exists()) {
                                   //print('$path already exists');
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content:
-                                          Text('File Already Downloaded')));
+                                  Scaffold.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('File Already Downloaded'),
+                                    ),
+                                  );
                                 } else {
-                                  var request =
-                                      await HttpClient().getUrl(Uri.parse(url));
+                                  var request = await HttpClient().getUrl(
+                                    Uri.parse(url),
+                                  );
                                   var response = await request.close();
                                   var bytes =
                                       await consolidateHttpClientResponseBytes(
                                           response);
                                   File file = new File(path);
-                                  await file.writeAsBytes(bytes).then((value) {
-                                    //print('$path is now downloaded');
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                        content: Text('Download Complete')));
-                                  });
+                                  await file.writeAsBytes(bytes).then(
+                                    (value) {
+                                      //print('$path is now downloaded');
+                                      Scaffold.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Download Complete'),
+                                        ),
+                                      );
+                                    },
+                                  );
                                   return file;
                                 }
                               } catch (err) {
                                 ErrorAnimatedText();
                               }
-                            }),
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              });
+                  );
+                },
+              );
               if (listMaterials.isEmpty) {
                 return NoContentAnimatedText();
               }
-              listMaterials.add(SizedBox(height: 100));
+              listMaterials.add(
+                SizedBox(height: 100),
+              );
               return Container(
-                  child: ListView(
-                      controller: scrollController, children: listMaterials));
+                child: ListView(
+                    controller: scrollController, children: listMaterials),
+              );
             } catch (err) {
               return Center(
-                  child: Text(
-                      'No Content available for this Subject.\n Come back later'));
+                child: Text(
+                    'No Content available for this Subject.\n Come back later'),
+              );
             }
           } else if (typeKey == 'Important Links') {
             try {
               List materialData = snapshot.data['Important Links'];
               //print(materialData.toString());
               List<Widget> listMaterials = [];
-              materialData.forEach((element) {
-                listMaterials.add(
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: 16, left: 16, top: 12),
-                    child: Card(
-                      shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        title: Text(element['Title'],
-                            style: TextStyle(fontWeight: FontWeight.w600)),
-                        trailing: IconButton(
-                            icon: ImageIcon(AssetImage(
-                                'assets/svgIcons/external Link.png')),
+              materialData.forEach(
+                (element) {
+                  listMaterials.add(
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 16, left: 16, top: 12),
+                      child: Card(
+                        shadowColor: Color.fromRGBO(0, 0, 0, 0.75),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            element['Title'],
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          trailing: IconButton(
+                            icon: ImageIcon(
+                              AssetImage('assets/svgIcons/external Link.png'),
+                            ),
                             onPressed: () {
-                              urlLauncher(element['Content URL']);
-                            }),
+                              urlLauncher(
+                                element['Content URL'],
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              });
+                  );
+                },
+              );
               if (listMaterials.isEmpty) {
                 return NoContentAnimatedText();
               }
               listMaterials.add(SizedBox(height: 100));
               return Container(
-                  child: ListView(
-                children: listMaterials,
-                controller: scrollController,
-              ));
+                child: ListView(
+                  children: listMaterials,
+                  controller: scrollController,
+                ),
+              );
             } catch (err) {
               return ErrorAnimatedText();
             }
@@ -684,27 +721,21 @@ class ListItem extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(0.0),
           child: Row(
-//            crossAxisAlignment: ,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Flexible(
                 flex: 1,
                 child: ImageIcon(
-                  AssetImage('assets/svgIcons/book.png',
+                  AssetImage(
+                    'assets/svgIcons/book.png',
                   ),
                   size: 30.0,
                   color: Colors.teal,
-
                 ),
-
               ),
-//              SizedBox(
-//                width: 10.0,
-//              ),
               Flexible(
                 flex: 4,
-//                fit: FlexFit.loose,
                 child: Text(
                   subheaading,
                   textAlign: TextAlign.center,
@@ -727,9 +758,6 @@ class ListItem extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-//                SizedBox(
-//                  width: 55.0,
-//                ),
                 Flexible(
                   child: Text(
                     heading,
@@ -743,7 +771,6 @@ class ListItem extends StatelessWidget {
                 Flexible(
                   child: Text(
                     subheaading,
-
                     style: TextStyle(
                       fontSize: 18.0,
                       fontFamily: 'Montserrat',

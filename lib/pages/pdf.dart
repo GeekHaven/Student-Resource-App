@@ -67,11 +67,14 @@ class _PDFViewerState extends State<PDFViewer> {
   @override
   Widget build(BuildContext context) {
     return pathPDF == ''
-        ? Scaffold(body: CustomLoader())
+        ? Scaffold(
+            body: CustomLoader(),
+          )
         : PDFViewerScaffold(
             appBar: AppBar(
               title: Text("Document"),
             ),
-            path: pathPDF);
+            path: pathPDF,
+          );
   }
 }

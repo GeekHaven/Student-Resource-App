@@ -18,14 +18,16 @@ class _AdminState extends State<Admin> {
     final QuerySnapshot result =
         await Firestore.instance.collection('admins').getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
-    documents.forEach((data) {
-      if (data.data['canManageModerators'] == true &&
-          data.documentID == widget.uid) {
-        setState(() {
-          canManageModerators = true;
-        });
-      }
-    });
+    documents.forEach(
+      (data) {
+        if (data.data['canManageModerators'] == true &&
+            data.documentID == widget.uid) {
+          setState(() {
+            canManageModerators = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -39,7 +41,7 @@ class _AdminState extends State<Admin> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin'),
-        ),
+      ),
       body: Container(
         child: StreamBuilder(
           stream: Firestore.instance
@@ -69,9 +71,9 @@ class _AdminState extends State<Admin> {
                               MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     SubjectsAdmin(
-                                        subjectCode: element,
-                                        canManageModerators:
-                                            canManageModerators),
+                                  subjectCode: element,
+                                  canManageModerators: canManageModerators,
+                                ),
                               ),
                             );
                           },

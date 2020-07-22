@@ -3,23 +3,20 @@
 
 import 'package:url_launcher/url_launcher.dart';
 
-class Email{
-
+class Email {
   //Email class accepting emailaddress,subject and body of the email
-  Email({this.emailaddress,this.subject,this.body});
+  Email({this.emailaddress, this.subject, this.body});
   String emailaddress;
   String subject;
   String body;
   //A function to launch email intent in the phone.
-  void launchEmail() async
-  {
-    var url="mailto:$emailaddress?subject=$subject&body=$body";
+  void launchEmail() async {
+    var url = "mailto:$emailaddress?subject=$subject&body=$body";
     try {
       if (await canLaunch(url)) {
         await launch(url);
       }
-    }
-    catch(e){
+    } catch (e) {
       //print(e.toString());
     }
   }

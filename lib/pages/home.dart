@@ -138,72 +138,77 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 Map branchSubjects = snapshot.data['branches']
                     ['${userLoad.branch.toUpperCase()}'];
                 List<Widget> subjects = [];
-                branchSubjects.forEach((key, value) {
-                  subjects.add(
-                    FlatButton(
-                      child: ListTile(
-                        leading: Image.asset(
-                          'assets/images/Computer.png',
-                          height: 32,
-                        ),
-                        title: Text(
-                          key,
-                          style: TextStyle(
-                              color: Constants.BLACK,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        subtitle: Text(
-                          value,
-                          style: TextStyle(
-                              color: Constants.STEEL,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        trailing: Icon(
-                          Icons.keyboard_arrow_right,
-                          color: Constants.BLACK,
-                          size: 36,
-                        ),
-                      ),
-                      splashColor: Constants.SKYBLUE,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return Subject(
-                                  semester: userLoad.semester,
-                                  subjectCode: key);
-                            },
+                branchSubjects.forEach(
+                  (key, value) {
+                    subjects.add(
+                      FlatButton(
+                        child: ListTile(
+                          leading: Image.asset(
+                            'assets/images/Computer.png',
+                            height: 32,
                           ),
-                        );
-                      },
-                    ),
-                  );
-                });
+                          title: Text(
+                            key,
+                            style: TextStyle(
+                                color: Constants.BLACK,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text(
+                            value,
+                            style: TextStyle(
+                                color: Constants.STEEL,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
+                            color: Constants.BLACK,
+                            size: 36,
+                          ),
+                        ),
+                        splashColor: Constants.SKYBLUE,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Subject(
+                                    semester: userLoad.semester,
+                                    subjectCode: key);
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
                 if (subjects.isEmpty) {
                   return NoContentAnimatedText();
                 }
-                subjects.add(SizedBox(
-                  height: 100,
-                ));
+                subjects.add(
+                  SizedBox(
+                    height: 100,
+                  ),
+                );
 
                 return Container(
-                    child: ListView.separated(
-                  controller: _scrollController,
-                  itemCount: subjects.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(
-                    thickness: 0.5,
-                    color: Constants.SMOKE,
-                    indent: 24,
-                    endIndent: 24,
+                  child: ListView.separated(
+                    controller: _scrollController,
+                    itemCount: subjects.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(
+                      thickness: 0.5,
+                      color: Constants.SMOKE,
+                      indent: 24,
+                      endIndent: 24,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return subjects[index];
+                    },
                   ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return subjects[index];
-                  },
-                ));
+                );
               }
             } catch (err) {
               return ErrorAnimatedText();
@@ -217,65 +222,67 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         child: ScaleTransition(
           scale: _hideFabAnimController,
           child: FloatingActionButton.extended(
-              backgroundColor: Constants.DARK_SKYBLUE,
-              elevation: 1,
-              isExtended: true,
-              label: Text(
-                'Switch Sem',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
+            backgroundColor: Constants.DARK_SKYBLUE,
+            elevation: 1,
+            isExtended: true,
+            label: Text(
+              'Switch Sem',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
               ),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                     return CircleList(
-                        showInitialAnimation: true,
-                        animationSetting: AnimationSetting(
-                            duration: Duration(milliseconds: 800),
-                            curve: Curves.fastOutSlowIn),
-                        children: List.generate(
-                          8,
-                          (index) => ClipRRect(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(1000)),
-                            child: MaterialButton(
-                              height: 60,
-                              minWidth: 60,
-                              color: (index + 1) == userLoad.semester
-                                  ? Constants.DARK_SKYBLUE
-                                  : Constants.WHITE,
-                              child: Text(
-                                '${index + 1}',
-                                style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 36,
-                                    color: Constants.BLACK,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  userLoad.semester = index + 1;
-                                  SharedPreferencesUtil.setStringValue(
-                                      Constants.USER_DETAIL_OBJECT, userLoad);
-                                  Firestore.instance
-                                      .collection(
-                                          Constants.COLLECTION_NAME_USER)
-                                      .document(userLoad.uid)
-                                      .setData({'semester': index + 1},
-                                          merge: true);
-                                });
-                              },
-                            ),
+            ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return CircleList(
+                    showInitialAnimation: true,
+                    animationSetting: AnimationSetting(
+                        duration: Duration(milliseconds: 800),
+                        curve: Curves.fastOutSlowIn),
+                    children: List.generate(
+                      8,
+                      (index) => ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(1000)),
+                        child: MaterialButton(
+                          height: 60,
+                          minWidth: 60,
+                          color: (index + 1) == userLoad.semester
+                              ? Constants.DARK_SKYBLUE
+                              : Constants.WHITE,
+                          child: Text(
+                            '${index + 1}',
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 36,
+                                color: Constants.BLACK,
+                                fontWeight: FontWeight.w600),
                           ),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            setState(
+                              () {
+                                userLoad.semester = index + 1;
+                                SharedPreferencesUtil.setStringValue(
+                                    Constants.USER_DETAIL_OBJECT, userLoad);
+                                Firestore.instance
+                                    .collection(Constants.COLLECTION_NAME_USER)
+                                    .document(userLoad.uid)
+                                    .setData({'semester': index + 1},
+                                        merge: true);
+                              },
+                            );
+                          },
                         ),
-                        outerCircleColor: Constants.WHITE,
-                      );
-                    });
-              }),
+                      ),
+                    ),
+                    outerCircleColor: Constants.WHITE,
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

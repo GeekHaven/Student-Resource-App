@@ -17,17 +17,11 @@ class UserDetailGetter extends StatefulWidget {
 }
 
 class _UserDetailGetterState extends State<UserDetailGetter> {
-  // List<String> _college = ['IIITA', 'Others'];
-  // String _selectedCollege;
-
   List<String> _branches = ['IT', 'ITBI', 'ECE'];
-//  String _selectedBranch;
 
   List<int> _semester = [1, 2, 3, 4, 5, 6, 7, 8];
-  //int _selectedSemester;
 
   List<int> _batches = [2020, 2019, 2018, 2017, 2016];
-  //int _selectedBatch;
 
   @override
   void initState() {
@@ -49,8 +43,9 @@ class _UserDetailGetterState extends State<UserDetailGetter> {
                   child: Hero(
                     tag: 'logo',
                     child: Container(
-                        height: 180.0,
-                        child: Image.asset('assets/images/Logo.png')),
+                      height: 180.0,
+                      child: Image.asset('assets/images/Logo.png'),
+                    ),
                   ),
                 ),
               ),
