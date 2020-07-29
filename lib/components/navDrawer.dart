@@ -43,10 +43,7 @@ class _NavDrawerState extends State<NavDrawer> {
   List<String> _branches = ['IT', 'ITBI', 'ECE'];
 
   String _selectedBranch;
-
-  List<int> _semester = [1, 2, 3, 4, 5, 6, 7, 8];
   User userLoad;
-  int _selectedSemester;
   Future fetchUserDetailsFromSharedPref() async {
     var result = await SharedPreferencesUtil.getStringValue(
         Constants.USER_DETAIL_OBJECT);

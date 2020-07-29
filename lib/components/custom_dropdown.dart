@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studentresourceapp/pages/userdetailgetter.dart';
 import 'package:studentresourceapp/utils/contstants.dart';
-import 'package:studentresourceapp/pages/subjects_admin.dart';
 
 List<Color> _colors = [Constants.DARK_SKYBLUE, Constants.SKYBLUE];
 List<double> _stops = [0.0, 0.9];
@@ -101,7 +100,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                             isDropDownOpen = !isDropDownOpen;
                           });
                           //print(batch);
-                        } else if(temp == 3){
+                        } else if (temp == 3) {
                           branch = item;
                           t = item.toString();
                           setState(() {
@@ -111,7 +110,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
                           });
                           //print(branch);
                         }
-                        
                       }),
                 );
               },

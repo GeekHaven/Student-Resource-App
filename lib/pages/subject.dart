@@ -446,8 +446,8 @@ class StreamWidget extends StatelessWidget {
                                 }
                               } catch (err) {
                                 var errorMessage = "Error";
-                                //print(errorMessage);
-                                //print(err);
+                                print(errorMessage);
+                                print(err);
                                 return null;
                               }
                             },
