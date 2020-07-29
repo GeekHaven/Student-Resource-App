@@ -360,7 +360,7 @@ class _NavDrawerState extends State<NavDrawer> {
       context: context,
       builder: (builder) {
         return Container(
-          height: MediaQuery.of(context).size.height - 70,
+          height: MediaQuery.of(context).size.height - 150,
           decoration: BoxDecoration(
               color: Constants.WHITE,
               borderRadius: new BorderRadius.only(
