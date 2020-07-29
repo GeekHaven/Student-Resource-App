@@ -7,9 +7,9 @@ List<Color> _colors = [Constants.DARK_SKYBLUE, Constants.SKYBLUE];
 List<double> _stops = [0.0, 1.8];
 
 String college = "IIITA";
-int batch;
-String branch;
-int semester;
+int batch=2019;
+String branch='IT';
+int semester=3;
 
 class UserDetailGetter extends StatefulWidget {
   @override
