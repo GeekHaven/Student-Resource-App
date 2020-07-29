@@ -344,7 +344,7 @@ class _AboutState extends State<About> {
                             right: 8, left: 0, bottom: 10, top: 10),
                         margin: EdgeInsets.all(0),
                         title: Text(
-                          'Yukta Goplani',
+                          'Yukta Gopalani',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w500),
                         ),

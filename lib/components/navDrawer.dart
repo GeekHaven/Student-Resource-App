@@ -175,7 +175,7 @@ class _NavDrawerState extends State<NavDrawer> {
               ),
               onPressed: () {
                 Share.share(
-                    'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - Link',
+                    'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - https://github.com/GeekHaven/Student-Resource-App/blob/master/SemBreaker.apk?raw=true',
                     subject:
                         'Checkout the new Sem Breaker App on your Smart Phone.');
               },
