@@ -386,7 +386,7 @@ class _AboutState extends State<About> {
                 contentChild: Padding(
                   padding: const EdgeInsets.only(right: 14),
                   child: Text(
-                    'GeekHaven is the technical Society of IIIT Allahabad. Geekhaven is comprised of several wings. For any queries shoot us a mail at geekhaven@iiita.ac.in or contact us via the social media links.',
+                    'GeekHaven is the technical Society of IIIT Allahabad. Geekhaven is comprised of several wings. Comprising of some of the best technical minds of the college, GeekHaven is responsible for organising technical events throughout the year and promoting an overall technical culture in the college by holding regular workshops and quick-talks. For any queries shoot us a mail at geekhaven@iiita.ac.in or contact us via the social media links.',
                     style: TextStyle(fontSize: 14),
                     textAlign: TextAlign.justify,
                   ),
