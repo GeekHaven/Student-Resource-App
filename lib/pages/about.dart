@@ -386,7 +386,7 @@ class _AboutState extends State<About> {
                 contentChild: Padding(
                   padding: const EdgeInsets.only(right: 14),
                   child: Text(
-                    'Hola Friends! We all know the importance of notes given out by the professors and our mighty toppers. Even when the \"Indian guy on YouTube\" fails to get things into our thick brains, it is these notes that come to our rescue. Now what if there was a central place where you would get all the magical notes and material to sail through these examinations, like a complete pro! Fret not, for we present to you, the SemBreaker App. Sounds fun, right?',
+                    'GeekHaven is the technical Society of IIIT Allahabad. Geekhaven is comprised of several wings. For any queries shoot us a mail at geekhaven@iiita.ac.in or contact us via the social media links.',
                     style: TextStyle(fontSize: 14),
                     textAlign: TextAlign.justify,
                   ),
