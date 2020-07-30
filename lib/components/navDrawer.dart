@@ -43,10 +43,7 @@ class _NavDrawerState extends State<NavDrawer> {
   List<String> _branches = ['IT', 'ITBI', 'ECE'];
 
   String _selectedBranch;
-
-  List<int> _semester = [1, 2, 3, 4, 5, 6, 7, 8];
   User userLoad;
-  int _selectedSemester;
   Future fetchUserDetailsFromSharedPref() async {
     var result = await SharedPreferencesUtil.getStringValue(
         Constants.USER_DETAIL_OBJECT);
@@ -178,7 +175,7 @@ class _NavDrawerState extends State<NavDrawer> {
               ),
               onPressed: () {
                 Share.share(
-                    'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - Link',
+                    'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - https://github.com/GeekHaven/Student-Resource-App/blob/master/SemBreaker.apk?raw=true',
                     subject:
                         'Checkout the new Sem Breaker App on your Smart Phone.');
               },
@@ -363,7 +360,7 @@ class _NavDrawerState extends State<NavDrawer> {
       context: context,
       builder: (builder) {
         return Container(
-          height: MediaQuery.of(context).size.height - 70,
+          height: MediaQuery.of(context).size.height - 150,
           decoration: BoxDecoration(
               color: Constants.WHITE,
               borderRadius: new BorderRadius.only(
