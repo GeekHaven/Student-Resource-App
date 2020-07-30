@@ -689,7 +689,7 @@ class _SubjectsAdminState extends State<SubjectsAdmin> {
                           Firestore.instance
                               .collection('admins')
                               .document(uid)
-                              .setData(
+                              .updateData(
                             {
                               'subjects_assigned':
                                   FieldValue.arrayUnion([widget.subjectCode]),
