@@ -6,13 +6,35 @@ import 'package:studentresourceapp/utils/contstants.dart';
 import 'package:studentresourceapp/utils/sharedpreferencesutil.dart';
 import 'package:studentresourceapp/pages/subject.dart';
 import 'utils/contstants.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 void main() {
   set();
   runApp(MyApp());
 }
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-class MyApp extends StatelessWidget {
+class _MyAppState extends State<MyApp> {
+  FirebaseMessaging firebaseMessaging ;
+
+  void fcmSubscribe() {
+    firebaseMessaging.subscribeToTopic('notifications');
+  }
+
+  void fcmUnSubscribe() {
+    firebaseMessaging.unsubscribeFromTopic('notifications');
+  }
+
+
+  @override
+  void initState() {
+    firebaseMessaging = new FirebaseMessaging();
+    fcmSubscribe();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,7 +51,7 @@ class MyApp extends StatelessWidget {
         tabBarTheme: TabBarTheme(
           labelColor: Constants.WHITE,
           labelStyle:
-              TextStyle(fontWeight: FontWeight.w600, color: Constants.WHITE),
+          TextStyle(fontWeight: FontWeight.w600, color: Constants.WHITE),
           unselectedLabelColor: Constants.SKYBLUE,
           unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w500),
         ),
@@ -54,3 +76,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

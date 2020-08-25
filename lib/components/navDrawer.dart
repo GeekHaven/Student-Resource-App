@@ -10,6 +10,7 @@ import 'package:studentresourceapp/components/navdrawerItem.dart';
 import 'package:studentresourceapp/models/user.dart';
 import 'package:studentresourceapp/pages/about.dart';
 import 'package:studentresourceapp/pages/admin.dart';
+import 'package:studentresourceapp/pages/announcements.dart';
 import 'package:studentresourceapp/pages/downloads.dart';
 import 'package:studentresourceapp/pages/home.dart';
 import 'package:studentresourceapp/pages/userdetailgetter.dart';
@@ -155,6 +156,37 @@ class _NavDrawerState extends State<NavDrawer> {
                 );
               },
               isSelected: current == 2 ? true : false,
+            ),
+            NavItem(
+              title: Text(
+                "Announcements",
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color:
+                  (current == 7) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  fontSize: 17.0,
+                  fontFamily: 'RobotoMono',
+                ),
+              ),
+              iconData: ImageIcon(
+                AssetImage("assets/grey icons/help-Recovered.png"),
+                color:
+                (current == 7) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                size: 22.0,
+              ),
+              onPressed: () {
+                setState(() {
+                  current = 7;
+                });
+
+                Navigator.pop(context);
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Announcement()),
+                );
+              },
+              isSelected: current == 7 ? true : false,
             ),
             NavItem(
               title: Text(
