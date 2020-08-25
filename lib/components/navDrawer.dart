@@ -5,6 +5,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share/share.dart';
 import 'package:studentresourceapp/components/navdrawerItem.dart';
 import 'package:studentresourceapp/models/user.dart';
@@ -168,8 +169,9 @@ class _NavDrawerState extends State<NavDrawer> {
                   fontFamily: 'RobotoMono',
                 ),
               ),
-              iconData: ImageIcon(
-                AssetImage("assets/grey icons/help-Recovered.png"),
+              iconData: Icon(
+                // AssetImage("assets/grey icons/help-Recovered.png"),
+                FontAwesomeIcons.bullhorn,
                 color:
                 (current == 7) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
