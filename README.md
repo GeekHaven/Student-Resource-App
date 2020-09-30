@@ -15,4 +15,9 @@ ___
   
 ___
 
+## About GeekHaven
+___
+GeekHaven is the technical Society of IIIT Allahabad. Geekhaven is comprised of several wings. Comprising of some of the best technical minds of the college, GeekHaven is responsible for organising technical events throughout the year and promoting an overall technical culture in the college by holding regular workshops and quick-talks.
+
+
 #### This is a Flutter Project and is under development.
