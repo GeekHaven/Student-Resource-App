@@ -113,7 +113,7 @@ class _UserDetailGetterState extends State<UserDetailGetter> {
                     alignment: Alignment.bottomRight,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pop();
+
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
