@@ -164,7 +164,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                  (current == 7) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                      (current == 7) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -173,7 +173,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 // AssetImage("assets/grey icons/help-Recovered.png"),
                 FontAwesomeIcons.bullhorn,
                 color:
-                (current == 7) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                    (current == 7) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -207,9 +207,10 @@ class _NavDrawerState extends State<NavDrawer> {
                     (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
-              onPressed: () {
-                Share.share(
-                    'Hey!!! Checkout the new Sem Breaker App on your Smart Phone. Download it now - https://github.com/GeekHaven/Student-Resource-App/blob/master/SemBreaker.apk?raw=true',
+              onPressed: () async {
+                final msgAndLink = await getShareAppUrl();
+                // print(msgAndLink);
+                Share.share(msgAndLink[0] + " - " + msgAndLink[1],
                     subject:
                         'Checkout the new Sem Breaker App on your Smart Phone.');
               },
@@ -628,4 +629,10 @@ class _NavDrawerState extends State<NavDrawer> {
       },
     );
   }
+}
+
+Future<List<String>> getShareAppUrl() async {
+  QuerySnapshot snap =
+      await Firestore.instance.collection("playstoreURL").getDocuments();
+  return [snap.documents.first.data["msg"], snap.documents.first.data["link"]];
 }
