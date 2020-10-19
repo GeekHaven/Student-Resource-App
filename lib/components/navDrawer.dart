@@ -101,7 +101,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 "Home",
                 style: TextStyle(
                   color:
-                      (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontWeight: FontWeight.normal,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
@@ -110,20 +110,23 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/browser.png"),
                 color:
-                    (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 1) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
                 setState(() {
                   current = 1;
                 });
-                Navigator.pop(context);
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => Home(),
-                  ),
-                );
+//                Navigator.pop(context);
+//                Navigator.popUntil(context, ModalRoute.withName('/'));
+//                Navigator.of(context).push(
+//                  MaterialPageRoute(
+//                    builder: (BuildContext context) => Home(),
+//                  ),
+//                );
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (BuildContext context) => Home()),
+                    ModalRoute.withName('/'));
               },
               isSelected: current == 1 ? true : false,
             ),
@@ -133,7 +136,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -141,7 +144,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/download-Recovered.png"),
                 color:
-                    (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 2) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -149,12 +152,15 @@ class _NavDrawerState extends State<NavDrawer> {
                   current = 2;
                 });
 
-                Navigator.pop(context);
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Downloads()),
-                );
+//                Navigator.pop(context);
+//                Navigator.popUntil(context, ModalRoute.withName('/'));
+//                Navigator.of(context).push(
+//                  MaterialPageRoute(
+//                      builder: (BuildContext context) => Downloads()),
+//                );
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (BuildContext context) => Downloads()),
+                    ModalRoute.withName('/'));
               },
               isSelected: current == 2 ? true : false,
             ),
@@ -181,12 +187,15 @@ class _NavDrawerState extends State<NavDrawer> {
                   current = 7;
                 });
 
-                Navigator.pop(context);
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Announcement()),
-                );
+//                Navigator.pop(context);
+//                Navigator.popUntil(context, ModalRoute.withName('/'));
+//                Navigator.of(context).push(
+//                  MaterialPageRoute(
+//                      builder: (BuildContext context) => Announcement()),
+//                );
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (BuildContext context) => Announcement()),
+                    ModalRoute.withName('/'));
               },
               isSelected: current == 7 ? true : false,
             ),
@@ -196,7 +205,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -204,7 +213,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/share-Recovered.png"),
                 color:
-                    (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 3) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () async {
@@ -212,7 +221,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 // print(msgAndLink);
                 Share.share(msgAndLink[0] + " - " + msgAndLink[1],
                     subject:
-                        'Checkout the new Sem Breaker App on your Smart Phone.');
+                    'Checkout the new Sem Breaker App on your Smart Phone.');
               },
               isSelected: false,
             ),
@@ -222,7 +231,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -230,7 +239,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/feedback-Recovered.png"),
                 color:
-                    (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 4) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -238,7 +247,7 @@ class _NavDrawerState extends State<NavDrawer> {
                     emailaddress: "studentresourceapp@gmail.com",
                     subject: "Feedback/Suggestions regarding SemBreaker App",
                     body:
-                        "My Feedback/Suggestions for the SemBreaker App are:");
+                    "My Feedback/Suggestions for the SemBreaker App are:");
                 email.launchEmail();
               },
               isSelected: false,
@@ -249,7 +258,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -257,18 +266,21 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/help-Recovered.png"),
                 color:
-                    (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 5) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
                 setState(() {
                   current = 5;
                 });
-                Navigator.pop(context);
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => About(),
-                ));
+//                Navigator.pop(context);
+//                Navigator.popUntil(context, ModalRoute.withName('/'));
+//                Navigator.of(context).push(MaterialPageRoute(
+//                  builder: (BuildContext context) => About(),
+//                ));
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (BuildContext context) => About()),
+                    ModalRoute.withName('/'));
               },
               isSelected: current == 5 ? true : false,
             ),
@@ -288,19 +300,22 @@ class _NavDrawerState extends State<NavDrawer> {
                 iconData: Icon(
                   Icons.developer_mode,
                   color:
-                      (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   size: 22.0,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => Admin(
-                        uid: widget.userData.uid,
-                      ),
-                    ),
-                  );
+//                  Navigator.pop(context);
+//                  Navigator.popUntil(context, ModalRoute.withName('/'));
+//                  Navigator.of(context).push(
+//                    MaterialPageRoute(
+//                      builder: (BuildContext context) => Admin(
+//                        uid: widget.userData.uid,
+//                      ),
+//                    ),
+//                  );
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (BuildContext context) => Home()),
+                      ModalRoute.withName('/'));
                 },
                 isSelected: false,
               ),
@@ -310,7 +325,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color:
-                      (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                  (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                   fontSize: 17.0,
                   fontFamily: 'RobotoMono',
                 ),
@@ -318,7 +333,7 @@ class _NavDrawerState extends State<NavDrawer> {
               iconData: ImageIcon(
                 AssetImage("assets/grey icons/logout.png"),
                 color:
-                    (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
+                (current == 6) ? Constants.DARK_SKYBLUE : Constants.STEEL,
                 size: 22.0,
               ),
               onPressed: () {
@@ -502,7 +517,7 @@ class _NavDrawerState extends State<NavDrawer> {
                                     });
                                   },
                                   items: _branches.map(
-                                    (String value) {
+                                        (String value) {
                                       return DropdownMenuItem<String>(
                                         child: Text(value),
                                         value: value,
@@ -528,7 +543,7 @@ class _NavDrawerState extends State<NavDrawer> {
                         await fetchUserDetailsFromSharedPref();
                         userLoad.branch = _selectedBranch;
                         userLoad.name =
-                            name == "" ? widget.userData.name : name;
+                        name == "" ? widget.userData.name : name;
 
                         await SharedPreferencesUtil.setBooleanValue(
                             Constants.USER_LOGGED_IN, true);
@@ -594,7 +609,7 @@ class _NavDrawerState extends State<NavDrawer> {
                       child: GestureDetector(
                         onTap: () {
                           setState(
-                            () {
+                                () {
                               Clipboard.setData(
                                 ClipboardData(text: widget.userData.uid),
                               );
