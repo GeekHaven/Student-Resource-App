@@ -22,7 +22,7 @@ class SignIn extends StatelessWidget {
                   tag: 'logo',
                   child: Image(
                     image: AssetImage("assets/images/Logo.png"),
-                    height: 200.0,
+                    height: 300.0,
                   ),
                 ),
                 SizedBox(height: 50),

@@ -6,7 +6,7 @@
     <!--Add the App Logo here for the splash screen -->
     <item
     android:width="200dp"
-    android:height="200dp"
+    android:height="300dp"
     android:drawable="@drawable/logo"
     android:gravity="center" />
 </layer-list>
